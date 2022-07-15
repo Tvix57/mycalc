@@ -1,0 +1,52 @@
+\input texinfo
+@setfilename man_depos
+@settitle C7_SmartCalc_v1.0-0
+
+@copying
+Copyright @copyright{} school 21
+@end copying
+
+@titlepage
+@title C7_SmartCalc_v1.0-0
+@author ajhin
+@page
+@vskip 0pt plus 2filll
+@insertcopying
+@end titlepage
+
+Info about C7_SmartCalc_v1.0-0 Deposit calculator
+
+This mode allows you to calculate the accrued interest on the deposit,
+the amount of tax charged on the profit received from the deposit and the amount on the deposit by the end of the investment period.
+The calculation result will be displayed at the bottom of the window in the corresponding area.
+
+For the calculation it is necessary to fill in all the following fields:
+@itemize @bullet       
+            @item deposit amount
+            @item placement period
+            @item interest rate
+            @item tax rate
+@end itemize  
+
+If any field is not filled, the calculation will not be performed.
+Fields can have values ​​of 0.
+
+frequency of payments.
+This option allows you to choose how often interest will be calculated.
+
+Interest capitalization
+This option adds accrued interest to the original account. Subsequent accruals will be calculated based on the updated amount.
+
+It is also possible to take into account additional investments or withdrawals from the account.
+
+To do this, you must click "+" and specify the initial date of opening the deposit.
+
+in the field that appears, you must specify the date, amount and type of operation.
+
+By clicking on "X" you can delete the operation.
+
+Transactions must be listed in chronological order from earliest to latest. 
+Otherwise, some inconsistent transactions may be left out.
+
+back<</link
+@bye

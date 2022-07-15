@@ -1,0 +1,42 @@
+\input texinfo
+@setfilename man
+@settitle C7_SmartCalc_v1.0-0
+
+@copying
+Copyright @copyright{} school 21
+@end copying
+
+@titlepage
+@title C7_SmartCalc_v1.0-0
+@author ajhin
+@page
+@vskip 0pt plus 2filll
+@insertcopying
+@end titlepage
+
+@ifnottex
+@node man,  ,  ,(dir)
+@top man
+
+This program contains three types of calculator.
+Detailed description at the link inside.
+
+@end ifnottex
+
+@menu
+* man_math::                Mathematical calculator
+* man_depos::               Deposit calculator    
+* man_loan::                Loan calculator
+@end menu
+
+@node man_math
+@chapter man_math
+@include man_math.texi
+
+@node man_depos
+@chapter man_depos
+@include man_depos.texi
+@node man_loan
+@chapter man_loan
+@include man_loan.texi
+@bye

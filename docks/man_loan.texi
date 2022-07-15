@@ -1,0 +1,47 @@
+\input texinfo
+@setfilename man_loan
+@settitle C7_SmartCalc_v1.0-0
+
+@copying
+Copyright @copyright{} school 21
+@end copying
+
+@titlepage
+@title C7_SmartCalc_v1.0-0
+@author ajhin
+@page
+@vskip 0pt plus 2filll
+@insertcopying
+@end titlepage
+
+Info about C7_SmartCalc_v1.0-0 Loan calculator
+
+
+This mode allows you to calculate the amount of payment on the loan,
+the amount of overpayment on this loan and the total amount of payments.
+
+For the calculation it is necessary to fill in all the following fields:
+
+@itemize @bullet       
+            @item the amount of the purchased loan
+            @item loan term
+            @item interest rate
+@end itemize 
+
+If any field is not filled, the calculation will not be performed.
+Fields can have values ​​of 0.
+
+type of loan (annuity by default).
+
+This parameter allows what type of payments will be made on this loan.
+
+@itemize @bullet       
+            @item annuity - equal payments throughout the entire term of the loan.
+            @item differentiated - the payment amount is divided between the body of the loan and accrued interest for the past period.
+                  The amount of the payment will be recalculated each time and gradually reduced.
+@end itemize 
+
+
+back<</link
+
+@bye

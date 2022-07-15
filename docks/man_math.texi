@@ -1,0 +1,63 @@
+\input texinfo
+@setfilename man_math
+@settitle C7_SmartCalc_v1.0-0
+
+@copying
+Copyright @copyright{} school 21
+@end copying
+
+@titlepage
+@title C7_SmartCalc_v1.0-0
+@author ajhin
+@page
+@vskip 0pt plus 2filll
+@insertcopying
+@end titlepage
+
+Info about C7_SmartCalc_v1.0-0
+
+This mode allows you to calculate the result of a mathematical expression
+
+The control window contains the main buttons for entering numbers and functions.
+Standard arithmetic functions include
+
+@itemize @bullet       
+      @item addition
+      @item subtraction
+      @item multiplication
+      @item division
+      @item modulo division (mod button, % symbol will be placed in the input field)
+      @item exponentiation
+      @item square root calculation
+      @item base 10 logarithm
+      @item natural logarithm
+@end itemize  
+
+as well as basic trigonometric functions calculated in radians.
+
+@itemize @bullet       
+      @item sinus
+      @item cosine
+      @item tangent
+      @item arcsine
+      @item arccosine
+      @item arc tangent
+@end itemize  
+
+
+To get the result, you must enter an expression and press the "=" button or enter
+if the expression is written incompletely or with an error, the calculation will not be performed.
+The result of the calculation will be placed in the output window.
+
+The program implements the construction of a graph of a function with one variable.
+
+To place a variable in an expression, press the "X" button
+
+To specify the required X range, you must press the ~ button and specify the desired range of values.
+
+if the expression is written incompletely or with an error, the calculation will not be performed.
+
+The given expression will be placed in the output window.
+ The function graph will open in a new window.
+
+@bye
