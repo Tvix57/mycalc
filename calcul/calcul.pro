@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     ../back/backend.c \
     add_date.cpp \
+    credit_calc.cpp \
     qcustomplot.cpp \
     credit_window.cpp \
     depos_window_2.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     ../back/backend.h \
     add_date.h \
+    credit_calc.h \
     qcustomplot.h \
     calcul.h \
     credit_window.h \

@@ -15,8 +15,6 @@ depos_window_2::depos_window_2(QWidget *parent) :
     addition->setAlignment(Qt::AlignTop);
     addition_widget->setLayout(addition);
     ui->scrollArea->setWidget(addition_widget);
-    ui->line_nalog->setValidator(new QDoubleValidator);
-    ui->line_proc->setValidator(new QDoubleValidator);
     ui->comboBox->setVisible(false);
     ui->label_11->setVisible(false);
     connect(ui->capit_checkBox, SIGNAL(clicked(bool)), this, SLOT(hide_capit_period(bool)));

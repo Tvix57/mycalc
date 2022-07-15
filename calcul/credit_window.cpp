@@ -1,14 +1,13 @@
 #include "credit_window.h"
 #include "ui_credit_window.h"
+#include "credit_calc.h"
+#include <QString>
 
 Credit_window::Credit_window(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Credit_window)
 {
     ui->setupUi(this);
-    ui->line_day->setValidator(new QIntValidator);
-    ui->line_proc->setValidator(new QDoubleValidator);
-    ui->line_summ->setValidator(new QDoubleValidator);
     ui->radio_anue_type->setChecked(true);
 }
 
@@ -19,52 +18,33 @@ Credit_window::~Credit_window()
 
 void Credit_window::on_calc_Button_clicked()
 {
-    QString summ = ui->line_summ->text();
-    QString perc = ui->line_proc->text();
-    QString day = ui->line_day->text();
-    int param = 0;
-    std::string tmp[4];
-    tmp[0] = summ.toStdString();
-    tmp[1] = perc.toStdString();
-    tmp[2] = day.toStdString();
-    char *arr_input[4];
-    if (!tmp[0].empty()) {
-        arr_input[0] = (char*)tmp[0].c_str();
-        param++;
+    double summ = ui->sum_doubleSpinBox->value();
+    int day = ui->term_spinBox->value();
+    switch (ui->term_spinBox->value()) {
+    case 1: day *= 30;
+        break;
+    case 2: day *=365;
+        break;
+    default:
+        break;
     }
-    if (!tmp[1].empty()) {
-        arr_input[1] = (char*)tmp[2].c_str();
-        param++;
-    }
-    if (!tmp[2].empty()) {
-        arr_input[2] = (char*)tmp[1].c_str();
-        param++;
-    }
+    double proc = ui->proc_doubleSpinBox->value();
+    Credit_calc calc(summ, day, proc);
     if (ui->radio_anue_type->isChecked()) {
-        arr_input[3] = (char*)"0";
-        param++;
+        calc.calculated_anuited();
     } else if (ui->radio_dif_type->isChecked()) {
-        arr_input[3] = (char*)"1";
-        param++;
+        calc.calculated_differ();
     }
-
-    double *arr_out = credit_calk(param, arr_input);
-
-    if (arr_out[0] == NAN) {
-        ui->label_month_pay->setText("Недостаточно данных");
-    } else {
-        if (ui->radio_anue_type->isChecked()) {
-            ui->label_res_month_pay->setText(QString::number(arr_out[0], 'f', 2));
-        } else {
-            ui->label_res_month_pay->setText(QString::number(arr_out[0], 'f', 2) +" - " + QString::number(arr_out[3], 'f', 2));
-        }
-
-        ui->label_res_overpay->setText(QString::number(arr_out[1], 'f', 2));
-        ui->label_res_all_payed->setText(QString::number(arr_out[2], 'f', 2));
+    ui->label_res_month_pay->setText(QString::number(calc.get_month_pay(), 'f', 2));
+    if (ui->radio_dif_type->isChecked()) {
+        QString tmp = ui->label_res_month_pay->text();
+        tmp += " - ";
+        tmp += QString::number(calc.get_final_pay(), 'f', 2);
+        ui->label_res_month_pay->setText(tmp);
     }
-    free(arr_out);
+        ui->label_res_overpay->setText(QString::number(calc.get_overpay(), 'f', 2));
+        ui->label_res_all_payed->setText(QString::number(calc.get_allpayed(), 'f', 2));
 }
-
 
 void Credit_window::on_main_calc_button_triggered()
 {
@@ -72,10 +52,8 @@ void Credit_window::on_main_calc_button_triggered()
     emit Calcul();
 }
 
-
 void Credit_window::on_depos_calc_button_triggered()
 {
     this->close();
     emit depow_window_from_credit();
 }
-
