@@ -56,13 +56,7 @@ void depos_window_2::on_calc_pushButton_clicked()
     summ.remove(',');
     QString perc = ui->line_proc->text();
     QString nalog = ui->line_nalog->text();
-    int param = 0;
-    char *arr_input[8];
-    std::string tmp[8];
-    tmp[0] = summ.toStdString();
-    tmp[1] = day.toStdString();
-    tmp[2] = perc.toStdString();
-    tmp[3] = nalog.toStdString();
+
 
     switch (ui->comboBox->currentIndex()) {
     case 0:

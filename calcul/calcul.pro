@@ -12,6 +12,7 @@ SOURCES += \
     ../back/backend.c \
     add_date.cpp \
     credit_calc.cpp \
+    debit_calc.cpp \
     qcustomplot.cpp \
     credit_window.cpp \
     depos_window_2.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     ../back/backend.h \
     add_date.h \
     credit_calc.h \
+    debit_calc.h \
     qcustomplot.h \
     calcul.h \
     credit_window.h \
