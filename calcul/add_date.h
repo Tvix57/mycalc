@@ -2,6 +2,7 @@
 #define ADD_DATE_H
 
 #include <QWidget>
+#include <QDate>
 
 namespace Ui {
 class add_date;

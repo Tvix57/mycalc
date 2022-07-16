@@ -1,6 +1,5 @@
 #include "credit_window.h"
 #include "ui_credit_window.h"
-#include "credit_calc.h"
 #include <QString>
 
 Credit_window::Credit_window(QWidget *parent) :
@@ -19,17 +18,20 @@ Credit_window::~Credit_window()
 void Credit_window::on_calc_Button_clicked()
 {
     double summ = ui->sum_doubleSpinBox->value();
-    int day = ui->term_spinBox->value();
+    int month = ui->term_spinBox->value();
+    double proc = ui->proc_doubleSpinBox->value();
     switch (ui->term_spinBox->value()) {
-    case 1: day *= 30;
+    case 0: if (month%30 != 0) {
+            month+=30;
+        }
+        month = (month/30);
         break;
-    case 2: day *=365;
+    case 2: month *=12;
         break;
     default:
         break;
     }
-    double proc = ui->proc_doubleSpinBox->value();
-    Credit_calc calc(summ, day, proc);
+    Credit_calc calc(summ, month, proc);
     if (ui->radio_anue_type->isChecked()) {
         calc.calculated_anuited();
     } else if (ui->radio_dif_type->isChecked()) {

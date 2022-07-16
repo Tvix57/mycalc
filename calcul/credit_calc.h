@@ -5,7 +5,7 @@
 class Credit_calc
 {
 public:
-    Credit_calc(double summ_input, int term, double nalog);
+    Credit_calc(double summ, int term, double nalog);
     void calculated_anuited();
     void calculated_differ();
     double get_month_pay() {return month_pay;}

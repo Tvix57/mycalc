@@ -8,13 +8,11 @@ add_date::add_date(QWidget *parent) :
     ui->setupUi(this);
 }
 
-add_date::~add_date()
-{
+add_date::~add_date() {
     delete ui;
 }
 
-void add_date::on_pushButton_clicked()
-{
+void add_date::on_pushButton_clicked() {
     this->close();
     emit Close_add_window();
 }

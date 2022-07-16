@@ -7,8 +7,6 @@ depos_window_2::depos_window_2(QWidget *parent) :
     ui(new Ui::depos_window_2)
 {
     ui->setupUi(this);
-    ui->start_date_lable->setVisible(false);
-    ui->start_dateEdit->setVisible(false);
     widg_count = 0;
     QWidget * addition_widget = new QWidget();
     addition = new QGridLayout();
@@ -17,6 +15,7 @@ depos_window_2::depos_window_2(QWidget *parent) :
     ui->scrollArea->setWidget(addition_widget);
     ui->comboBox->setVisible(false);
     ui->label_11->setVisible(false);
+    ui->start_dateEdit->setDate(QDate::currentDate());
     connect(ui->capit_checkBox, SIGNAL(clicked(bool)), this, SLOT(hide_capit_period(bool)));
 }
 
@@ -38,105 +37,65 @@ void depos_window_2::on_main_calc_buttom_triggered()
     emit Calcul();
 }
 
-void depos_window_2::on_calc_pushButton_clicked()
-{
-    int day_int = ui->spinBox_day->value();
+void depos_window_2::on_calc_pushButton_clicked() {
+//    if (check_all_field()) {
+//        QDialog error_msg = new QDialog()
+//    } else {
+    int period = ui->spinBox_day->value();
+    double summ = ui->doubleSpinBox_summ->value();
+    double proc = ui->proc_doubleSpinBox->value();
+    double nalog = ui->nalog_doubleSpinBox_2->value();
+    QDate start_date = ui->start_dateEdit->date();
+    QDate end_date = start_date;
+
     switch (ui->comboBox_period->currentIndex()) {
     case 1:
-        day_int *=30;
+        end_date.addMonths(period);
         break;
     case 2:
-        day_int *=365;
+        end_date.addYears(period);
         break;
     default:
+        end_date.addDays(period);
         break;
     }
-    QString day = QString::number(day_int);
-    QString summ = ui->doubleSpinBox_summ->textFromValue(ui->doubleSpinBox_summ->value());
-    summ.remove(',');
-    QString perc = ui->line_proc->text();
-    QString nalog = ui->line_nalog->text();
+    Debit_calc calc(summ, proc, nalog, start_date, end_date);
+    if (!ui->capit_checkBox->isChecked()) {
 
-
+    } else {
     switch (ui->comboBox->currentIndex()) {
-    case 0:
-        tmp[4] = "1";
-        break;
-    case 1:
-        tmp[4] = "7";
-        break;
-    case 2:
-        tmp[4] = "30";
-        break;
-    case 3:
-        tmp[4] = "90";
-        break;
-    case 4:
-        tmp[4] = "183";
-        break;
-    case 5:
-        tmp[4] = "365";
-        break;
-    case 6:
-        tmp[4] = "0";
-        break;
-    default:
-        break;
-    }
-
-    if (ui->capit_checkBox->isChecked()) {
-        tmp[5] = "1";
-
-    } else {
-        tmp[5] = "0";
-
-    }
-
-    for (int i = 0; i < 8; i++) {
-      if (!tmp[i].empty()) {
-        arr_input[i] = (char*)tmp[i].c_str();
-        param++;
-      }
-    }
-    if (widg_count > 0) {
-        QString day_input;
-        QString summ_input;
-        day_input.clear();
-        summ_input.clear();
-        QDate start_date = ui->start_dateEdit->date();
-        for (int i = 0; i < widg_count; i++) {
-         QWidget *tmp_widget = addition->itemAtPosition(i+1, 0)->widget();
-         QList <QDateEdit*> list = tmp_widget->findChildren<QDateEdit*>("date_addition_form");
-         QList <QDoubleSpinBox*> list2 = tmp_widget->findChildren<QDoubleSpinBox*>("summ_addition_form");
-         QList <QComboBox*> list3 = tmp_widget->findChildren<QComboBox*>("type_addition_form");
-         if (start_date.daysTo(list[0]->date()) >= 0) {
-             int day_input_int = start_date.daysTo(list[0]->date());
-             double summ_input_double = list2[0]->value();
-             if (list3[0]->currentIndex() == 1) {
-                summ_input_double *= -1;
-             }
-                day_input += day_input.number(day_input_int);
-                day_input += " ";
-                summ_input += summ_input.number(summ_input_double);
-                summ_input += " ";
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            default:
+                break;
             }
-         }
-        tmp[6] = day_input.toStdString();
-        tmp[7] = summ_input.toStdString();
-        arr_input[6] = (char*)tmp[6].c_str();
-        arr_input[7] = (char*)tmp[7].c_str();
-        param +=2;
-    }
-    double *arr_out = debit_calk(param, arr_input);
+        }
 
-    if (arr_out[0] == NAN) {
-        ui->label_summ_out->setText("Недостаточно данных");
-    } else {
-        ui->label_summ_out->setText(QString::number(arr_out[0], 'f', 2));
-        ui->label_nalog_out->setText(QString::number(arr_out[1], 'f', 2));
-        ui->label_summ_all_out->setText(QString::number(arr_out[2], 'f', 2));/////summ on bill
+        if (widg_count > 0) {
+
+            for (int i = 1; i <= widg_count; i++) {
+                QWidget *tmp_widget = addition->itemAtPosition(i, 0)->widget();
+
+                QList <QDateEdit*> list = tmp_widget->findChildren<QDateEdit*>("date_addition_form");
+                QList <QDoubleSpinBox*> list2 = tmp_widget->findChildren<QDoubleSpinBox*>("summ_addition_form");
+                QList <QComboBox*> list3 = tmp_widget->findChildren<QComboBox*>("type_addition_form");
+             }
     }
-    free(arr_out);
+    ui->label_summ_out->setText(QString::number(calc.get_profit(), 'f', 2));
+    ui->label_nalog_out->setText(QString::number(calc.get_nalog(), 'f', 2));
+    ui->label_summ_all_out->setText(QString::number(calc.get_summ_on_bill(), 'f', 2));
 }
 
 void depos_window_2::on_calc_pushButton_2_clicked()
