@@ -1,36 +1,9 @@
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <stdlib.h>
+// #include <stdio.h>
+// #include <string.h>
+// #include <math.h>
+// #include <stdlib.h>
 
-#include "backend.h"
-
-func_node_t *func_stac;
-num_node_t *num_stac;
-
-void scrole_one_num(char **str) {
-  char *num = "0123456789";
-  while (*str && **str != '\0' && **str != EOF) {
-    char *tmp = *str;
-    if (strchr(num, *tmp)) {
-      *str = tmp+1;
-    } else if (**str == '.') {
-      *str = tmp+1;
-    } else if (**str == 'e' || **str == 'E') {
-      tmp++;
-      if (*tmp == '+' || *tmp == '-') {
-      tmp++;
-      }
-      *str = tmp;
-    } else  if (!strncmp(*str, "inf", 3)) {
-      *str += 3;
-    } else  if (!strncmp(*str, "-inf", 3)) {
-      *str += 4;
-    } else {
-      break;
-    }
-  }
-}
+#include "back.hpp"
 
 int parser(char *string) {
   double num  = 0;

@@ -1,6 +1,4 @@
-#include <check.h>
-#include <math.h>
-#include <stdlib.h>
+#include <gtest/gtest.h>
 #include "./../backend.h"
 
 #define EPS 0.000001
