@@ -2,60 +2,62 @@
 #define SRC_BACK_BACK_H_
 
 #include <stack>
-#include <string>
 #include <list>
-#include <queue>
+#include <QtCore/QString>
+
 using namespace std;
 class back
 {
-
 public:
   back() {}
-  back(string input);
-  // back(back &other);
+  back(QString input);
   ~back();
   void replaceAllX(const double &x);
   double calculate();
 
 private:
-  queue<double> nums;
-  stack<string> func;
+  list<double> nums;
+  list<QString> func;
   list<double *> address_x;
-  void parsing(string input);
+  void parsing(QString input);
   // void getLastPriority();
   void addAddress(double *x);
-  // void 
+  void addFunction(QString);
 
 };
 
-back::back(string input) {
+back::back(QString input) {
   parsing(input);
 }
-
-// back::back(back &other) {
-  
-// }
 
 back::~back() {
 }
 
-void back::parsing(string input) {
-  // if (input. is_num) {
-  //   nums.push(input);
-  // } else if (is_fnc) {
-  //   func.push(input);
-  // }
+void back::parsing(QString input) {
+  QString tmp;
+  bool flag_insert = false;
+  for (int i = 0; input.at(i) == input.end();i++) {
+   tmp += input.at(i);
+  
+    if (input.toDouble()) {
+    double num_tmp = input.toDouble();
+    nums.push_front(num_tmp);
+  } else {
+    addFunction(tmp);
+  }
+  }
+}
+void back::addFunction(QString input) {
+
 }
 
 double back::calculate() {
-  double result = nums.back();
-  auto iter_nums = nums.end();
+  double result;
+  auto iter_nums = nums.begin();
   auto iter_fnc = func.begin();
   for (; iter_nums != nums.end(); iter_nums++, iter_fnc++) {
     result = 0;
   }
-  
-  
   return result;
 }
 void back::addAddress(double *x) {
