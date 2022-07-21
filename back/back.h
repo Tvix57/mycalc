@@ -4,6 +4,8 @@
 #include <stack>
 #include <list>
 #include <QtCore/QString>
+#include <cmath>
+#include <QtCore/QTextStream>
 
 using namespace std;
 class back
@@ -17,18 +19,18 @@ public:
 
 private:
   list<double> nums;
-  list<QString> func;
+  list<void(*)()> func;
+  // list<QString> func;
   list<double *> address_x;
   void parsing(QString input);
   // void getLastPriority();
   void addAddress(double *x);
   void addFunction(QString);
-
+  double my_summ(double arg1, double arg2);
 };
 
-back::back(QString input) {
-  parsing(input);
-}
+// #include "back.tpp"
+
 
 back::~back() {
 }
@@ -36,20 +38,47 @@ back::~back() {
 void back::parsing(QString input) {
   QString tmp;
   bool flag_insert = false;
-  for (int i = 0; input.at(i) == input.end();i++) {
-   tmp += input.at(i);
+
+
+  QTextStream stream(&input);
+  QList<double> array;
+  while (!stream.atEnd()) {
+    double number;
+    stream >> number;
+    array.append(number);
+  }
+
+
+  // for (int i = 0; input.at(i) == input.end();i++) {
+  //   if (input.at(i).isDigit() || input.at(i).isPunct()) {
+  //     tmp += input.at(i);
+  //   } else {
+
+
+
+
+  //   }
+   
   
-    if (input.toDouble()) {
+    if (tmp.toDouble()) {
     double num_tmp = input.toDouble();
     nums.push_front(num_tmp);
   } else {
     addFunction(tmp);
   }
-  }
+  // }
 }
-void back::addFunction(QString input) {
 
+double back::my_summ (double arg1, double arg2) {
+ return arg1+arg2;
 }
+
+void back::addFunction(QString input) {
+  // int a = ..., b = ...;
+  // func.push_front([=]{sin(a)});
+  // func.push_front([]{my_summ(10, 10);});
+}
+
 
 double back::calculate() {
   double result;

@@ -10,13 +10,16 @@ int main () {
     double fif = 5;
     double six = 6;
     double arr[6] = {0,0,0,0,0,0};
-    back test;
-    for (int i = 0; i < 6; i++) 
+    
+    QString line = "100+6-4*sin(5)";
+    back test(line);
+    
+    // for (int i = 0; i < 6; i++) 
     // test.addAddress(&arr[i]);
 
-    test.replaceAllX(fst);
-    for (int i=0; i < 6; i++) 
-    cout << arr[i] << "   ";
+    // test.replaceAllX(fst);
+    // for (int i=0; i < 6; i++) 
+    // cout << arr[i] << "   ";
 
     cout << endl;
 

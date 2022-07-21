@@ -3,7 +3,6 @@
 // #include <math.h>
 // #include <stdlib.h>
 
-#include "back.hpp"
 
 int parser(char *string) {
   double num  = 0;
