@@ -5,15 +5,6 @@
 #include <QIntValidator>
 #include "credit_calc.h"
 
-#ifdef __cplusplus
-extern  "C"
-{
-    #endif
-    #include "../back/backend.h"
-    #ifdef __cplusplus
-}
-#endif
-
 namespace Ui {
 class Credit_window;
 }

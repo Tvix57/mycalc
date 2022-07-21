@@ -10,15 +10,6 @@
 #include "range_x_window.h"
 #include "graph_window.h"
 
-#ifdef __cplusplus
-extern  "C"
-{
-    #endif
-    #include "../back/backend.h"
-    #ifdef __cplusplus
-}
-#endif
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class Calcul; }
 QT_END_NAMESPACE

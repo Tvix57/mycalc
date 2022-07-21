@@ -9,7 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ../back/backend.c \
+    ../back/back.cpp \
     add_date.cpp \
     credit_calc.cpp \
     debit_calc.cpp \
@@ -22,7 +22,7 @@ SOURCES += \
     range_x_window.cpp
 
 HEADERS += \
-    ../back/backend.h \
+    ../back/back.h \
     add_date.h \
     credit_calc.h \
     debit_calc.h \

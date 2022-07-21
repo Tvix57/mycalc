@@ -156,12 +156,14 @@ void Calcul::on_equal_button_clicked()
     QRegularExpression reg ("(([0-9]|[0-9]+['.']|['.'][0-9]+)|['X'])[)]*$");
     if (input.contains(reg)) {
         set_default_input();
+        back cacl(input);
         if (input.contains("X")) {
             if (range_window->range_row_x_begin == range_window->range_row_x_end) {
-                input.replace("X", QString::number(range_window->range_row_x_begin));
-                ui->Out_lable->setText(history+"\n"+ QString::number(default_calc(input), 'g', 15));
+                calc.replaceAllX(range_window->range_row_x_begin);
+                ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate();, 'g', 15));
                 ui->input_line->clear();
             } else {
+                /////paint grapth
                 new_graph = new graph_window();
                 opti_graph(new_graph, &input);
                 ui->Out_lable->setText(history+"\n"+ input);
@@ -169,10 +171,7 @@ void Calcul::on_equal_button_clicked()
             }
         } else {
           ui->input_line->clear();
-          std::string tmp = input.toStdString();
-          char *arr_tmp = (char*)tmp.c_str();
-          double result = main_calc(arr_tmp);
-          ui->Out_lable->setText(history+"\n"+ QString::number(result, 'g', 15));
+          ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate(), 'g', 15));
         }
     } //else {
         ////show error mesage
@@ -276,19 +275,19 @@ void Calcul::on_rbranch_button_clicked()
     control_input(pres_button);
 }
 
-
 void Calcul::calc_graph(graph_window *new_graph, QString *input, double start, double end, double step) {
     for(double tmp_d = start; tmp_d <= end; tmp_d+=step) {
         QString tmp_str = *input;
         tmp_str.replace("X", QString::number(tmp_d));
         double y_tmp = default_calc(tmp_str);
         bool new_grap_flag = false;
-        if (y_tmp != y_tmp || y_tmp == INFINITY || y_tmp == -INFINITY) {
-            new_grap_flag= true;
-        }
+//        if (y_tmp != y_tmp || y_tmp == INFINITY || y_tmp == -INFINITY) {
+//            new_grap_flag= true;
+//        }
         if (tmp_d != start) {
             if (new_graph->get_last_y() * y_tmp < 0) {
-                double potencial_break_point_x = fabs((tmp_d-new_graph->get_last_x())/2);
+                double potencial_break_point_x;
+//                = fabs((tmp_d-new_graph->get_last_x())/2);
                 if (tmp_d > 0) {
                    potencial_break_point_x = tmp_d - potencial_break_point_x;
                 } else {
@@ -297,10 +296,10 @@ void Calcul::calc_graph(graph_window *new_graph, QString *input, double start, d
                 QString tmp_str2 = *input;
                 tmp_str2.replace("X", QString::number(potencial_break_point_x));
                 double potencial_break_point_y = default_calc(tmp_str2);
-                if (potencial_break_point_y != potencial_break_point_y || potencial_break_point_y != 0 ||
-                    potencial_break_point_y == INFINITY || potencial_break_point_y == -INFINITY) {
-                new_grap_flag = true;
-                }
+//                if (potencial_break_point_y != potencial_break_point_y || potencial_break_point_y != 0 ||
+//                    potencial_break_point_y == INFINITY || potencial_break_point_y == -INFINITY) {
+//                new_grap_flag = true;
+//                }
             } else {
                 new_grap_flag = false;
             }
@@ -347,7 +346,7 @@ double Calcul::default_calc(QString input)
 {
     std::string tmp = input.toStdString();
     char *arr_tmp = (char*)tmp.c_str();
-    return main_calc(arr_tmp);
+//    return main_calc(arr_tmp);
 }
 //void MyThread::run()
 //{

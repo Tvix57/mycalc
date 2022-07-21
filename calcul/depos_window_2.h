@@ -7,15 +7,6 @@
 #include "add_date.h"
 #include "debit_calc.h"
 
-#ifdef __cplusplus
-extern  "C"
-{
-    #endif
-    #include "../back/backend.h"
-    #ifdef __cplusplus
-}
-#endif
-
 namespace Ui {
 class depos_window_2;
 }
