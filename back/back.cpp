@@ -6,31 +6,22 @@ back::back(QString input) {
 
 
 void back::parsing(QString input) {
-  QString tmp;
-  bool flag_insert = false;
-
-
   QTextStream stream(&input);
-  QList<double> array;
   while (!stream.atEnd()) {
-    double number;
-    stream >> number;
-    array.append(number);
+//    if (stream.seek().isDigit()) {
+      double number;
+      stream >> number;
+//      if (!stream.Status) {
+          nums.push_front(number);
+//      }
+//    }else {
+//      QString tmp;
+//      while (!stream.isdigit()) {
+//          stream >> tmp;
+//      }
+//      addFunction(tmp);
+//    }
   }
-
-  // for (int i = 0; input.at(i) == input.end();i++) {
-  //   if (input.at(i).isDigit() || input.at(i).isPunct()) {
-  //     tmp += input.at(i);
-  //   } else {
-  //   }
-
-    if (tmp.toDouble()) {
-    double num_tmp = input.toDouble();
-    nums.push_front(num_tmp);
-  } else {
-    addFunction(tmp);
-  }
-  // }
 }
 
 void back::addAddress(double *x) {

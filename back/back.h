@@ -25,11 +25,6 @@ private:
   // void getLastPriority();
   void addAddress(double *x);
   void addFunction(QString);
-  double my_summ(double arg1, double arg2);
 };
-
-double back::my_summ (double arg1, double arg2) {
- return arg1+arg2;
-}
 
 #endif //  SRC_BACK_BACK_H_

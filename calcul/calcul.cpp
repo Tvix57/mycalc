@@ -1,7 +1,7 @@
 #include "calcul.h"
 #include "ui_calcul.h"
 #include <QMessageBox>
-
+#include "../back/back.h"
 
 Calcul::Calcul(QWidget *parent)
     : QMainWindow(parent)
@@ -156,14 +156,14 @@ void Calcul::on_equal_button_clicked()
     QRegularExpression reg ("(([0-9]|[0-9]+['.']|['.'][0-9]+)|['X'])[)]*$");
     if (input.contains(reg)) {
         set_default_input();
-        back cacl(input);
+        back calc(input);
         if (input.contains("X")) {
             if (range_window->range_row_x_begin == range_window->range_row_x_end) {
                 calc.replaceAllX(range_window->range_row_x_begin);
-                ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate();, 'g', 15));
+                ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate(), 'g', 15));
                 ui->input_line->clear();
             } else {
-                /////paint grapth
+                /////paint grapths
                 new_graph = new graph_window();
                 opti_graph(new_graph, &input);
                 ui->Out_lable->setText(history+"\n"+ input);
@@ -344,8 +344,6 @@ void Calcul::set_default_input()
 
 double Calcul::default_calc(QString input)
 {
-    std::string tmp = input.toStdString();
-    char *arr_tmp = (char*)tmp.c_str();
 //    return main_calc(arr_tmp);
 }
 //void MyThread::run()
