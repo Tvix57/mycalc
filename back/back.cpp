@@ -7,20 +7,22 @@ back::back(QString input) {
 
 void back::parsing(QString input) {
   QTextStream stream(&input);
+  QString tmp;
   while (!stream.atEnd()) {
-//    if (stream.seek().isDigit()) {
       double number;
+      int last_pos = stream.pos();
       stream >> number;
-//      if (!stream.Status) {
+      if (last_pos != stream.pos()) {
+          if (!tmp.isEmpty()) {
+            addFunction(tmp);
+            tmp.clear();
+          }
           nums.push_front(number);
-//      }
-//    }else {
-//      QString tmp;
-//      while (!stream.isdigit()) {
-//          stream >> tmp;
-//      }
-//      addFunction(tmp);
-//    }
+      } else {
+          QChar tmp_char;
+          stream >> tmp_char;
+          tmp += tmp_char;
+      }
   }
 }
 
