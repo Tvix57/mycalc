@@ -2,6 +2,7 @@
 
 back::back(QString input) {
     parsing(input);
+    ///sort();
 }
 
 void back::parsing(QString input) {
@@ -40,11 +41,11 @@ void back::addFunction(QString input) {
   QTextStream stream(&input);
   QString tmp;
   QString two_arg_fnc = "+-*/^%()";
-  QRegularExpression reg_str("[a]|[sin]|[cos]|[tan]|[log]|[ln]|[sqrt]");
+  QRegularExpression reg_str("^([a]?((sin)|(cos)|(tan))|(log)|(ln)|(sqrt))$");
   while (!stream.atEnd()) {
     QChar tmp_char;
     stream >> tmp_char;
-    if (tmp_char.isLetter('X')) {
+    if (tmp_char.row() == 'X') {
       nums.push_front(0);
       addAddress(&*nums.begin());
     } else if (two_arg_fnc.contains(tmp_char)) {
@@ -91,9 +92,15 @@ void back::oneArgFunc(QString input) {
   }
 }
 
+double back::my_summ(double arg1, double arg2) {
+  return arg1 + arg2;
+}
+
 void back::twoArgFunc(QChar in) {
   switch (in.row()) {
     case '+':
+    int a = 1, b = 2;
+      func.push_front([=]{my_summ(a, b);});
       break;
     case '-':
       break;

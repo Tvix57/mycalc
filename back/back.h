@@ -17,7 +17,8 @@ public:
 
 private:
   std::list<double> nums;
-  std::list<void(*)()> func;
+  // std::list<void(*)()> func;
+  std::list<std::function<void()>> func;
   std::list<double *> address_x;
   void parsing(QString input);
   // void getLastPriority();
@@ -25,6 +26,7 @@ private:
   void addFunction(QString);
   void oneArgFunc(QString);
   void twoArgFunc(QChar);
+  double my_summ(double, double);
 };
 
 #endif //  SRC_BACK_BACK_H_
