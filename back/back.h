@@ -5,7 +5,7 @@
 #include <QtCore/QString>
 #include <cmath>
 #include <QtCore/QTextStream>
-
+#include <QtCore/QRegularExpression>
 class back
 {
 public:

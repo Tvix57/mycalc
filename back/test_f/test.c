@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "./../back.h"
+#include "../back.h"
 #define EPS 0.000001
 
 TEST(test1) {
