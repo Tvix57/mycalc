@@ -1,6 +1,5 @@
 #include "back.h"
 
-
 back::back(QString input) {
     parsing(input);
     ///sort();
@@ -87,7 +86,7 @@ void back::addOneArgFunc(QString input) {
   } else if (input.contains("sqrt")) {
 
   } else if (input.contains("log")) {
-
+    stack.addLog();
   } else if (input.contains("ln")) {
 
   }
@@ -120,10 +119,16 @@ void back::addTwoArgFunc(QChar in) {
 double back::calculate() {
   double result = 0;
   auto iter_nums = nums.begin();
-  auto iter_func = stack.begin();
+  auto iter_func = stack.head;
+  result = *iter_nums;
   for (; iter_func->prev != nullptr; --iter_func) {
-    double tmp = iter_func->fnc_ptr(result, 2);
-    result += tmp;
+    if (iter_func->args) {
+      iter_nums++;
+      double tmp = *iter_nums;
+      result = iter_func->fnc_ptr(tmp,result);
+    } else {
+      result = iter_func->fnc_ptr(result);
+    }
   }
-  return result;
+  return result ;
 }

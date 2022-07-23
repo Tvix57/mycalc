@@ -4,26 +4,26 @@
 
 class node {
 public:
+  // double (*fnc_ptr)(double, double);
+  double (*fnc_ptr)(...);
   node *prev;
-  double (stack_func::*fnc_ptr)(double, double) ;
+  bool args;
+  node* operator--();
 };
-// node& operator--() {
-//     return *this->prev;
-// }
+node* node::operator--() {
+    return this->prev;
+}
 
-class stack_func : public node
-{
-private:
-  node *head;
-
+class stack_func : public node {
 public:
   stack_func();
-  ~stack_func();
   void addSumm();
+  void addLog();
   void addSub();
   void addNode();
   bool empty();
-  node *begin();
+  // node *begin();
+  node *head;
 private:
   double add_fnc(double, double);
   double sub_fnc(double, double);

@@ -1,6 +1,6 @@
-#include "../back.h"
+#include "../back/math/back.h"
 #include <iostream>
-// using namespace std;
+using namespace std;
 
 int main () {
     double fst = 1;

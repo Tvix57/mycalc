@@ -18,7 +18,6 @@ public:
 
 private:
   std::list<double> nums;
-  // std::list<std::function<void()>> func;
   stack_func stack;
   std::list<double *> address_x;
   void parsing(QString input);
