@@ -37,7 +37,7 @@ void back::replaceAllX(const double &x) {
   }
 }
 
-void back::addFunction(QString input) {
+void back::addFunctions(QString input) {
   QTextStream stream(&input);
   QString tmp;
   QString two_arg_fnc = "+-*/^%()";
@@ -60,10 +60,10 @@ void back::addFunction(QString input) {
   }
 }
 
-void back::oneArgFunc(QString input) {
+void back::addOneArgFunc(QString input) {
   bool a_flag = false;
   if (input.startsWith("a")) {
-  a_flag = true;    
+    a_flag = true;
   } 
   if (input.contains("sin")) {
     if (a_flag) {
@@ -96,7 +96,7 @@ double back::my_summ(double arg1, double arg2) {
   return arg1 + arg2;
 }
 
-void back::twoArgFunc(QChar in) {
+void back::addTwoArgFunc(QChar in) {
   switch (in.row()) {
     case '+':
     int a = 1, b = 2;

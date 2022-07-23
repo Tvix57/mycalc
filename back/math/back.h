@@ -17,15 +17,13 @@ public:
 
 private:
   std::list<double> nums;
-  // std::list<void(*)()> func;
   std::list<std::function<void()>> func;
   std::list<double *> address_x;
   void parsing(QString input);
-  // void getLastPriority();
   void addAddress(double *x);
-  void addFunction(QString);
-  void oneArgFunc(QString);
-  void twoArgFunc(QChar);
+  void addFunctions(QString);
+  void addOneArgFunc(QString);
+  void addTwoArgFunc(QChar);
   double my_summ(double, double);
 };
 
