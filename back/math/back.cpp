@@ -1,5 +1,6 @@
 #include "back.h"
 
+
 back::back(QString input) {
     parsing(input);
     ///sort();
@@ -14,7 +15,7 @@ void back::parsing(QString input) {
     stream >> number;
     if (last_pos != stream.pos()) {
       if (!tmp.isEmpty()) {
-        addFunction(tmp);
+        addFunctions(tmp);
         tmp.clear();
       }
       nums.push_front(number);
@@ -49,11 +50,11 @@ void back::addFunctions(QString input) {
       nums.push_front(0);
       addAddress(&*nums.begin());
     } else if (two_arg_fnc.contains(tmp_char)) {
-      twoArgFunc(tmp_char); 
+      addTwoArgFunc(tmp_char); 
     } else {
       tmp += tmp_char;
       if (tmp.contains(reg_str)) {
-        oneArgFunc(tmp);
+        addOneArgFunc(tmp);
         tmp.clear();
       }
     }
@@ -92,15 +93,10 @@ void back::addOneArgFunc(QString input) {
   }
 }
 
-double back::my_summ(double arg1, double arg2) {
-  return arg1 + arg2;
-}
-
 void back::addTwoArgFunc(QChar in) {
   switch (in.row()) {
     case '+':
-    int a = 1, b = 2;
-      func.push_front([=]{my_summ(a, b);});
+      stack.addSumm();
       break;
     case '-':
       break;
@@ -122,11 +118,12 @@ void back::addTwoArgFunc(QChar in) {
 }
 
 double back::calculate() {
-  double result;
+  double result = 0;
   auto iter_nums = nums.begin();
-  auto iter_fnc = func.begin();
-  for (; iter_fnc != func.end(); iter_fnc++) {
-    result = 0;
+  auto iter_func = stack.begin();
+  for (; iter_func->prev != nullptr; --iter_func) {
+    double tmp = iter_func->fnc_ptr(result, 2);
+    result += tmp;
   }
   return result;
 }
