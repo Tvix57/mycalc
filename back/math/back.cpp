@@ -1,4 +1,5 @@
 #include "back.h"
+#include <cmath>
 
 back::back(QString input) {
     parsing(input);
@@ -60,15 +61,77 @@ void back::addFunctions(QString input) {
   }
 }
 
+double back::actionOne(double x,QString input) {
+  if (input.contains("sin")) {
+    if (input.startsWith("a")) {
+      return asin(x);
+    } else {
+      return sin(x);
+    }
+  } else if (input.contains("cos")) {
+    if (input.startsWith("a")) {
+      return acos(x);
+    } else {
+      return cos(x);
+    }
+  } else if (input.contains("tan")) {
+    if (input.startsWith("a")) {
+      return atan(x);
+    } else {
+      return tan(x);
+    }
+  } else if (input.contains("log")) {
+    return log10(x);
+  } else if (input.contains("ln")) {
+    return log(x);
+  } else if (input.contains("sqrt")) {
+    return sqrt(x);
+  }
+}
 
+double back::actionTwo(double x,double arg2, QString input) {
+  switch (input.at(1).row()){
+  case '+':
+   arg2 += x;
+    break;
+  case '-':
+   arg2 -= x;
+    break;
+  case '*':
+   arg2 *= x;
+    break;
+  case '/':
+   arg2 /= x;
+    break;
+  case '%':
+   arg2 = fmod(arg2, x);
+    break; 
+  case '^':
+   arg2 = pow(arg2, x);
+    break;
+  case ')':
+
+    break;
+  case '(':
+
+    break;
+  default:
+    break;
+  }
+  return arg2;
+}
 
 double back::calculate() {
   double result = 0;
   auto iter_nums = nums.begin();
   auto iter_func = func.begin();
   for (result = *iter_nums; iter_func != func.end(); iter_func++) {
-
-    
+    if (iter_func->length() == 1) {
+      iter_nums++;
+      result = actionTwo(result, *iter_nums, *iter_func);
+    } else {
+      result = actionOne(result, *iter_func);
+    }
   }
   return result ;
 }

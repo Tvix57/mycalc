@@ -20,6 +20,8 @@ private:
   void parsing(QString input);
   void addAddress(double *x);
   void addFunctions(QString);
+  double actionOne(double, QString);
+  double actionTwo(double, double, QString);
 };
 
 #endif //  SRC_BACK_BACK_H_
