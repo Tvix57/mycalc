@@ -38,10 +38,6 @@ void stack_func::addNode() {
     head = tmp;
 }
 
-// stack_func::node * stack_func::begin() {
-//     return head;
-// }
-
 double add_fnc(double arg1, double arg2 = NAN) {
   return arg1 + arg2;
 }

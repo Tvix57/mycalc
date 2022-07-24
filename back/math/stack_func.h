@@ -1,11 +1,10 @@
 #ifndef STACK_FUNC_H
 #define STACK_FUNC_H
 
-
+class stack_func;
 class node {
 public:
-  // double (*fnc_ptr)(double, double);
-  double (*fnc_ptr)(...);
+  double (stack_func::*fnc_ptr)(double, double);
   node *prev;
   bool args;
   node* operator--();
@@ -22,7 +21,6 @@ public:
   void addSub();
   void addNode();
   bool empty();
-  // node *begin();
   node *head;
 private:
   double add_fnc(double, double);
