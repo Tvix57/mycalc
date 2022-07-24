@@ -47,88 +47,28 @@ void back::addFunctions(QString input) {
     stream >> tmp_char;
     if (tmp_char.row() == 'X') {
       nums.push_front(0);
-      addAddress(&*nums.begin());
+      addAddress(&*nums.begin());/// swtich on nums.end()
     } else if (two_arg_fnc.contains(tmp_char)) {
-      addTwoArgFunc(tmp_char); 
+      func.push_front(tmp_char);
     } else {
       tmp += tmp_char;
       if (tmp.contains(reg_str)) {
-        addOneArgFunc(tmp);
+        func.push_front(tmp);
         tmp.clear();
       }
     }
   }
 }
 
-void back::addOneArgFunc(QString input) {
-  bool a_flag = false;
-  if (input.startsWith("a")) {
-    a_flag = true;
-  } 
-  if (input.contains("sin")) {
-    if (a_flag) {
 
-    } else {
-
-    }
-  } else if (input.contains("cos")) {
-    if (a_flag) {
-
-    } else {
-
-    }
-  } else if (input.contains("tan")) {
-    if (a_flag) {
-
-    } else {
-
-    }
-  } else if (input.contains("sqrt")) {
-
-  } else if (input.contains("log")) {
-    stack.addLog();
-  } else if (input.contains("ln")) {
-
-  }
-}
-
-void back::addTwoArgFunc(QChar in) {
-  switch (in.row()) {
-    case '+':
-      stack.addSumm();
-      break;
-    case '-':
-      break;
-    case '*':
-      break;
-    case '/':
-      break;
-    case '^':
-      break;
-    case '%':
-      break;
-    case '(':
-      break;
-    case ')':
-      break;
-    default:
-      break;
-  }
-}
 
 double back::calculate() {
   double result = 0;
   auto iter_nums = nums.begin();
-  auto iter_func = stack.head;
-  result = *iter_nums;
-  for (; iter_func->prev != nullptr; --iter_func) {
-    if (iter_func->args) {
-      iter_nums++;
-      double tmp = *iter_nums;
-      result = iter_func->fnc_ptr(tmp,result);
-    } else {
-      result = iter_func->fnc_ptr(result);
-    }
+  auto iter_func = func.begin();
+  for (result = *iter_nums; iter_func != func.end(); iter_func++) {
+
+    
   }
   return result ;
 }

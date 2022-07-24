@@ -1,6 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/ajhin/C7_SmartCalc_v1.0-0/src/back'
-make: Leaving directory `/Users/ajhin/C7_SmartCalc_v1.0-0/src/back'
- 
-make: *** No targets specified and no makefile found.  Stop.
-
