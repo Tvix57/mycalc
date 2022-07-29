@@ -3,7 +3,7 @@
 
 back::back(QString input) {
     parsing(input);
-    ///sort();
+    polishConvertation();
 }
 
 void back::parsing(QString input) {
@@ -24,6 +24,69 @@ void back::parsing(QString input) {
       stream >> tmp_char;
       tmp += tmp_char;
     }
+  }
+}
+
+void back::polishConvertation() {
+  auto iter_nums = nums.begin();
+  auto iter_func = func.begin();
+  for (int last_priority = 0; iter_func!= func.end(); iter_func++) {
+    int curent_priority = getPriority(*iter_func);
+    if (last_priority && last_priority > curent_priority) {
+      if (getArgs(*iter_func) == 1) {
+        auto tmp_iter = iter_func;
+        for (tmp_iter--; getPriority(*tmp_iter) > curent_priority; tmp_iter--);
+        func.insert(tmp_iter, *iter_func);
+        func.erase(iter_func);
+        iter_func = tmp_iter;
+      } else {
+
+      }
+    }
+    last_priority = curent_priority;
+  }
+}
+
+int back::getPriority(QString input) {
+  if (input.length() > 1) {
+    if (QString("asinaconatan").contains(input)) {
+      return 3;
+    } else {
+      return 2;
+    }
+  } else {
+    switch (input.at(0).row()) {
+    case '-':
+    case '+':
+      return 1;
+      break;
+    case '*':
+    case '/':
+    case '%':
+      return 2;
+    case '^':
+    case '(':
+    case ')':
+      return 3;
+    default:
+      break;
+    }
+  }
+}
+
+int back::getArgs(QString input) {
+  switch (input.at(0).row()) {
+    case '-':
+    case '+':
+    case '*':
+    case '/':
+    case '%':
+    case '^':
+      return 2;
+      break;
+    default:
+      return 1;
+      break;
   }
 }
 
@@ -108,12 +171,6 @@ double back::actionTwo(double x,double arg2, QString input) {
     break; 
   case '^':
    arg2 = pow(arg2, x);
-    break;
-  case ')':
-
-    break;
-  case '(':
-
     break;
   default:
     break;
