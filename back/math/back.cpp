@@ -32,18 +32,24 @@ void back::polishConvertation() {
   auto iter_func = func.begin();
   for (int last_priority = 0; iter_func!= func.end(); iter_func++) {
     int curent_priority = getPriority(*iter_func);
-    if (last_priority && last_priority > curent_priority) {
-      if (getArgs(*iter_func) == 1) {
-        auto tmp_iter = iter_func;
-        for (tmp_iter--; getPriority(*tmp_iter) > curent_priority; tmp_iter--);
-        func.insert(tmp_iter, *iter_func);
-        func.erase(iter_func);
-        iter_func = tmp_iter;
-      } else {
-
+    if (last_priority) {
+      int args = getArgs(*iter_func);
+      if (args == 2) {
+        iter_nums++;
       }
+      if (last_priority > curent_priority) {
+        if (args == 1) {
+          auto tmp_iter = iter_func;
+          for (tmp_iter--; getPriority(*tmp_iter) > curent_priority; tmp_iter--);
+          func.insert(tmp_iter, *iter_func);
+          func.erase(iter_func);
+          iter_func = tmp_iter;
+        } else {
+          
+        }
+      }
+      last_priority = curent_priority;
     }
-    last_priority = curent_priority;
   }
 }
 
@@ -180,23 +186,23 @@ double back::actionTwo(double x,double arg2, QString input) {
 
 double back::calculate() {
   double result = 0;
-  auto iter_nums = nums.begin();
-  auto iter_func = func.begin();
-  for (result = *iter_nums; iter_func != func.end(); iter_func++) {
-    if (iter_func->length() == 1) {
-      if (iter_func->at(0) == '(') {
-        nums_out.push_back(result);
-        result = *iter_nums;///////// iter_nums++
-      } else if (iter_func->at(0) == ')') {
-        nums.push_front(*nums_out.end());
-        nums_out.pop_back();////////
-      } else {
-        iter_nums++;
-        result = actionTwo(result, *iter_nums, *iter_func);
-      }
-    } else {
-      result = actionOne(result, *iter_func);
-    }
-  }
+  // auto iter_nums = nums.begin();
+  // auto iter_func = func.begin();
+  // for (result = *iter_nums; iter_func != func.end(); iter_func++) {
+  //   if (iter_func->length() == 1) {
+  //     if (iter_func->at(0) == '(') {
+  //       nums_out.push_back(result);
+  //       result = *iter_nums;///////// iter_nums++
+  //     } else if (iter_func->at(0) == ')') {
+  //       nums.push_front(*nums_out.end());
+  //       nums_out.pop_back();////////
+  //     } else {
+  //       iter_nums++;
+  //       result = actionTwo(result, *iter_nums, *iter_func);
+  //     }
+  //   } else {
+  //     result = actionOne(result, *iter_func);
+  //   }
+  // }
   return result ;
 }
