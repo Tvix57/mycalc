@@ -58,6 +58,7 @@ int back::getPriority(QString input) {
     switch (input.at(0).row()) {
     case '-':
     case '+':
+    case ')':
       return 1;
       break;
     case '*':
@@ -66,7 +67,6 @@ int back::getPriority(QString input) {
       return 2;
     case '^':
     case '(':
-    case ')':
       return 3;
     default:
       break;
@@ -184,8 +184,16 @@ double back::calculate() {
   auto iter_func = func.begin();
   for (result = *iter_nums; iter_func != func.end(); iter_func++) {
     if (iter_func->length() == 1) {
-      iter_nums++;
-      result = actionTwo(result, *iter_nums, *iter_func);
+      if (iter_func->at(0) == '(') {
+        nums_out.push_back(result);
+        result = *iter_nums;///////// iter_nums++
+      } else if (iter_func->at(0) == ')') {
+        nums.push_front(*nums_out.end());
+        nums_out.pop_back();////////
+      } else {
+        iter_nums++;
+        result = actionTwo(result, *iter_nums, *iter_func);
+      }
     } else {
       result = actionOne(result, *iter_func);
     }

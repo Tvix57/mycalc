@@ -18,10 +18,10 @@ private:
   std::list<double> nums_out;
   std::list<QString> func;
   std::list<double *> address_x;
-  void parsing(QString input);
-  int getPriority(QString input);
-  int getArgs(QString input);
-  void addAddress(double *x);
+  void parsing(QString);
+  int getPriority(QString);
+  int getArgs(QString );
+  void addAddress(double *);
   void addFunctions(QString);
   double actionOne(double, QString);
   double actionTwo(double, double, QString);
