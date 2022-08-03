@@ -2,6 +2,7 @@
 #define SRC_BACK_BACK_H_
 
 #include <list>
+#include <vector>
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
 #include <QtCore/QRegularExpression>
@@ -14,9 +15,9 @@ public:
   double calculate();
 
 private:
-  std::list<double> nums;
+//  std::list<double> nums;
+  std::list<double, QString> polish_stack;
   std::list<double> nums_out;
-  std::list<QString> func;
   std::list<double *> address_x;
   void parsing(QString);
   int getPriority(QString);

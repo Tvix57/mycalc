@@ -18,7 +18,7 @@ void back::parsing(QString input) {
         addFunctions(tmp);
         tmp.clear();
       }
-      nums.push_front(number);
+      polish_stack.push_front(number);
     } else {
       QChar tmp_char;
       stream >> tmp_char;
@@ -28,28 +28,27 @@ void back::parsing(QString input) {
 }
 
 void back::polishConvertation() {
-  auto iter_nums = nums.begin();
-  auto iter_func = func.begin();
-  for (int last_priority = 0; iter_func!= func.end(); iter_func++) {
-    int curent_priority = getPriority(*iter_func);
-    if (last_priority) {
-      int args = getArgs(*iter_func);
-      if (args == 2) {
-        iter_nums++;
-      }
-      if (last_priority > curent_priority) {
-        if (args == 1) {
-          auto tmp_iter = iter_func;
-          for (tmp_iter--; getPriority(*tmp_iter) > curent_priority; tmp_iter--);
-          func.insert(tmp_iter, *iter_func);
-          func.erase(iter_func);
-          iter_func = tmp_iter;
-        } else {
+  auto iter_stack = polish_stack.begin();
+  for (int last_priority = 0; iter_stack!= polish_stack.end(); ++iter_stack) {
+//    int curent_priority = getPriority(*iter_func);
+//    if (last_priority) {
+//      int args = getArgs(*iter_func);
+//      if (args == 2) {
+//        iter_nums++;
+//      }
+//      if (last_priority > curent_priority) {
+//        if (args == 1) {
+//          auto tmp_iter = iter_func;
+//          for (tmp_iter--; getPriority(*tmp_iter) > curent_priority; tmp_iter--);
+//          func.insert(tmp_iter, *iter_func);
+//          func.erase(iter_func);
+//          iter_func = tmp_iter;
+//        } else {
           
-        }
-      }
-      last_priority = curent_priority;
-    }
+//        }
+//      }
+//      last_priority = curent_priority;
+//    }
   }
 }
 
@@ -116,14 +115,14 @@ void back::addFunctions(QString input) {
     QChar tmp_char;
     stream >> tmp_char;
     if (tmp_char.row() == 'X') {
-      nums.push_front(0);
-      addAddress(&*nums.begin());/// swtich on nums.end()
+      polish_stack.push_front(0);
+      addAddress(&*polish_stack.begin());/// swtich on nums.end()
     } else if (two_arg_fnc.contains(tmp_char)) {
-      func.push_front(tmp_char);
+      polish_stack.push_front(tmp_char);
     } else {
       tmp += tmp_char;
       if (tmp.contains(reg_str)) {
-        func.push_front(tmp);
+        polish_stack.push_front(tmp);
         tmp.clear();
       }
     }
@@ -185,24 +184,21 @@ double back::actionTwo(double x,double arg2, QString input) {
 }
 
 double back::calculate() {
-  double result = 0;
-  // auto iter_nums = nums.begin();
-  // auto iter_func = func.begin();
-  // for (result = *iter_nums; iter_func != func.end(); iter_func++) {
-  //   if (iter_func->length() == 1) {
-  //     if (iter_func->at(0) == '(') {
-  //       nums_out.push_back(result);
-  //       result = *iter_nums;///////// iter_nums++
-  //     } else if (iter_func->at(0) == ')') {
-  //       nums.push_front(*nums_out.end());
-  //       nums_out.pop_back();////////
-  //     } else {
-  //       iter_nums++;
-  //       result = actionTwo(result, *iter_nums, *iter_func);
-  //     }
-  //   } else {
-  //     result = actionOne(result, *iter_func);
-  //   }
-  // }
-  return result ;
+  auto iter_stack = polish_stack.begin();
+  auto iter_out = nums_out.begin();
+  for (*iter_out = *iter_stack, ++iter_stack; iter_stack != polish_stack.end(); ++iter_stack) {
+    if (iter_stack->empty()) {
+      nums_out.push_back(*iter_stack);
+    } else {
+      if (iter_stack->length() == 1) {
+        double tmp = *iter_out;
+        nums_out.pop_back();
+        iter_out = nums_out.begin();
+        *iter_out = actionTwo(tmp, *iter_out, *iter_stack);
+      } else {
+        *iter_out = actionOne(*iter_out, *iter_stack);
+      }
+    }
+  }
+  return *iter_out ;
 }
