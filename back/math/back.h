@@ -15,7 +15,6 @@ public:
   double calculate();
 
 private:
-//  std::list<double> nums;
   std::list<double, QString> polish_stack;
   std::list<double> nums_out;
   std::list<double *> address_x;

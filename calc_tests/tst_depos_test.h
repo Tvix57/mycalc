@@ -1,3 +1,14 @@
+#ifndef TST_DEPOS_TEST_H
+#define TST_DEPOS_TEST_H
+
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include "../back/depos/debit_calc.h"
+#include <QString>
+#include <cmath>
+#define EPS 1e-6
+using namespace testing;
+
 
 TEST(test1_d) {
   QString input_data[8];
@@ -17,7 +28,7 @@ TEST(test1_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -39,7 +50,7 @@ TEST(test2_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -61,7 +72,7 @@ TEST(test3_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -83,7 +94,7 @@ TEST(test4_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -105,7 +116,7 @@ TEST(test5_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -127,7 +138,7 @@ TEST(test6_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -149,7 +160,7 @@ TEST(test7_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -171,7 +182,7 @@ TEST(test8_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -193,7 +204,7 @@ TEST(test9_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -215,7 +226,7 @@ TEST(test10_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -237,7 +248,7 @@ TEST(test11_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
@@ -259,5 +270,7 @@ TEST(test12_d) {
   ASSERT_NEAR(debit_bill, output_data[2], 1e-2);
   ASSERT_NEAR(debit_nalog, output_data[1], 1e-2);
   ASSERT_NEAR(debit_perc, output_data[0], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
+
+#endif // TST_DEPOS_TEST_H

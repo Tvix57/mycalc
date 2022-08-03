@@ -1,5 +1,16 @@
+#ifndef TST_CREDIT_TEST_H
+#define TST_CREDIT_TEST_H
 
-TEST(test1_c) {
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include "../back/credit/credit_calc.h"
+#include <QString>
+#include <cmath>
+#define EPS 1e-6
+using namespace testing;
+
+
+TEST(calc_credit_test,test1_c) {
   QString input_data[8];
   input_data[0] = "2000"; /// summ
   input_data[1] = "12";  ///  month
@@ -13,11 +24,11 @@ TEST(test1_c) {
   ASSERT_NEAR(month_pay, output_data[0], 1e-2);
   ASSERT_NEAR(overpay, output_data[1], 1e-2);
   ASSERT_NEAR(summ, output_data[2], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
-TEST(test2_c) {
+TEST(calc_credit_test, test2_c) {
   QString input_data[8];
   input_data[0] = "400000"; /// summ
   input_data[1] = "30";  ///  month
@@ -31,11 +42,11 @@ TEST(test2_c) {
   ASSERT_NEAR(month_pay, output_data[0], 1e-2);
   ASSERT_NEAR(overpay, output_data[1], 1e-2);
   ASSERT_NEAR(summ, output_data[2], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
-TEST(test3_c) {
+TEST(calc_credit_test, test3_c) {
   QString input_data[8];
   input_data[0] = "2000"; /// summ
   input_data[1] = "12";  ///  month
@@ -51,11 +62,11 @@ TEST(test3_c) {
   ASSERT_NEAR(overpay, output_data[1], 1e-2);
   ASSERT_NEAR(summ, output_data[2], 1e-2);
   ASSERT_NEAR(month_pay_2, output_data[3], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
-TEST(test4_c) {
+TEST(calc_credit_test, test4_c) {
   QString input_data[8];
   input_data[0] = "400000"; /// summ
   input_data[1] = "30";  ///  month
@@ -71,11 +82,11 @@ TEST(test4_c) {
   ASSERT_NEAR(overpay, output_data[1], 1e-2);
   ASSERT_NEAR(summ, output_data[2], 1e-2);
   ASSERT_NEAR(month_pay_2, output_data[3], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
-TEST(test5_c) {
+TEST(calc_credit_test, test5_c) {
   QString input_data[8];
   input_data[0] = "50000000"; /// summ
   input_data[1] = "60";  ///  month
@@ -89,11 +100,11 @@ TEST(test5_c) {
   ASSERT_NEAR(month_pay_1, output_data[0], 1e-2);
   ASSERT_NEAR(overpay, output_data[1], 1e-2);
   ASSERT_NEAR(summ, output_data[2], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
 
 
-TEST(test6_c) {
+TEST(calc_credit_test, test6_c) {
   QString input_data[8];
   input_data[0] = "50000000"; /// summ
   input_data[1] = "60";  ///  month
@@ -109,5 +120,7 @@ TEST(test6_c) {
   ASSERT_NEAR(overpay, output_data[1], 1e-2);
   ASSERT_NEAR(summ, output_data[2], 1e-2);
   ASSERT_NEAR(month_pay_2, output_data[3], 1e-2);
-  free(output_data); 
+  free(output_data);
 }
+
+#endif // TST_CREDIT_TEST_H
