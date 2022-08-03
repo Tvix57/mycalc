@@ -5,7 +5,7 @@
 #include <QLayout>
 #include <QMainWindow>
 #include "add_date.h"
-#include "debit_calc.h"
+#include "../back/depos/debit_calc.h"
 
 namespace Ui {
 class depos_window_2;

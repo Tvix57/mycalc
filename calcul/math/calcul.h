@@ -4,11 +4,15 @@
 #include <QRegularExpression>
 #include <QMainWindow>
 #include <QThread>
-#include "credit_window.h"
-#include "depos_window_2.h"
+#include "credit/credit_window.h"
+//#include "credit_window.h"
+#include "depos/depos_window_2.h"
+//#include "depos_window_2.h"
 #include <QButtonGroup>
-#include "range_x_window.h"
-#include "graph_window.h"
+#include "graph/graph_window.h"
+//#include "range_x_window.h"
+#include "graph/range_x_window.h"
+//#include "graph_window.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Calcul; }

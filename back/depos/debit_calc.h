@@ -16,7 +16,6 @@ public:
 
     void set_start_date(QDate date);
 
-
 private:
     QDate start_date, end_date;
     double summ, proc, nalog;

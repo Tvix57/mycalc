@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 #include <QIntValidator>
-#include "credit_calc.h"
-
+//#include "credit_calc.h"
+#include "../back/credit/credit_calc.h"
 namespace Ui {
 class Credit_window;
 }
