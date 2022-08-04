@@ -1,7 +1,7 @@
 #include "calcul.h"
 #include "ui_calcul.h"
 #include <QMessageBox>
-#include "back.h"
+#include "./../back/math/back.h"
 
 Calcul::Calcul(QWidget *parent)
     : QMainWindow(parent)
