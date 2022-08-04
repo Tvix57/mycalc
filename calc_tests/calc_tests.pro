@@ -5,6 +5,9 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG += thread
 CONFIG += qt
+macx {
+    INCLUDEPATH += /usr/local/include
+}
 
 HEADERS += \
         ../back/math/back.h \
