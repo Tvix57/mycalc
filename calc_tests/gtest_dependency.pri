@@ -33,16 +33,24 @@ requires(exists($$GTEST_SRCDIR):exists($$GMOCK_SRCDIR))
     INCLUDEPATH *= \
         $$GTEST_SRCDIR \
         $$GTEST_SRCDIR/include
-
-    SOURCES += \
+    !macx {
+        SOURCES += \
         $$GTEST_SRCDIR/src/gtest-all.cc
+    } else: macx {
+        SOURCES += \
+        SOURCES += ./../googletest-main/googletest/include/gtest/gtest-all.cc \
+    }
 }
 
 !isEmpty(GMOCK_SRCDIR) {
     INCLUDEPATH *= \
         $$GMOCK_SRCDIR \
         $$GMOCK_SRCDIR/include
-
-    SOURCES += \
+    !macx {
+        SOURCES += \
         $$GMOCK_SRCDIR/src/gmock-all.cc
+    } else: macx {
+        SOURCES += \
+        SOURCES += ./../googletest-main/googlemock/include/gtest/gmock-all.cc
+    }
 }
