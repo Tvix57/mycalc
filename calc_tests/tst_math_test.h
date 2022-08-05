@@ -269,13 +269,13 @@ TEST(calc_simple_math_test, test27) {
 //}
 
 
-TEST(calc_simple_math_test, test32) {
-  QString test25 = "2*2+6/3";
-  back test_b(test25);
-  double r25 = test_b.calculate();
-  double cp25 = 6;
-  ASSERT_NEAR(r25, cp25, EPS);
-}
+//TEST(calc_simple_math_test, test32) {
+//  QString test25 = "2*2+6/3";
+//  back test_b(test25);
+//  double r25 = test_b.calculate();
+//  double cp25 = 6;
+//  ASSERT_NEAR(r25, cp25, EPS);
+//}
 
 
 //TEST(calc_medium_math_test, test33) {

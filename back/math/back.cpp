@@ -51,25 +51,23 @@ void back::polishConvertation() {
         if (tmp_stack.isEmpty()) {
             insert_positin = iter_stack;
         }
-        if (!tmp_stack.isEmpty() && (getPriority(tmp.fun) < getPriority(tmp_stack.last().fun))) {
+        if (!tmp_stack.isEmpty() && (getPriority(tmp.fun) > getPriority(tmp_stack.last().fun))) {
             for (;!tmp_stack.isEmpty();) {
-                insert_positin++;
-                data_t tmp3 = *insert_positin;
+                insert_positin--;
+//                data_t tmp3 = *insert_positin;
 
                 polish_stack.insert(insert_positin, tmp_stack.last());
-//                data_t tmp2 = *insert_positin;
-//                insert_positin--;
                 tmp_stack.pop_back();
             }
         }
-        tmp_stack.push_front(tmp);
+        if (!(tmp.fun.contains('(') || (tmp.fun.contains(')')))) {
+            tmp_stack.push_front(tmp);
+        }
     }
   }
   if (!tmp_stack.isEmpty()) {
-      for (;!tmp_stack.isEmpty();) {
+      for (--insert_positin;!tmp_stack.isEmpty();--insert_positin) {
           polish_stack.insert(insert_positin, tmp_stack.last());
-//          data_t tmp3 = *insert_positin;
-          insert_positin--;
           tmp_stack.pop_back();
       }
   }
