@@ -39,24 +39,22 @@ void back::parsing(QString input) {
 
 void back::polishConvertation() {
   auto iter_stack = polish_stack.begin();
-  auto insert_positin = iter_stack;
+//  auto insert_positin = iter_stack;
   QList <data_t> tmp_stack;
   data_t tmp;
-  for (; iter_stack != polish_stack.end(); iter_stack++) {
+  int insert_position = 0;
+  for (int i = 0; iter_stack != polish_stack.end(); iter_stack++, i++) {
 
 
     if (!iter_stack->fun.isEmpty()) {
         tmp = *iter_stack;
         polish_stack.erase(iter_stack);
         if (tmp_stack.isEmpty()) {
-            insert_positin = iter_stack;
+            insert_position = i-1;
         }
         if (!tmp_stack.isEmpty() && (getPriority(tmp.fun) > getPriority(tmp_stack.last().fun))) {
-            for (;!tmp_stack.isEmpty();) {
-                insert_positin--;
-//                data_t tmp3 = *insert_positin;
-
-                polish_stack.insert(insert_positin, tmp_stack.last());
+            for (;!tmp_stack.isEmpty(); ) {
+                polish_stack.insert(insert_position, tmp_stack.last());
                 tmp_stack.pop_back();
             }
         }
@@ -66,8 +64,8 @@ void back::polishConvertation() {
     }
   }
   if (!tmp_stack.isEmpty()) {
-      for (--insert_positin;!tmp_stack.isEmpty();--insert_positin) {
-          polish_stack.insert(insert_positin, tmp_stack.last());
+      for (;!tmp_stack.isEmpty();) {
+          polish_stack.insert(insert_position, tmp_stack.last());
           tmp_stack.pop_back();
       }
   }
@@ -186,27 +184,27 @@ double back::actionOne(double x,QString input) {
 double back::actionTwo(double x,double arg2, QString input) {
   switch ((char)input.at(0).cell()){
   case '+':
-   arg2 += x;
+   x += arg2;
     break;
   case '-':
-   arg2 -= x;
+   x -= arg2;
     break;
   case '*':
-   arg2 *= x;
+   x *= arg2;
     break;
   case '/':
-   arg2 /= x;
+   x /= arg2;
     break;
   case '%':
-   arg2 = fmod(arg2, x);
+   x = fmod(x, arg2);
     break; 
   case '^':
-   arg2 = pow(arg2, x);
+   x = pow(x, arg2);
     break;
   default:
     break;
   }
-  return arg2;
+  return x;
 }
 
 double back::calculate() {
