@@ -17,21 +17,21 @@ TEST(calc_simple_math_test, math_tes1) {
   ASSERT_NEAR(r1, cp1, EPS);
 }
 
-//TEST(calc_simple_math_test, math_test2) {
-//  QString test2 = "1.4356789-2.245";
-//  back test_b(test2);
-//  double r2 = test_b.calculate();
-//  double cp2 = 1.4356789 - 2.245;
-//  ASSERT_NEAR(r2, cp2, EPS);
-//}
+TEST(calc_simple_math_test, math_test2) {
+  QString test2 = "1.4356789-2.245";
+  back test_b(test2);
+  double r2 = test_b.calculate();
+  double cp2 = 1.4356789 - 2.245;
+  ASSERT_NEAR(r2, cp2, EPS);
+}
 
-//TEST(calc_simple_math_test, only_number) {
-//  QString test3 = "100.456";
-//  back test_b(test3);
-//  double r3 = test_b.calculate();
-//  double cp3 = 100.456;
-//  ASSERT_NEAR(r3, cp3, EPS);
-//}
+TEST(calc_simple_math_test, only_number) {
+  QString test3 = "100.456";
+  back test_b(test3);
+  double r3 = test_b.calculate();
+  double cp3 = 100.456;
+  ASSERT_NEAR(r3, cp3, EPS);
+}
 
 //TEST(calc_simple_math_test, only_number_v_brace) {
 //  QString test4 = "(100.456)";
@@ -81,13 +81,13 @@ TEST(calc_simple_math_test, math_tes1) {
 //  ASSERT_NEAR(r9, cp9, EPS);
 //}
 
-//TEST(calc_simple_math_test, test10) {
-//  QString test10 = "0%2";
-//  back test_b(test10);
-//  double r10 = test_b.calculate();
-//  double cp_10 = 0;
-//  ASSERT_DOUBLE_EQ(r10, cp_10);
-//}
+TEST(calc_simple_math_test, test10) {
+  QString test10 = "0%2";
+  back test_b(test10);
+  double r10 = test_b.calculate();
+  double cp_10 = 0;
+  ASSERT_DOUBLE_EQ(r10, cp_10);
+}
 
 //TEST(calc_simple_math_test, test11) {
 //  QString test11 = "(sqrt(4))";
@@ -97,20 +97,20 @@ TEST(calc_simple_math_test, math_tes1) {
 //  ASSERT_NEAR(r11, cp11, EPS);
 //}
 
-//TEST(calc_simple_math_test, zero_dev1) {
-//  QString test12 = "1/0";
-//  back test_b(test12);
-//  double r12 = test_b.calculate();
-//  double cp_error12 = INFINITY;
-//  ASSERT_DOUBLE_EQ(r12, cp_error12);
-//}
+TEST(calc_simple_math_test, zero_dev1) {
+  QString test12 = "1/0";
+  back test_b(test12);
+  double r12 = test_b.calculate();
+  double cp_error12 = INFINITY;
+  ASSERT_DOUBLE_EQ(r12, cp_error12);
+}
 
-//TEST(calc_simple_math_test, zero_dev2) {
-//  QString test13 = "2%0";
-//  back test_b(test13);
-//  double r13 = test_b.calculate();
-//  ASSERT_DOUBLE_EQ(r13, NAN);
-//}
+TEST(calc_simple_math_test, zero_dev2) {
+  QString test13 = "2%0";
+  back test_b(test13);
+  double r13 = test_b.calculate();
+  ASSERT_TRUE(r13 != r13);
+}
 
 //TEST(calc_simple_math_test, more_branch) {
 //  QString test14 = "((((10.987))))";
@@ -128,13 +128,13 @@ TEST(calc_simple_math_test, math_tes1) {
 //  ASSERT_NEAR(r15, cp15, EPS);
 //}
 
-//TEST(calc_simple_math_test, test16) {
-//  QString test16 = "10%5";
-//  back test_b(test16);
-//  double r16 = test_b.calculate();
-//  double cp16 = 0;
-//  ASSERT_NEAR(r16, cp16, EPS);
-//}
+TEST(calc_simple_math_test, test16) {
+  QString test16 = "10%5";
+  back test_b(test16);
+  double r16 = test_b.calculate();
+  double cp16 = 0;
+  ASSERT_NEAR(r16, cp16, EPS);
+}
 
 //TEST(calc_simple_math_test, test17) {
 //  QString test17 = "log(10)";
@@ -197,40 +197,40 @@ TEST(calc_simple_math_test, math_tes1) {
 //}
 
 
-//TEST(calc_simple_math_test, test24) {
-//  QString test24 = "5.25-10.01";
-//  back test_b(test24);
-//  double r24 = test_b.calculate();
-//  double cp24 = 5.25 - 10.01;
-//  ASSERT_NEAR(r24, cp24, EPS);
-//}
+TEST(calc_simple_math_test, test24) {
+  QString test24 = "5.25-10.01";
+  back test_b(test24);
+  double r24 = test_b.calculate();
+  double cp24 = 5.25 - 10.01;
+  ASSERT_NEAR(r24, cp24, EPS);
+}
 
 
-//TEST(calc_simple_math_test, test25) {
-//  QString test25 = "3.01*3.02";
-//  back test_b(test25);
-//  double r25 = test_b.calculate();
-//  double cp25 = 3.01 * 3.02;
-//  ASSERT_NEAR(r25, cp25, EPS);
-//}
+TEST(calc_simple_math_test, test25) {
+  QString test25 = "3.01*3.02";
+  back test_b(test25);
+  double r25 = test_b.calculate();
+  double cp25 = 3.01 * 3.02;
+  ASSERT_NEAR(r25, cp25, EPS);
+}
 
 
-//TEST(calc_simple_math_test, test26) {
-//  QString test26 = "9.45/3.26";
-//  back test_b(test26);
-//  double r26 = test_b.calculate();
-//  double cp26 = 9.45 / 3.26;
-//  ASSERT_NEAR(r26, cp26, EPS);
-//}
+TEST(calc_simple_math_test, test26) {
+  QString test26 = "9.45/3.26";
+  back test_b(test26);
+  double r26 = test_b.calculate();
+  double cp26 = 9.45 / 3.26;
+  ASSERT_NEAR(r26, cp26, EPS);
+}
 
 
-//TEST(calc_simple_math_test, test27) {
-//  QString test27 = "0*3";
-//  back test_b(test27);
-//  double r27 = test_b.calculate();
-//  double cp27 = 0 * 3;
-//  ASSERT_NEAR(r27, cp27, EPS);
-//}
+TEST(calc_simple_math_test, test27) {
+  QString test27 = "0*3";
+  back test_b(test27);
+  double r27 = test_b.calculate();
+  double cp27 = 0 * 3;
+  ASSERT_NEAR(r27, cp27, EPS);
+}
 
 
 //TEST(calc_simple_math_test, test28) {
@@ -269,13 +269,13 @@ TEST(calc_simple_math_test, math_tes1) {
 //}
 
 
-//TEST(calc_simple_math_test, test32) {
-//  QString test25 = "2*2+6/3";
-//  back test_b(test25);
-//  double r25 = test_b.calculate();
-//  double cp25 = 6;
-//  ASSERT_NEAR(r25, cp25, EPS);
-//}
+TEST(calc_simple_math_test, test32) {
+  QString test25 = "2*2+6/3";
+  back test_b(test25);
+  double r25 = test_b.calculate();
+  double cp25 = 6;
+  ASSERT_NEAR(r25, cp25, EPS);
+}
 
 
 //TEST(calc_medium_math_test, test33) {
@@ -314,13 +314,13 @@ TEST(calc_simple_math_test, math_tes1) {
 //}
 
 
-//TEST(calc_simple_math_test, test37) {
-//  QString test25 = "2.6+4";
-//  back test_b(test25);
-//  double r25 = test_b.calculate();
-//  double cp25 = 6.6;
-//  ASSERT_NEAR(r25, cp25, EPS);
-//}
+TEST(calc_simple_math_test, test37) {
+  QString test25 = "2.6+4";
+  back test_b(test25);
+  double r25 = test_b.calculate();
+  double cp25 = 6.6;
+  ASSERT_NEAR(r25, cp25, EPS);
+}
 
 
 //TEST(calc_simple_math_test, test38) {
@@ -431,13 +431,13 @@ TEST(calc_simple_math_test, math_tes1) {
 //}
 
 
-//TEST(calc_logic_math_test, test50) {
-//  QString test25 = "12+0.0";
-//  back test_b(test25);
-//  double r25 = test_b.calculate();
-//  double cp25 = 12;
-//  ASSERT_NEAR(r25, cp25, EPS);
-//}
+TEST(calc_logic_math_test, test50) {
+  QString test25 = "12+0.0";
+  back test_b(test25);
+  double r25 = test_b.calculate();
+  double cp25 = 12;
+  ASSERT_NEAR(r25, cp25, EPS);
+}
 
 
 //TEST(calc_logic_math_test, test51) {
@@ -711,13 +711,13 @@ TEST(calc_simple_math_test, math_tes1) {
 //}
 
 
-//TEST(calc_medium_math_test, test81) {
-//  QString test25 = "2^2^3";
-//  back test_b(test25);
-//  double r25 = test_b.calculate();
-//  double cp25 = (pow(2, pow(2, 3)));
-//  ASSERT_NEAR(r25, cp25, EPS);
-//}
+TEST(calc_medium_math_test, test81) {
+  QString test25 = "2^2^3";
+  back test_b(test25);
+  double r25 = test_b.calculate();
+  double cp25 = (pow(2, pow(2, 3)));
+  ASSERT_NEAR(r25, cp25, EPS);
+}
 
 
 //TEST(calc_medium_math_test, test82) {
@@ -909,13 +909,13 @@ TEST(calc_simple_math_test, math_tes1) {
 //}
 
 
-//TEST(calc_simple_math_test, test103) {
-//  QString test25 = "34.4+34/3";
-//  back test_b(test25);
-//  double r25 = test_b.calculate();
-//  double cp25 = 45.7333333333333333;
-//  ASSERT_NEAR(r25, cp25, EPS);
-//}
+TEST(calc_simple_math_test, test103) {
+  QString test25 = "34.4+34/3";
+  back test_b(test25);
+  double r25 = test_b.calculate();
+  double cp25 = 45.7333333333333333;
+  ASSERT_NEAR(r25, cp25, EPS);
+}
 
 
 //TEST(calc_simple_math_test, test104) {

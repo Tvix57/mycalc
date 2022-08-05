@@ -19,7 +19,6 @@ private:
       QString fun;
   } data_t;
   QList <data_t> polish_stack;
-  QList<double> nums_out;
   QList<double *> address_x;
   void parsing(QString);
   int getPriority(QString);

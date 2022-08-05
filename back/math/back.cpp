@@ -39,36 +39,39 @@ void back::parsing(QString input) {
 
 void back::polishConvertation() {
   auto iter_stack = polish_stack.begin();
-  bool swap_flag = false;
-//  QList <double> nums_sort;
-  for (int cur_node = 0; iter_stack!= polish_stack.end(); ++iter_stack, ++cur_node) {
-      if (!iter_stack->fun.isEmpty()) {
-        swap_flag = true;
-      } else {
-          if (swap_flag) {
-              polish_stack.swapItemsAt(cur_node, cur_node-1);
-              swap_flag = false;
-          }
+  auto insert_positin = iter_stack;
+  QList <data_t> tmp_stack;
+  data_t tmp;
+  for (; iter_stack != polish_stack.end(); iter_stack++) {
+
+
+    if (!iter_stack->fun.isEmpty()) {
+        tmp = *iter_stack;
+        polish_stack.erase(iter_stack);
+        if (tmp_stack.isEmpty()) {
+            insert_positin = iter_stack;
+        }
+        if (!tmp_stack.isEmpty() && (getPriority(tmp.fun) < getPriority(tmp_stack.last().fun))) {
+            for (;!tmp_stack.isEmpty();) {
+                insert_positin++;
+                data_t tmp3 = *insert_positin;
+
+                polish_stack.insert(insert_positin, tmp_stack.last());
+//                data_t tmp2 = *insert_positin;
+//                insert_positin--;
+                tmp_stack.pop_back();
+            }
+        }
+        tmp_stack.push_front(tmp);
+    }
+  }
+  if (!tmp_stack.isEmpty()) {
+      for (;!tmp_stack.isEmpty();) {
+          polish_stack.insert(insert_positin, tmp_stack.last());
+//          data_t tmp3 = *insert_positin;
+          insert_positin--;
+          tmp_stack.pop_back();
       }
-//    int curent_priority = getPriority(*iter_func);
-//    if (last_priority) {
-//      int args = getArgs(*iter_func);
-//      if (args == 2) {
-//        iter_nums++;
-//      }
-//      if (last_priority > curent_priority) {
-//        if (args == 1) {
-//          auto tmp_iter = iter_func;
-//          for (tmp_iter--; getPriority(*tmp_iter) > curent_priority; tmp_iter--);
-//          func.insert(tmp_iter, *iter_func);
-//          func.erase(iter_func);
-//          iter_func = tmp_iter;
-//        } else {
-          
-//        }
-//      }
-//      last_priority = curent_priority;
-//    }
   }
 }
 
@@ -80,7 +83,7 @@ int back::getPriority(QString input) {
       return 2;
     }
   } else {
-    switch (input.at(0).row()) {
+    switch ((char)input.at(0).cell()) {
     case '-':
     case '+':
     case ')':
@@ -94,13 +97,14 @@ int back::getPriority(QString input) {
     case '(':
       return 3;
     default:
+      return 0;
       break;
     }
   }
 }
 
 int back::getArgs(QString input) {
-  switch (input.at(0).row()) {
+  switch ((char)input.at(0).cell()) {
     case '-':
     case '+':
     case '*':
@@ -208,18 +212,27 @@ double back::actionTwo(double x,double arg2, QString input) {
 }
 
 double back::calculate() {
+  QList<QString> func_stack;
+  QList<double> nums_out;
   auto iter_stack = polish_stack.begin();
-  for (nums_out.push_back(iter_stack->num), iter_stack++; iter_stack != polish_stack.end(); ++iter_stack) {
+  for (; iter_stack != polish_stack.end(); iter_stack++) {
     if (iter_stack->fun.isEmpty()) {
       nums_out.push_back(iter_stack->num);
+        if (!func_stack.isEmpty()) {
+            if (func_stack.last().length() == 1) {
+                if (nums_out.length() > 1) {
+                  double tmp = nums_out.last();
+                  nums_out.pop_back();
+                  nums_out.last() = actionTwo(nums_out.last(), tmp, func_stack.last());
+                  func_stack.pop_front();
+                }
+            } else {
+              nums_out.last() = actionOne(nums_out.last(), func_stack.last());
+              func_stack.pop_front();
+            }
+        }
     } else {
-      if (iter_stack->fun.length() == 1) {
-        double tmp = nums_out.last();
-        nums_out.pop_back();
-        nums_out.last() = actionTwo(tmp, nums_out.last(), iter_stack->fun);
-      } else {
-        nums_out.last() = actionOne(nums_out.last(), iter_stack->fun);
-      }
+        func_stack.push_front(iter_stack->fun);
     }
   }
   return nums_out.last();
