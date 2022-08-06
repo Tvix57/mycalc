@@ -35,39 +35,46 @@ void back::parsing(QString input) {
       tmp += tmp_char;
     }
   }
+  if (!tmp.isEmpty()) {
+    addFunctions(tmp);
+    tmp.clear();
+  }
 }
 
 void back::polishConvertation() {
-  auto iter_stack = polish_stack.begin();
-//  auto insert_positin = iter_stack;
   QList <data_t> tmp_stack;
   data_t tmp;
   int insert_position = 0;
-  for (int i = 0; iter_stack != polish_stack.end(); iter_stack++, i++) {
+  for (int i = 0; i < polish_stack.length();  i++) {
+    tmp = polish_stack.at(i);
+    if (!tmp.fun.isEmpty()) {
 
 
-    if (!iter_stack->fun.isEmpty()) {
-        tmp = *iter_stack;
-        polish_stack.erase(iter_stack);
         if (tmp_stack.isEmpty()) {
-            insert_position = i-1;
+            insert_position = i;
         }
+        polish_stack.removeAt(i);
+        i--;
         if (!tmp_stack.isEmpty() && (getPriority(tmp.fun) > getPriority(tmp_stack.last().fun))) {
-            for (;!tmp_stack.isEmpty(); ) {
-                polish_stack.insert(insert_position, tmp_stack.last());
-                tmp_stack.pop_back();
+            for (;!tmp_stack.isEmpty();) {
+              if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
+                polish_stack.insert(insert_position, tmp_stack.first());
+              }
+              tmp_stack.pop_front();
             }
+            insert_position = i+2;
         }
-        if (!(tmp.fun.contains('(') || (tmp.fun.contains(')')))) {
-            tmp_stack.push_front(tmp);
-        }
+        tmp_stack.push_back(tmp);
+
     }
   }
   if (!tmp_stack.isEmpty()) {
       for (;!tmp_stack.isEmpty();) {
-          polish_stack.insert(insert_position, tmp_stack.last());
-          tmp_stack.pop_back();
-      }
+        if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
+          polish_stack.insert(insert_position, tmp_stack.first());
+        }
+        tmp_stack.pop_front();
+    }
   }
 }
 
@@ -82,7 +89,6 @@ int back::getPriority(QString input) {
     switch ((char)input.at(0).cell()) {
     case '-':
     case '+':
-    case ')':
       return 1;
       break;
     case '*':
@@ -90,6 +96,7 @@ int back::getPriority(QString input) {
     case '%':
       return 2;
     case '^':
+    case ')':
     case '(':
       return 3;
     default:
@@ -146,7 +153,10 @@ void back::addFunctions(QString input) {
     } else {
       tmp += tmp_char;
       if (tmp.contains(reg_str)) {
-//        polish_stack.push_front(tmp);
+        data_t tmp_node;
+        tmp_node.num = 0;
+        tmp_node.fun = tmp;
+        polish_stack.push_front(tmp_node);
         tmp.clear();
       }
     }
@@ -181,30 +191,30 @@ double back::actionOne(double x,QString input) {
   }
 }
 
-double back::actionTwo(double x,double arg2, QString input) {
+double back::actionTwo(double arg1, double arg2, QString input) {
   switch ((char)input.at(0).cell()){
   case '+':
-   x += arg2;
+   arg1 = arg1 + arg2;
     break;
   case '-':
-   x -= arg2;
+   arg1 = arg1 - arg2;
     break;
   case '*':
-   x *= arg2;
+   arg1 = arg1 * arg2;
     break;
   case '/':
-   x /= arg2;
+   arg1 = arg1 / arg2;
     break;
   case '%':
-   x = fmod(x, arg2);
+   arg1 = fmod(arg1, arg2);
     break; 
   case '^':
-   x = pow(x, arg2);
+   arg1 = pow(arg1, arg2);
     break;
   default:
     break;
   }
-  return x;
+  return arg1;
 }
 
 double back::calculate() {
@@ -217,9 +227,9 @@ double back::calculate() {
         if (!func_stack.isEmpty()) {
             if (func_stack.last().length() == 1) {
                 if (nums_out.length() > 1) {
-                  double tmp = nums_out.last();
-                  nums_out.pop_back();
-                  nums_out.last() = actionTwo(nums_out.last(), tmp, func_stack.last());
+                  double tmp = nums_out.first();
+                  nums_out.pop_front();
+                  nums_out.first() = actionTwo(nums_out.first(), tmp, func_stack.first());
                   func_stack.pop_front();
                 }
             } else {
