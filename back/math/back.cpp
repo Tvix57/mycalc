@@ -14,7 +14,8 @@ void back::parsing(QString input) {
     int last_pos = stream.pos();
     QChar sign_char = stream.string()->at(stream.pos());
     stream >> number;
-    if (last_pos != stream.pos()) {
+    int new_pos = stream.pos();
+    if (last_pos != new_pos) {
       if (!tmp.isEmpty()) {
         addFunctions(tmp);
         tmp.clear();
