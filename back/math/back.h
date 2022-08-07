@@ -18,7 +18,7 @@ private:
       double num;
       QString fun;
   } data_t;
-  QList <data_t> polish_stack;
+  QList<data_t> polish_stack;
   QList<double *> address_x;
   void parsing(QString);
   int getPriority(QString);
@@ -27,6 +27,7 @@ private:
   void addFunctions(QString);
   double actionOne(double, QString);
   double actionTwo(double, double, QString);
+  int insertHighPriorityStack(QList<data_t>&, int);
   void polishConvertation();
 };
 

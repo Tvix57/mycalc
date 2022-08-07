@@ -33,7 +33,7 @@ TEST(calc_simple_math_test, only_number) {
   ASSERT_NEAR(r3, cp3, EPS);
 }
 
-TEST(calc_simple_math_test, only_number_v_brace) {
+TEST(calc_simple_math_test, only_number_in_brace) {
   QString test4 = "(100.456)";
   back test_b(test4);
   double r4 = test_b.calculate();

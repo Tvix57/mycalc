@@ -26,10 +26,14 @@ void back::parsing(QString input) {
           }
           addFunctions(sign_char);
       }
+
       data_t tmp_node;
       tmp_node.num = number;
       tmp_node.fun.clear();
       polish_stack.push_front(tmp_node);
+      if ((sign_char == '+' || sign_char == '-') && new_pos - last_pos == 1) {
+        polish_stack.pop_front();
+      }
     } else {
       QChar tmp_char;
       stream >> tmp_char;
@@ -45,39 +49,38 @@ void back::parsing(QString input) {
 void back::polishConvertation() {
   QList <data_t> tmp_stack;
   data_t tmp;
-  int insert_position = 0;
-  for (int i = 0; i < polish_stack.length();  i++) {
+  for (int i = polish_stack.length()-1; i >= 0;  i--) {
     tmp = polish_stack.at(i);
     if (!tmp.fun.isEmpty()) {
-
-
-        if (tmp_stack.isEmpty()) {
-            insert_position = i;
-        }
-        polish_stack.removeAt(i);
-        i--;
-        if (!tmp_stack.isEmpty() && (getPriority(tmp.fun) > getPriority(tmp_stack.last().fun))) {
-            for (;!tmp_stack.isEmpty();) {
-              if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
-                polish_stack.insert(insert_position, tmp_stack.first());
-              }
-              tmp_stack.pop_front();
-            }
-            insert_position = i+2;
-        }
-        tmp_stack.push_back(tmp);
-
+      polish_stack.removeAt(i);
+      if (!tmp_stack.isEmpty() && ((getPriority(tmp.fun) < getPriority(tmp_stack.last().fun)) || tmp_stack.last().fun == ')')) {
+//         i = i + insertHighPriorityStack(tmp_stack, i);
+           insertHighPriorityStack(tmp_stack, i);
+      }
+      tmp_stack.push_front(tmp);
     }
   }
+
+
+
+
   if (!tmp_stack.isEmpty()) {
-      for (;!tmp_stack.isEmpty();) {
-        if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
-          polish_stack.insert(insert_position, tmp_stack.first());
-        }
-        tmp_stack.pop_front();
-    }
+    insertHighPriorityStack(tmp_stack, 0);
   }
 }
+
+int back::insertHighPriorityStack(QList<data_t> &tmp_stack, int position) {
+  int insert_count = 0;
+  while (!tmp_stack.isEmpty()) {
+    if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
+      polish_stack.insert(position, tmp_stack.first());
+      insert_count++;
+    }
+    tmp_stack.pop_front();
+  }
+  return insert_count;
+}
+
 
 int back::getPriority(QString input) {
   if (input.length() > 1) {
@@ -97,8 +100,8 @@ int back::getPriority(QString input) {
     case '%':
       return 2;
     case '^':
-    case ')':
-    case '(':
+//    case ')':
+//    case '(':
       return 3;
     default:
       return 0;
