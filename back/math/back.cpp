@@ -53,16 +53,22 @@ void back::polishConvertation() {
     tmp = polish_stack.at(i);
     if (!tmp.fun.isEmpty()) {
       polish_stack.removeAt(i);
-      if (!tmp_stack.isEmpty() && ((getPriority(tmp.fun) < getPriority(tmp_stack.last().fun)) || tmp_stack.last().fun == ')')) {
-//         i = i + insertHighPriorityStack(tmp_stack, i);
+      if (!tmp_stack.isEmpty() && (getPriority(tmp.fun) < getPriority(tmp_stack.last().fun))) {
            insertHighPriorityStack(tmp_stack, i);
+      } else if (!tmp_stack.isEmpty() && tmp_stack.last().fun.contains(')')) {
+          while (!tmp_stack.isEmpty() && !tmp_stack.first().fun.contains('(')) {
+            if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
+              polish_stack.insert(i, tmp_stack.first());
+            }
+            tmp_stack.pop_front();
+          }
+          if (!tmp_stack.isEmpty()) {
+              tmp_stack.pop_front();
+          }
       }
       tmp_stack.push_front(tmp);
     }
   }
-
-
-
 
   if (!tmp_stack.isEmpty()) {
     insertHighPriorityStack(tmp_stack, 0);
@@ -100,8 +106,8 @@ int back::getPriority(QString input) {
     case '%':
       return 2;
     case '^':
-//    case ')':
-//    case '(':
+    case ')':
+    case '(':
       return 3;
     default:
       return 0;
@@ -152,6 +158,9 @@ void back::addFunctions(QString input) {
       QString tmp2 = tmp_char;
       data_t tmp_node;
       tmp_node.num = 0;
+      if (tmp2.contains('-') && polish_stack.first().fun.contains('(')) {
+          tmp2 = "unar";
+      }
       tmp_node.fun = tmp2;
       polish_stack.push_front(tmp_node);
     } else {
@@ -192,7 +201,9 @@ double back::actionOne(double x,QString input) {
     return log(x);
   } else if (input.contains("sqrt")) {
     return sqrt(x);
-  }
+  } else if (input.contains("unar")) {
+      return x*-1;
+    }
 }
 
 double back::actionTwo(double arg1, double arg2, QString input) {
