@@ -16,7 +16,6 @@ void back::parsing(QString input) {
       double number;
       stream >> number;
       int new_pos = stream.pos();
-//    if (last_pos != new_pos) {
       if (!tmp.isEmpty()) {
         addFunctions(tmp);
         tmp.clear();
@@ -253,6 +252,11 @@ double back::actionTwo(double arg1, double arg2, QString input) {
 }
 
 double back::calculate() {
+
+
+    ////////заменить порядок забора элементов на обратный
+
+
   QList<QString> func_stack;
   QList<double> nums_out;
   auto iter_stack = polish_stack.begin();
@@ -268,7 +272,7 @@ double back::calculate() {
                   func_stack.pop_front();
                 }
             } else {
-              nums_out.last() = actionOne(nums_out.last(), func_stack.first());
+              nums_out.first() = actionOne(nums_out.first(), func_stack.first());
               func_stack.pop_front();
             }
         }
@@ -288,7 +292,7 @@ double back::calculate() {
                   break;
               }
           } else {
-            nums_out.last() = actionOne(nums_out.last(), func_stack.first());
+            nums_out.first() = actionOne(nums_out.first(), func_stack.first());
             func_stack.pop_front();
           }
       }
