@@ -10,12 +10,13 @@ void back::parsing(QString input) {
   QTextStream stream(&input);
   QString tmp;
   while (!stream.atEnd()) {
-    double number;
-    int last_pos = stream.pos();
-    QChar sign_char = stream.string()->at(stream.pos());
-    stream >> number;
-    int new_pos = stream.pos();
-    if (last_pos != new_pos) {
+    if (stream.string()->at(stream.pos()).isNumber()) {
+      int last_pos = stream.pos();
+      QChar sign_char = stream.string()->at(stream.pos());
+      double number;
+      stream >> number;
+      int new_pos = stream.pos();
+//    if (last_pos != new_pos) {
       if (!tmp.isEmpty()) {
         addFunctions(tmp);
         tmp.clear();
@@ -53,9 +54,24 @@ void back::polishConvertation() {
     tmp = polish_stack.at(i);
     if (!tmp.fun.isEmpty()) {
       polish_stack.removeAt(i);
-      if (!tmp_stack.isEmpty() && (getPriority(tmp.fun) < getPriority(tmp_stack.last().fun))) {
-           insertHighPriorityStack(tmp_stack, i);
-      } else if (!tmp_stack.isEmpty() && tmp_stack.last().fun.contains(')')) {
+      //////если встретил приоритет выше //////
+      if (!tmp_stack.isEmpty() &&
+         (!tmp.fun.contains('(') && !tmp.fun.contains(')')) &&
+         ((getPriority(tmp.fun) < getPriority(tmp_stack.first().fun)) ||
+          (getPriority(tmp.fun) == getPriority(tmp_stack.first().fun)) && leftAssotiation(tmp.fun))) {
+
+          while (!tmp_stack.isEmpty() &&
+                 ((getPriority(tmp.fun) < getPriority(tmp_stack.first().fun)) ||
+                  (getPriority(tmp.fun) == getPriority(tmp_stack.first().fun)) && leftAssotiation(tmp.fun))) {
+            if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
+              polish_stack.insert(i, tmp_stack.first());
+            }
+            tmp_stack.pop_front();
+          }
+
+//////если встретил закрывающую скобку//////
+      } else if (!tmp_stack.isEmpty() &&
+                 tmp_stack.first().fun.contains(')')) {
           while (!tmp_stack.isEmpty() && !tmp_stack.first().fun.contains('(')) {
             if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
               polish_stack.insert(i, tmp_stack.first());
@@ -65,32 +81,36 @@ void back::polishConvertation() {
           if (!tmp_stack.isEmpty()) {
               tmp_stack.pop_front();
           }
+          if (!tmp_stack.isEmpty() && tmp_stack.first().fun.length() > 1) {
+              polish_stack.insert(i, tmp_stack.first());
+              tmp_stack.pop_front();
+          }
       }
       tmp_stack.push_front(tmp);
     }
   }
 
   if (!tmp_stack.isEmpty()) {
-    insertHighPriorityStack(tmp_stack, 0);
+      while (!tmp_stack.isEmpty()) {
+          if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
+            polish_stack.insert(0, tmp_stack.first());
+          }
+          tmp_stack.pop_front();
+        }
   }
 }
 
-int back::insertHighPriorityStack(QList<data_t> &tmp_stack, int position) {
-  int insert_count = 0;
-  while (!tmp_stack.isEmpty()) {
-    if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
-      polish_stack.insert(position, tmp_stack.first());
-      insert_count++;
-    }
-    tmp_stack.pop_front();
+bool back::leftAssotiation(QString input) {
+  if (input.contains('^')|| input.contains("unar")) {
+    return false;
+  } else {
+    return true;
   }
-  return insert_count;
 }
-
 
 int back::getPriority(QString input) {
   if (input.length() > 1) {
-    if (QString("asinaconatan").contains(input)) {
+    if (QString("asinaconatanunar").contains(input)) {
       return 3;
     } else {
       return 2;
@@ -106,8 +126,8 @@ int back::getPriority(QString input) {
     case '%':
       return 2;
     case '^':
-    case ')':
-    case '(':
+//    case ')':
+//    case '(':
       return 3;
     default:
       return 0;
@@ -202,7 +222,7 @@ double back::actionOne(double x,QString input) {
   } else if (input.contains("sqrt")) {
     return sqrt(x);
   } else if (input.contains("unar")) {
-      return x*-1;
+      return (x*-1);
     }
 }
 
@@ -240,7 +260,7 @@ double back::calculate() {
     if (iter_stack->fun.isEmpty()) {
       nums_out.push_back(iter_stack->num);
         if (!func_stack.isEmpty()) {
-            if (func_stack.last().length() == 1) {
+            if (func_stack.first().length() == 1) {
                 if (nums_out.length() > 1) {
                   double tmp = nums_out.first();
                   nums_out.pop_front();
@@ -248,13 +268,30 @@ double back::calculate() {
                   func_stack.pop_front();
                 }
             } else {
-              nums_out.last() = actionOne(nums_out.last(), func_stack.last());
+              nums_out.last() = actionOne(nums_out.last(), func_stack.first());
               func_stack.pop_front();
             }
         }
     } else {
         func_stack.push_front(iter_stack->fun);
     }
+  }
+  if (!func_stack.empty()) {
+      while (!func_stack.empty()) {
+          if (func_stack.first().length() == 1) {
+              if (nums_out.length() > 1) {
+                double tmp = nums_out.first();
+                nums_out.pop_front();
+                nums_out.first() = actionTwo(nums_out.first(), tmp, func_stack.first());
+                func_stack.pop_front();
+              } else {
+                  break;
+              }
+          } else {
+            nums_out.last() = actionOne(nums_out.last(), func_stack.first());
+            func_stack.pop_front();
+          }
+      }
   }
   return nums_out.last();
 }

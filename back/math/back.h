@@ -29,6 +29,7 @@ private:
   double actionTwo(double, double, QString);
   int insertHighPriorityStack(QList<data_t>&, int);
   void polishConvertation();
+  bool leftAssotiation(QString);
 };
 
 #endif //  SRC_BACK_BACK_H_
