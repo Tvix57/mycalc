@@ -419,7 +419,7 @@ TEST(calc_logic_math_test, test50) {
 
 
 TEST(calc_logic_math_test, test51) {
-  QString test25 = "-12+2.34";
+  QString test25 = "(-12+2.34";
   back test_b(test25);
   double r25 = test_b.calculate();
   double cp25 = -12 + 2.34;
@@ -954,7 +954,7 @@ TEST(calc_simple_math_test, test110) {
   QString test25 = "2)+2+2";
   back test_b(test25);
   double r25 = test_b.calculate();
-  double cp25 = 4;
+  double cp25 = 6;
   ASSERT_NEAR(r25, cp25, EPS);
 }
 

@@ -10,7 +10,7 @@ void back::parsing(QString input) {
   QTextStream stream(&input);
   QString tmp;
   while (!stream.atEnd()) {
-    if (stream.string()->at(stream.pos()).isNumber()) {
+    if (stream.string()->at(stream.pos()).isNumber() || stream.string()->at(stream.pos()).cell() == '.') {
       int last_pos = stream.pos();
       QChar sign_char = stream.string()->at(stream.pos());
       double number;
@@ -80,7 +80,7 @@ void back::polishConvertation() {
           if (!tmp_stack.isEmpty()) {
               tmp_stack.pop_front();
           }
-          if (!tmp_stack.isEmpty() && tmp_stack.first().fun.length() > 1) {
+          if (!tmp_stack.isEmpty() && (tmp_stack.first().fun.length() > 1 || tmp_stack.first().fun.contains('^')) ) {
               polish_stack.insert(i, tmp_stack.first());
               tmp_stack.pop_front();
           }
@@ -100,10 +100,18 @@ void back::polishConvertation() {
 }
 
 bool back::leftAssotiation(QString input) {
-  if (input.contains('^')|| input.contains("unar")) {
-    return false;
+  if (input.length() > 1) {
+    if (input.contains("unar")) {
+        return true;
+    }  else {
+        return false;
+    }
   } else {
-    return true;
+    if (input.contains('^'))  {
+        return false;
+    } else {
+        return true;
+    }
   }
 }
 
@@ -252,50 +260,21 @@ double back::actionTwo(double arg1, double arg2, QString input) {
 }
 
 double back::calculate() {
-
-
-    ////////заменить порядок забора элементов на обратный
-
-
-  QList<QString> func_stack;
   QList<double> nums_out;
-  auto iter_stack = polish_stack.begin();
-  for (; iter_stack != polish_stack.end(); iter_stack++) {
-    if (iter_stack->fun.isEmpty()) {
-      nums_out.push_back(iter_stack->num);
-        if (!func_stack.isEmpty()) {
-            if (func_stack.first().length() == 1) {
-                if (nums_out.length() > 1) {
-                  double tmp = nums_out.first();
-                  nums_out.pop_front();
-                  nums_out.first() = actionTwo(nums_out.first(), tmp, func_stack.first());
-                  func_stack.pop_front();
-                }
-            } else {
-              nums_out.first() = actionOne(nums_out.first(), func_stack.first());
-              func_stack.pop_front();
-            }
-        }
+  for (int i = polish_stack.length()-1; i >= 0; i--) {
+    if (polish_stack.at(i).fun.isEmpty()) {
+        nums_out.push_front(polish_stack.at(i).num);
     } else {
-        func_stack.push_front(iter_stack->fun);
+        if (polish_stack.at(i).fun.length() == 1) {
+            if (nums_out.length() > 1) {
+              double tmp = nums_out.first();
+              nums_out.pop_front();
+              nums_out.first() = actionTwo(nums_out.first(), tmp, polish_stack.at(i).fun);
+            }
+        } else {
+          nums_out.first() = actionOne(nums_out.first(), polish_stack.at(i).fun);
+        }
     }
   }
-  if (!func_stack.empty()) {
-      while (!func_stack.empty()) {
-          if (func_stack.first().length() == 1) {
-              if (nums_out.length() > 1) {
-                double tmp = nums_out.first();
-                nums_out.pop_front();
-                nums_out.first() = actionTwo(nums_out.first(), tmp, func_stack.first());
-                func_stack.pop_front();
-              } else {
-                  break;
-              }
-          } else {
-            nums_out.first() = actionOne(nums_out.first(), func_stack.first());
-            func_stack.pop_front();
-          }
-      }
-  }
-  return nums_out.last();
+  return nums_out.first();
 }
