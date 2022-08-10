@@ -264,7 +264,7 @@ TEST(calc_simple_math_test, test32) {
 
 TEST(calc_medium_math_test, test33) {
   QString test25 = "2^(3+4*5)*(2*2)+2+6/3";
-  back test_b(test25);
+  back test_b(test25); //// 2 3 4 5 * + ^ 2 2 * * 2 + 6 3 / +
   double r25 = test_b.calculate();
   double cp25 = 33554436;
   ASSERT_NEAR(r25, cp25, EPS);
@@ -338,7 +338,7 @@ TEST(calc_logic_math_test, more_unar_mins4) {
 
 
 TEST(calc_logic_math_test, more_unar_mins5) {
-  QString test25 = "(-(-(-5)))*(-(-5))";
+  QString test25 = "(-(-(-5)))*(-(-5))"; //// 5 - - - 5 - - *
   back test_b(test25);
   double r25 = test_b.calculate();
   double cp25 = -25;
@@ -347,7 +347,7 @@ TEST(calc_logic_math_test, more_unar_mins5) {
 
 
 TEST(calc_medium_math_test, test43) {
-  QString test25 = "(-2^(3+4*5)*(2*2)+2+6/3";
+  QString test25 = "(-2^(3+4*5)*(2*2)+2+6/3"; ////2 3 4 5 * + ^ 2 2 * * - 2 + 6 3 / +
   back test_b(test25);
   double r25 = test_b.calculate();
   double cp25 = -33554428;
@@ -356,7 +356,7 @@ TEST(calc_medium_math_test, test43) {
 
 
 TEST(calc_medium_math_test, test44) {
-  QString test25 = "(-2^(3+4*5)*(2*2)+2+6/3)";
+  QString test25 = "(-2^(3+4*5)*(2*2)+2+6/3)";  //// 2 3 4 5 * + ^ 2 2 * * - 2 + 6 3 / +
   back test_b(test25);
   double r25 = test_b.calculate();
   double cp25 = -33554428;
@@ -384,7 +384,7 @@ TEST(calc_simple_math_test, test46) {
 
 TEST(calc_medium_math_test, test47) {
   QString test25 = "56+21-376+(56-22)-(13+10)+(11+(7-(3+2)))";
-  back test_b(test25);
+  back test_b(test25);  /// 56 21 + 376 - 56 22 - + 13 10 + - 11 7 3 2 + - + +
   double standart = -275;
   double res = test_b.calculate();
   ASSERT_NEAR(res, standart, EPS);
@@ -519,7 +519,7 @@ TEST(calc_logic_math_test, test61) {
 
 TEST(calc_logic_math_test, test62) {
   QString test25 = "(3879294-5309583)-(3744311-2467480-4787696)-3324295";
-  back test_b(test25);
+  back test_b(test25); //// 3879294 5309583 - 3744311 2467480 - 4787696 - - 3324295 -
   double r25 = test_b.calculate();
   double cp25 = (3879294 - 5309583) - (3744311 - 2467480 - 4787696) - 3324295;
   ASSERT_NEAR(r25, cp25, EPS);
@@ -601,7 +601,7 @@ TEST(calc_hard_math_test, test70) {
 
 TEST(calc_hard_math_test, test71) {
   QString test25 = "43.1/(495.5/711.)/28.7";
-  back test_b(test25);
+  back test_b(test25);  //// 43.1 495.5 711. / / 28.7 /
   double r25 = test_b.calculate();
   double cp25 = 43.1 / (495.5 / 711.) / 28.7;
   ASSERT_NEAR(r25, cp25, EPS);
@@ -646,7 +646,7 @@ TEST(calc_medium_math_test, test75) {
 
 TEST(calc_medium_math_test, test76) {
   QString test25 = "97.66/(705.2/2619.)/59.59";
-  back test_b(test25);
+  back test_b(test25); /// 97.66 705.2 2619. / / 59.59 /
   double r25 = test_b.calculate();
   double cp25 = 97.66 / (705.2 / 2619.) / 59.59;
   ASSERT_NEAR(r25, cp25, EPS);
@@ -655,7 +655,7 @@ TEST(calc_medium_math_test, test76) {
 
 TEST(calc_medium_math_test, test77) {
   QString test25 = "97.66/(705.2/2619.)/(-59.59";
-  back test_b(test25);
+  back test_b(test25); /// "97.66/(705.2/2619.)/(-59.59
   double r25 = test_b.calculate();
   double cp25 = 97.66 / (705.2 / 2619.) / -59.59;
   ASSERT_NEAR(r25, cp25, EPS);
@@ -790,7 +790,7 @@ TEST(calc_medium_math_test, test91) {
 
 TEST(calc_medium_math_test, test92) {
   QString test25 = "17%863*(-173";
-  back test_b(test25);
+  back test_b(test25); /// 17%863 173 - *
   double r25 = test_b.calculate();
   double cp25 = 17;
   ASSERT_NEAR(r25, cp25, EPS);

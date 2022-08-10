@@ -159,14 +159,16 @@ int back::getArgs(QString input) {
   }
 }
 
-void back::addAddress(double *x) {
-  address_x.push_back(x);
+void back::addAddress(int position) {
+  position_x.push_back(position);
 }
 
-void back::replaceAllX(const double &x) {
-  auto iter = address_x.begin();
-  for (; iter != address_x.end(); iter++) {
-    **iter = x;
+void back::replaceAllX(double x) {
+  data_t new_x;
+  new_x.num = x;
+  auto iter = position_x.begin();
+  for (; iter != position_x.end(); iter++) {
+    polish_stack.replace(*iter, new_x);
   }
 }
 
@@ -179,8 +181,10 @@ void back::addFunctions(QString input) {
     QChar tmp_char;
     stream >> tmp_char;
     if (tmp_char.row() == 'X') {
-//      polish_stack.push_front(0);
-//      addAddress(&*polish_stack.begin());/// swtich on nums.end()
+      data_t tmp_node;
+      tmp_node.num = 0;
+      polish_stack.push_front(tmp_node);
+      addAddress(polish_stack.length()-1);
     } else if (two_arg_fnc.contains(tmp_char)) {
       QString tmp2 = tmp_char;
       data_t tmp_node;
