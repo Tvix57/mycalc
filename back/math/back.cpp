@@ -67,10 +67,9 @@ void back::polishConvertation() {
             }
             tmp_stack.pop_front();
           }
-
 //////если встретил закрывающую скобку//////
-      } else if (!tmp_stack.isEmpty() &&
-                 tmp_stack.first().fun.contains(')')) {
+      } else if (tmp.fun.contains(')')  &&
+                 !tmp_stack.isEmpty()) {
           while (!tmp_stack.isEmpty() && !tmp_stack.first().fun.contains('(')) {
             if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
               polish_stack.insert(i, tmp_stack.first());
@@ -84,6 +83,7 @@ void back::polishConvertation() {
               polish_stack.insert(i, tmp_stack.first());
               tmp_stack.pop_front();
           }
+          continue;
       }
       tmp_stack.push_front(tmp);
     }
