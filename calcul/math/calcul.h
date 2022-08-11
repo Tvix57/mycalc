@@ -13,6 +13,7 @@
 //#include "range_x_window.h"
 #include "graph/range_x_window.h"
 //#include "graph_window.h"
+#include "./../back/math/back.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Calcul; }
@@ -40,10 +41,8 @@ private slots:
     void on_sign_button_clicked();
     void on_lbranch_button_clicked();
     void on_rbranch_button_clicked();
-    void opti_graph(graph_window *new_graph, QString *input);
+    void get_new_data(double x, double y);
     void set_default_input();
-    double default_calc(QString input);
-    void calc_graph(graph_window *new_graph, QString *input, double start, double end, double step);
 
 private:
     Ui::Calcul *ui;
@@ -51,15 +50,26 @@ private:
     depos_window_2 *deposW;
     range_x_window *range_window;
     graph_window *new_graph;
+
+    void opti_graph(graph_window *new_graph, back &stack);
+
 };
 
-//class MyThread : public QThread
-//{
-//    Q_OBJECT
+class Worker : public QThread, public back
 
-//protected:
-//    void run();
-//};
+{
+    Q_OBJECT
+public:
+    Worker(QWidget *parent = nullptr);
+    Worker(back &);
+    void getSettings(double start_in, double end_in, double step_in);
+signals:
+    void new_coord(double x, double y);
+
+protected:
+    void run();
+    double start, end, step;
+};
 
 
 #endif // CALCUL_H

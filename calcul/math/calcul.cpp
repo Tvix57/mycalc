@@ -1,7 +1,7 @@
 #include "calcul.h"
 #include "ui_calcul.h"
 #include <QMessageBox>
-#include "./../back/math/back.h"
+#include <QThread>
 
 Calcul::Calcul(QWidget *parent)
     : QMainWindow(parent)
@@ -163,9 +163,8 @@ void Calcul::on_equal_button_clicked()
                 ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate(), 'g', 15));
                 ui->input_line->clear();
             } else {
-                /////paint grapths
                 new_graph = new graph_window();
-                opti_graph(new_graph, &input);
+                opti_graph(new_graph, calc);
                 ui->Out_lable->setText(history+"\n"+ input);
                 ui->input_line->clear();
             }
@@ -173,9 +172,7 @@ void Calcul::on_equal_button_clicked()
           ui->input_line->clear();
           ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate(), 'g', 15));
         }
-    } //else {
-        ////show error mesage
-//    }
+    }
 }
 
 void Calcul::on_backs_button_clicked()
@@ -275,59 +272,25 @@ void Calcul::on_rbranch_button_clicked()
     control_input(pres_button);
 }
 
-void Calcul::calc_graph(graph_window *new_graph, QString *input, double start, double end, double step) {
-    for(double tmp_d = start; tmp_d <= end; tmp_d+=step) {
-        QString tmp_str = *input;
-        tmp_str.replace("X", QString::number(tmp_d));
-        double y_tmp = default_calc(tmp_str);
-        bool new_grap_flag = false;
-//        if (y_tmp != y_tmp || y_tmp == INFINITY || y_tmp == -INFINITY) {
-//            new_grap_flag= true;
-//        }
-        if (tmp_d != start) {
-            if (new_graph->get_last_y() * y_tmp < 0) {
-                double potencial_break_point_x;
-//                = fabs((tmp_d-new_graph->get_last_x())/2);
-                if (tmp_d > 0) {
-                   potencial_break_point_x = tmp_d - potencial_break_point_x;
-                } else {
-                  potencial_break_point_x = tmp_d + potencial_break_point_x;
-                }
-                QString tmp_str2 = *input;
-                tmp_str2.replace("X", QString::number(potencial_break_point_x));
-                double potencial_break_point_y = default_calc(tmp_str2);
-//                if (potencial_break_point_y != potencial_break_point_y || potencial_break_point_y != 0 ||
-//                    potencial_break_point_y == INFINITY || potencial_break_point_y == -INFINITY) {
-//                new_grap_flag = true;
-//                }
-            } else {
-                new_grap_flag = false;
-            }
-        }
-        new_graph->add_data(tmp_d, y_tmp, new_grap_flag);
-    }
+void Calcul::get_new_data(double x, double y) {
+    new_graph->add_data(x,y,false);
+    new_graph->update_graph();
 }
 
-void Calcul::opti_graph(graph_window *new_graph, QString *input)
+
+
+void Calcul::opti_graph(graph_window *new_graph, back &stack)
 {
-    double range_row_x_begin = range_window->range_row_x_begin;
-    double range_row_x_end = range_window->range_row_x_end;
+    double start = range_window->range_row_x_begin;
+    double end = range_window->range_row_x_end;
     double step = range_window->step;
-//    if ( range_row_x_end - range_row_x_begin > 2 ) {
-//        double range = range_row_x_end - range_row_x_begin;
-//        double half_range = range /2;
-//        double center = range_row_x_end - half_range;
-//        calc_graph(new_graph, input, center, center+1, );
-//        calc_graph(new_graph, input, center-1, center);
-//        new_graph->update_graph();
-//        new_graph->show();
-//        QThread *r_tread = new MyThread();
-//        r_tread->start(1);
-//    } else {
-        calc_graph(new_graph, input, range_row_x_begin, range_row_x_end, step);
-        new_graph->update_graph();
-        new_graph->show();
-//    }
+    new_graph->show();
+    QThread *thread1 = new QThread;
+    Worker *work = new Worker(stack);
+    work->getSettings(start, end, step);
+    connect(work,SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
+    work->moveToThread(thread1);
+    thread1->start();
 }
 
 void Calcul::set_default_input()
@@ -342,13 +305,23 @@ void Calcul::set_default_input()
     ui->buttonGroup_num->blockSignals(false);
 }
 
-double Calcul::default_calc(QString input)
+Worker::Worker(back & core) : Worker()
 {
-//    return main_calc(arr_tmp);
+    polish_stack = core.setStack();
+    position_x = core.setPositions();
 }
-//void MyThread::run()
-//{
-//    calc_graph(new_graph, input, center, center+1);
-//    center +=1;
-//    new_graph->update_graph();
-//}
+
+void Worker::getSettings(double start_in, double end_in, double step_in)
+{
+    start = start_in;
+    end = end_in;
+    step = step_in;
+}
+void Worker::run()
+{
+    for(; start < end; start += step) {
+        replaceAllX(start);
+        double y = calculate();
+        emit new_coord(start, y);
+    }
+}

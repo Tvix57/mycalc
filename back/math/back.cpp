@@ -133,8 +133,6 @@ int back::getPriority(QString input) {
     case '%':
       return 2;
     case '^':
-//    case ')':
-//    case '(':
       return 3;
     default:
       return 0;
@@ -281,4 +279,12 @@ double back::calculate() {
     }
   }
   return nums_out.first();
+}
+
+
+QList<back::data_t> back::setStack() {
+    return polish_stack;
+}
+QList<int> back::setPositions() {
+    return position_x;
 }

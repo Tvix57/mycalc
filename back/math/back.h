@@ -13,7 +13,7 @@ public:
   void replaceAllX(double x);
   double calculate();
 
-private:
+protected:
   typedef struct data {
       double num;
       QString fun;
@@ -30,6 +30,9 @@ private:
   int insertHighPriorityStack(QList<data_t>&, int);
   void polishConvertation();
   bool leftAssotiation(QString);
+public:
+  QList<data_t> setStack();
+  QList<int> setPositions();
 };
 
 #endif //  SRC_BACK_BACK_H_
