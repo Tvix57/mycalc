@@ -60,14 +60,14 @@ class Worker : public QThread, public back
 {
     Q_OBJECT
 public:
-    Worker(QWidget *parent = nullptr);
-    Worker(back &);
-    void getSettings(double start_in, double end_in, double step_in);
+//    Worker();
+//    Worker(back &);
+    void getSettings(double start_in, double end_in, double step_in, back &data);
 signals:
     void new_coord(double x, double y);
 
 protected:
-    void run();
+    void run() override;
     double start, end, step;
 };
 

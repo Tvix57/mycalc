@@ -20,7 +20,6 @@ SOURCES += \
     main.cpp \
     math/calcul.cpp \
     graph/range_x_window.cpp \
-    ../back/math/stack_func.cpp
 
 HEADERS += \
     ../back/math/back.h \
@@ -33,7 +32,6 @@ HEADERS += \
     depos/depos_window_2.h \
     graph/graph_window.h \
     graph/range_x_window.h \
-    ../back/math/stack_func.h
 
 FORMS += \
     depos/add_date.ui \
