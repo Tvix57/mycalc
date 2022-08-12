@@ -4,15 +4,12 @@
 #include <QRegularExpression>
 #include <QMainWindow>
 #include <QThread>
-#include "credit/credit_window.h"
-//#include "credit_window.h"
-#include "depos/depos_window_2.h"
-//#include "depos_window_2.h"
 #include <QButtonGroup>
+
+#include "credit/credit_window.h"
+#include "depos/depos_window_2.h"
 #include "graph/graph_window.h"
-//#include "range_x_window.h"
 #include "graph/range_x_window.h"
-//#include "graph_window.h"
 #include "./../back/math/back.h"
 
 QT_BEGIN_NAMESPACE
@@ -55,21 +52,20 @@ private:
 
 };
 
-class Worker : public QThread, public back
+//class Worker : public QThread, public back
 
-{
-    Q_OBJECT
-public:
+//{
+//    Q_OBJECT
+//public:
 //    Worker();
-//    Worker(back &);
-    void getSettings(double start_in, double end_in, double step_in, back &data);
-signals:
-    void new_coord(double x, double y);
+//    void getSettings(double start_in, double end_in, double step_in, back &data);
+//signals:
+//    void new_coord(double x, double y);
 
-protected:
-    void run() override;
-    double start, end, step;
-};
+//protected:
+//    void run() override;
+//    double start, end, step;
+//};
 
 
 #endif // CALCUL_H

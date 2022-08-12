@@ -46,12 +46,20 @@ void back::parsing(QString input) {
   }
 }
 
+void back::newIndexofX(int i) {
+    for (auto iter = position_x.begin(); iter != position_x.end(); iter++) {
+        if (i < *iter) {
+            *iter = *iter--;
+        }
+    }
+}
+
 void back::polishConvertation() {
   QList <data_t> tmp_stack;
   data_t tmp;
   for (int i = polish_stack.length()-1; i >= 0;  i--) {
     tmp = polish_stack.at(i);
-    if (!tmp.fun.isEmpty()) {
+    if (!tmp.fun.isEmpty() && !tmp.fun.contains('X')) {
       polish_stack.removeAt(i);
       //////если встретил приоритет выше //////
       if (!tmp_stack.isEmpty() &&
@@ -86,7 +94,12 @@ void back::polishConvertation() {
           continue;
       }
       tmp_stack.push_front(tmp);
+    } else {
+        if (tmp.fun.contains('X')) {
+
+        }
     }
+
   }
 
   if (!tmp_stack.isEmpty()) {
@@ -158,7 +171,7 @@ int back::getArgs(QString input) {
 }
 
 void back::addAddress(int position) {
-  position_x.push_back(position);
+  position_x.push_front(position);
 }
 
 void back::replaceAllX(double x) {
@@ -178,11 +191,12 @@ void back::addFunctions(QString input) {
   while (!stream.atEnd()) {
     QChar tmp_char;
     stream >> tmp_char;
-    if (tmp_char.row() == 'X') {
+    if (tmp_char.cell() == 'X') {
       data_t tmp_node;
       tmp_node.num = 0;
+      tmp_node.fun = tmp_char;
       polish_stack.push_front(tmp_node);
-      addAddress(polish_stack.length()-1);
+//      addAddress(polish_stack.length()-1);
     } else if (two_arg_fnc.contains(tmp_char)) {
       QString tmp2 = tmp_char;
       data_t tmp_node;

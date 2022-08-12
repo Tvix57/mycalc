@@ -30,6 +30,7 @@ protected:
   int insertHighPriorityStack(QList<data_t>&, int);
   void polishConvertation();
   bool leftAssotiation(QString);
+  void newIndexofX(int);
 public:
   QList<data_t> setStack();
   QList<int> setPositions();
