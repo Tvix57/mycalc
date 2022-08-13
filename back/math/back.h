@@ -1,6 +1,5 @@
 #ifndef SRC_BACK_BACK_H_
 #define SRC_BACK_BACK_H_
-
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
 #include <QtCore/QRegularExpression>
@@ -9,6 +8,7 @@
 class back
 {
 public:
+  back();
   back(QString input);
   void replaceAllX(double x);
   double calculate();
@@ -32,8 +32,8 @@ protected:
   bool leftAssotiation(QString);
   void newIndexofX(int);
 public:
-  QList<data_t> setStack();
-  QList<int> setPositions();
+  QList<data_t> getStack();
+  QList<int> getPositions();
 };
 
 #endif //  SRC_BACK_BACK_H_

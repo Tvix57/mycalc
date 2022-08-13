@@ -298,9 +298,9 @@ double back::calculate() {
 }
 
 
-QList<back::data_t> back::setStack() {
+QList<back::data_t> back::getStack() {
     return polish_stack;
 }
-QList<int> back::setPositions() {
+QList<int> back::getPositions() {
     return position_x;
 }

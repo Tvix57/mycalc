@@ -1,5 +1,7 @@
 #include "calcul.h"
 #include "ui_calcul.h"
+#include "worker.h"
+
 #include <QMessageBox>
 #include <QThread>
 
@@ -284,11 +286,14 @@ void Calcul::opti_graph(graph_window *new_graph, back &stack)
     double step = range_window->step;
     new_graph->show();
     QThread *thread1 = new QThread;
-    Worker work;
-    work.getSettings(start, end, step, stack);
-//    connect(&work,SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
-//    work.moveToThread(thread1);
-//    thread1->start();
+    worker * work = new worker();
+//    Worker * work = new Worker(stack);
+
+    work->getSettings(start, end, step, stack);
+    connect(work, SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
+    connect(thread1, SIGNAL(started()), work, SLOT(run()));
+    work->moveToThread(thread1);
+    thread1->start();
 }
 
 void Calcul::set_default_input()
@@ -303,19 +308,5 @@ void Calcul::set_default_input()
     ui->buttonGroup_num->blockSignals(false);
 }
 
-void Worker::getSettings(double start_in, double end_in, double step_in, back &data)
-{
-    start = start_in;
-    end = end_in;
-    step = step_in;
-    polish_stack = data.setStack();
-    position_x = data.setPositions();
-}
-//void Worker::run()
-//{
-//    for(; start < end; start += step) {
-//        replaceAllX(start);
-//        double y = calculate();
-//        emit new_coord(start, y);
-//    }
-//}
+
+

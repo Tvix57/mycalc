@@ -23,8 +23,8 @@ class Calcul : public QMainWindow
 public:
     Calcul(QWidget *parent = nullptr);
     ~Calcul();
-private slots:
 
+private slots:
     void digits_end_fnc_but(QAbstractButton *pres_button);
     void control_input(QAbstractButton *pres_button);
     void on_C_button_clicked();
@@ -51,19 +51,5 @@ private:
     void opti_graph(graph_window *new_graph, back &stack);
 
 };
-
-class Worker : public QObject, public back
-{
-    Q_OBJECT
-public:
-    Worker();
-    void getSettings(double start_in, double end_in, double step_in, back & data);
-signals:
-    void new_coord(double x, double y);
-
-protected:
-    double start, end, step;
-};
-
 
 #endif // CALCUL_H
