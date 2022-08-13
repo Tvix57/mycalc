@@ -13,7 +13,7 @@
 #include "./../back/math/back.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class Calcul; }
+namespace Ui { class Calcul;}
 QT_END_NAMESPACE
 
 class Calcul : public QMainWindow
@@ -52,20 +52,18 @@ private:
 
 };
 
-//class Worker : public QThread, public back
+class Worker : public QObject, public back
+{
+    Q_OBJECT
+public:
+    Worker();
+    void getSettings(double start_in, double end_in, double step_in, back & data);
+signals:
+    void new_coord(double x, double y);
 
-//{
-//    Q_OBJECT
-//public:
-//    Worker();
-//    void getSettings(double start_in, double end_in, double step_in, back &data);
-//signals:
-//    void new_coord(double x, double y);
-
-//protected:
-//    void run() override;
-//    double start, end, step;
-//};
+protected:
+    double start, end, step;
+};
 
 
 #endif // CALCUL_H

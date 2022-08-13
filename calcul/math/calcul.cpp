@@ -277,8 +277,6 @@ void Calcul::get_new_data(double x, double y) {
     new_graph->update_graph();
 }
 
-
-
 void Calcul::opti_graph(graph_window *new_graph, back &stack)
 {
     double start = range_window->range_row_x_begin;
@@ -286,8 +284,8 @@ void Calcul::opti_graph(graph_window *new_graph, back &stack)
     double step = range_window->step;
     new_graph->show();
     QThread *thread1 = new QThread;
-//    Worker work;
-//    work.getSettings(start, end, step, stack);
+    Worker work;
+    work.getSettings(start, end, step, stack);
 //    connect(&work,SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
 //    work.moveToThread(thread1);
 //    thread1->start();
@@ -305,14 +303,14 @@ void Calcul::set_default_input()
     ui->buttonGroup_num->blockSignals(false);
 }
 
-//void Worker::getSettings(double start_in, double end_in, double step_in, back &data)
-//{
-//    start = start_in;
-//    end = end_in;
-//    step = step_in;
-//    polish_stack = data.setStack();
-//    position_x = data.setPositions();
-//}
+void Worker::getSettings(double start_in, double end_in, double step_in, back &data)
+{
+    start = start_in;
+    end = end_in;
+    step = step_in;
+    polish_stack = data.setStack();
+    position_x = data.setPositions();
+}
 //void Worker::run()
 //{
 //    for(; start < end; start += step) {
