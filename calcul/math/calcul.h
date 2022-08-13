@@ -10,7 +10,9 @@
 #include "depos/depos_window_2.h"
 #include "graph/graph_window.h"
 #include "graph/range_x_window.h"
-#include "./../back/math/back.h"
+
+#include "worker.h"
+//#include "./../back/math/back.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Calcul;}

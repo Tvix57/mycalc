@@ -1,6 +1,6 @@
 #include "calcul.h"
 #include "ui_calcul.h"
-#include "worker.h"
+
 
 #include <QMessageBox>
 #include <QThread>
@@ -287,7 +287,6 @@ void Calcul::opti_graph(graph_window *new_graph, back &stack)
     new_graph->show();
     QThread *thread1 = new QThread;
     worker * work = new worker();
-//    Worker * work = new Worker(stack);
 
     work->getSettings(start, end, step, stack);
     connect(work, SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
