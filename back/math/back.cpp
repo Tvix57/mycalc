@@ -96,7 +96,9 @@ void back::polishConvertation() {
       tmp_stack.push_front(tmp);
     } else {
         if (tmp.fun.contains('X')) {
-
+            tmp.fun.clear();
+            polish_stack.replace(i,tmp);
+            position_x.push_front(i+tmp_stack.length());
         }
     }
 
