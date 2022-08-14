@@ -1,4 +1,5 @@
 #include "tst_math_test.h"
+#include "tst_replace_test.h"
 
 #include <gtest/gtest.h>
 

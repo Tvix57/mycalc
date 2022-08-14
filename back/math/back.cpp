@@ -198,7 +198,6 @@ void back::addFunctions(QString input) {
       tmp_node.num = 0;
       tmp_node.fun = tmp_char;
       polish_stack.push_front(tmp_node);
-//      addAddress(polish_stack.length()-1);
     } else if (two_arg_fnc.contains(tmp_char)) {
       QString tmp2 = tmp_char;
       data_t tmp_node;

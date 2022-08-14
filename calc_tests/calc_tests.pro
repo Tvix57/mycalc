@@ -12,7 +12,8 @@ HEADERS += \
         ../back/depos/debit_calc.h \
         tst_credit_test.h \
         tst_depos_test.h \
-        tst_math_test.h
+        tst_math_test.h \
+        tst_replace_test.h
 
 SOURCES += \
         ../back/math/back.cpp \
