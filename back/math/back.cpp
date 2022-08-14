@@ -297,10 +297,15 @@ double back::calculate() {
   return nums_out.first();
 }
 
-
-QList<back::data_t> back::getStack() {
-    return polish_stack;
+void back::setRange(double start, double end, double step) {
+    this->start = start;
+    this->end = end;
+    this->step = step;
 }
-QList<int> back::getPositions() {
-    return position_x;
+
+void back::calculateGraph() {
+    for (;start<end; start += step) {
+        replaceAllX(start);
+        emit new_coord(start, calculate());
+    }
 }

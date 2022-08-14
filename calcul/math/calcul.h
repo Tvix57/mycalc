@@ -11,8 +11,7 @@
 #include "graph/graph_window.h"
 #include "graph/range_x_window.h"
 
-#include "worker.h"
-//#include "./../back/math/back.h"
+#include "./../back/math/back.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Calcul;}

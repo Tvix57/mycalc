@@ -4,6 +4,7 @@
 
 #include <QMessageBox>
 #include <QThread>
+#include <QTimer>
 
 Calcul::Calcul(QWidget *parent)
     : QMainWindow(parent)
@@ -276,23 +277,23 @@ void Calcul::on_rbranch_button_clicked()
 
 void Calcul::get_new_data(double x, double y) {
     new_graph->add_data(x,y,false);
-    new_graph->update_graph();
 }
 
 void Calcul::opti_graph(graph_window *new_graph, back &stack)
 {
-    double start = range_window->range_row_x_begin;
-    double end = range_window->range_row_x_end;
-    double step = range_window->step;
-    new_graph->show();
     QThread *thread1 = new QThread;
-    worker * work = new worker();
-
-    work->getSettings(start, end, step, stack);
-    connect(work, SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
-    connect(thread1, SIGNAL(started()), work, SLOT(run()));
-    work->moveToThread(thread1);
+    QTimer *time = new QTimer;
+    stack.setRange(range_window->range_row_x_begin,
+                   range_window->range_row_x_end,
+                   range_window->step);
+    connect(&stack, SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
+    connect(thread1, SIGNAL(started()), &stack, SLOT(calculateGraph()));
+    connect(time, SIGNAL(timeout()), new_graph, SLOT(update_graph()));
+    connect(thread1, SIGNAL(finished()), time, SLOT(stop()));
+    stack.moveToThread(thread1);
     thread1->start();
+    time->start(1000);
+    new_graph->show();
 }
 
 void Calcul::set_default_input()

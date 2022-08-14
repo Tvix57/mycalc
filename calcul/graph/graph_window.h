@@ -17,12 +17,12 @@ public:
     explicit graph_window(QWidget *parent = nullptr);
     ~graph_window();
     void add_data(double x_out, double y_out, bool new_grap_flag);
-    void update_graph();
+
     double get_last_y();
     double get_last_x();
 
-private slots:
-
+public slots:
+    void update_graph();
 
 private:
     Ui::graph_window *ui;
