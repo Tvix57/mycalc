@@ -2,6 +2,9 @@
 #include <cmath>
 
 back::back(QString input) {
+    start = 0;
+    end = 0;
+    step = 0;
     parsing(input);
     polishConvertation();
 }
@@ -46,6 +49,18 @@ void back::parsing(QString input) {
   }
 }
 
+void back::addAllIndex() {
+    for(auto i = position_x.begin(); i != position_x.end(); i++) {
+        *i = *i+1;
+    }
+}
+
+void back::subAllIndex() {
+    for(auto i = position_x.begin(); i != position_x.end(); i++) {
+        *i = *i-1;
+    }
+}
+
 void back::polishConvertation() {
   QList <data_t> tmp_stack;
   data_t tmp;
@@ -53,6 +68,10 @@ void back::polishConvertation() {
     tmp = polish_stack.at(i);
     if (!tmp.fun.isEmpty() && !tmp.fun.contains('X')) {
       polish_stack.removeAt(i);
+      if (!position_x.empty()) {
+          subAllIndex();
+      }
+
       //////если встретил приоритет выше //////
       if (!tmp_stack.isEmpty() &&
          (!tmp.fun.contains('(') && !tmp.fun.contains(')')) &&
@@ -64,6 +83,9 @@ void back::polishConvertation() {
                   (getPriority(tmp.fun) == getPriority(tmp_stack.first().fun)) && leftAssotiation(tmp.fun))) {
             if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
               polish_stack.insert(i, tmp_stack.first());
+            if (!position_x.empty()) {
+              addAllIndex();
+            }
             }
             tmp_stack.pop_front();
           }
@@ -73,6 +95,9 @@ void back::polishConvertation() {
           while (!tmp_stack.isEmpty() && !tmp_stack.first().fun.contains('(')) {
             if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
               polish_stack.insert(i, tmp_stack.first());
+            if (!position_x.empty()) {
+              addAllIndex();
+            }
             }
             tmp_stack.pop_front();
           }
@@ -81,6 +106,9 @@ void back::polishConvertation() {
           }
           if (!tmp_stack.isEmpty() && (tmp_stack.first().fun.length() > 1 || tmp_stack.first().fun.contains('^')) ) {
               polish_stack.insert(i, tmp_stack.first());
+                if (!position_x.empty()) {
+                    addAllIndex();
+                }
               tmp_stack.pop_front();
           }
           continue;
@@ -90,13 +118,7 @@ void back::polishConvertation() {
         if (tmp.fun.contains('X')) {
             tmp.fun.clear();
             polish_stack.replace(i,tmp);
-            int position = i;
-            for(auto iter = tmp_stack.begin(); iter != tmp_stack.end(); iter++) {
-                if (!iter->fun.contains("(") && !iter->fun.contains(")")) {
-                    position++;
-                }
-            }
-            position_x.push_front(position);
+            position_x.push_front(i);
         }
     }
   }
@@ -105,6 +127,9 @@ void back::polishConvertation() {
       while (!tmp_stack.isEmpty()) {
           if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
             polish_stack.insert(0, tmp_stack.first());
+            if (!position_x.empty()) {
+            addAllIndex();
+            }
           }
           tmp_stack.pop_front();
         }
@@ -300,7 +325,7 @@ void back::setRange(double start, double end, double step) {
 }
 
 void back::calculateGraph() {
-    for (;start<end; start += step) {
+    for (; start<end; start += step) {
         replaceAllX(start);
         emit new_coord(start, calculate());
     }

@@ -6,12 +6,12 @@ range_x_window::range_x_window(QWidget *parent) :
     ui(new Ui::range_x_window)
 {
     ui->setupUi(this);
-    range_row_x_begin = 0;
-    range_row_x_end = 10;
-    range_row_x_end = 0.00001;
-    ui->start_doubleSpinBox->setValue(range_row_x_begin);
-    ui->end_doubleSpinBox->setValue(range_row_x_end);
-    ui->doubleSpinBox->setValue(step);
+//    range_row_x_begin = 0;
+//    range_row_x_end = 10;
+//    step = 0.00001;
+//    ui->start_doubleSpinBox->setValue(range_row_x_begin);
+//    ui->end_doubleSpinBox->setValue(range_row_x_end);
+//    ui->doubleSpinBox->setValue(step);
 }
 
 range_x_window::~range_x_window()

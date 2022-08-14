@@ -8,8 +8,8 @@ graph_window::graph_window(QWidget *parent) :
     ui(new Ui::graph_window)
 {
     ui->setupUi(this);
-    ui->widget->xAxis->setRange(-100, 100);
-    ui->widget->yAxis->setRange(-100, 100);
+    ui->widget->xAxis->setRange(-1000000, 1000000);
+    ui->widget->yAxis->setRange(-1000000, 1000000);
     conut_graph = 0;
     connect(ui->widget->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->widget->xAxis2, SLOT(setRange(QCPRange)));
     connect(ui->widget->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->widget->yAxis2, SLOT(setRange(QCPRange)));
@@ -17,7 +17,6 @@ graph_window::graph_window(QWidget *parent) :
     ui->widget->setMouseTracking(true);
     ui->widget->setInteraction(QCP::iRangeZoom, true);
     ui->widget->setInteraction(QCP::iRangeDrag, true);
-
 }
 
 graph_window::~graph_window()

@@ -22,6 +22,7 @@ private:
   } data_t;
   QList<data_t> polish_stack;
   QList<int> position_x;
+  double start, end, step;
 
   void parsing(QString);
   int getPriority(QString);
@@ -33,8 +34,8 @@ private:
   int insertHighPriorityStack(QList<data_t>&, int);
   void polishConvertation();
   bool leftAssotiation(QString);
-
-  double start, end, step;
+  void addAllIndex();
+  void subAllIndex();
 
 public slots:
   void calculateGraph();
