@@ -46,14 +46,6 @@ void back::parsing(QString input) {
   }
 }
 
-void back::newIndexofX(int i) {
-    for (auto iter = position_x.begin(); iter != position_x.end(); iter++) {
-        if (i < *iter) {
-            *iter = *iter--;
-        }
-    }
-}
-
 void back::polishConvertation() {
   QList <data_t> tmp_stack;
   data_t tmp;
@@ -98,10 +90,15 @@ void back::polishConvertation() {
         if (tmp.fun.contains('X')) {
             tmp.fun.clear();
             polish_stack.replace(i,tmp);
-            position_x.push_front(i+tmp_stack.length());
+            int position = i;
+            for(auto iter = tmp_stack.begin(); iter != tmp_stack.end(); iter++) {
+                if (!iter->fun.contains("(") && !iter->fun.contains(")")) {
+                    position++;
+                }
+            }
+            position_x.push_front(position);
         }
     }
-
   }
 
   if (!tmp_stack.isEmpty()) {

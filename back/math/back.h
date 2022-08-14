@@ -33,7 +33,6 @@ private:
   int insertHighPriorityStack(QList<data_t>&, int);
   void polishConvertation();
   bool leftAssotiation(QString);
-  void newIndexofX(int);
 
   double start, end, step;
 
