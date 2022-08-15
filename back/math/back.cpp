@@ -302,8 +302,9 @@ void back::setRange(double start, double end, double step) {
 }
 
 void back::calculateGraph() {
-    for (; start<end; start += step) {
+    for (; start <= end; start += step) {
         replaceAllX(start);
-        emit new_coord(start, calculate());
+        double y = calculate();
+        emit new_coord(start, y);
     }
 }

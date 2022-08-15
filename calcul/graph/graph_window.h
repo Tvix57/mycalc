@@ -23,7 +23,7 @@ public:
 
 public slots:
     void update_graph();
-
+    void addData(double, double);
 private:
     Ui::graph_window *ui;
     QVector<double> x,y;

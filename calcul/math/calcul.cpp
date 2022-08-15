@@ -159,12 +159,13 @@ void Calcul::on_equal_button_clicked()
     QRegularExpression reg ("(([0-9]|[0-9]+['.']|['.'][0-9]+)|['X'])[)]*$");
     if (input.contains(reg)) {
         set_default_input();
-        back calc(input);
+        back *calc = new back(input);
         if (input.contains("X")) {
             if (range_window->range_row_x_begin == range_window->range_row_x_end) {
-                calc.replaceAllX(range_window->range_row_x_begin);
-                ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate(), 'g', 15));
+                calc->replaceAllX(range_window->range_row_x_begin);
+                ui->Out_lable->setText(history+"\n"+ QString::number(calc->calculate(), 'g', 15));
                 ui->input_line->clear();
+                calc->deleteLater();
             } else {
                 new_graph = new graph_window();
                 opti_graph(new_graph, calc);
@@ -173,7 +174,8 @@ void Calcul::on_equal_button_clicked()
             }
         } else {
           ui->input_line->clear();
-          ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate(), 'g', 15));
+          ui->Out_lable->setText(history+"\n"+ QString::number(calc->calculate(), 'g', 15));
+          calc->deleteLater();
         }
     }
 }
@@ -279,20 +281,25 @@ void Calcul::get_new_data(double x, double y) {
     new_graph->add_data(x,y,false);
 }
 
-void Calcul::opti_graph(graph_window *new_graph, back &stack)
+void Calcul::opti_graph(graph_window *new_graph, back *stack)
 {
     QThread *thread1 = new QThread;
     QTimer *time = new QTimer;
-    stack.setRange(range_window->range_row_x_begin,
+    stack->setRange(range_window->range_row_x_begin,
                    range_window->range_row_x_end,
                    range_window->step);
-    connect(&stack, SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
-    connect(thread1, SIGNAL(started()), &stack, SLOT(calculateGraph()));
+//    connect(stack, SIGNAL(new_coord(double, double)) , new_graph, SLOT(addData(double, double)));
+    connect(stack, SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
+    connect(thread1, SIGNAL(started()), stack, SLOT(calculateGraph()));
     connect(time, SIGNAL(timeout()), new_graph, SLOT(update_graph()));
     connect(thread1, SIGNAL(finished()), time, SLOT(stop()));
-    stack.moveToThread(thread1);
-    thread1->start();
-    time->start(1000);
+    connect(thread1, SIGNAL(finished()), stack, SLOT(deleteLater()));
+    connect(thread1, SIGNAL(finished()), time, SLOT(deleteLater()));
+    connect(thread1, SIGNAL(finished()), thread1, SLOT(deleteLater()));
+    stack->moveToThread(thread1);
+
+    thread1->start(QThread::NormalPriority);
+    time->start(100);
     new_graph->show();
 }
 

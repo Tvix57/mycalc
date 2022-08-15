@@ -41,7 +41,6 @@ public slots:
 
 signals:
   void new_coord(double x, double y);
-
 };
 
 #endif //  SRC_BACK_BACK_H_
