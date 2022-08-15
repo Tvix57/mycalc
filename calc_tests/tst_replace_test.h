@@ -487,7 +487,7 @@ TEST(X_hard_math_test, test67) {
   test_b.replaceAllX(-25.9655);
   double r25 = test_b.calculate();
   double cp25 = -25.9655 * -(-626.93 * 508.657) * (-25.9655 * 400.162);
-  ASSERT_NEAR(r25, cp25, EPS);
+  ASSERT_DOUBLE_EQ(r25, cp25);
 }
 
 

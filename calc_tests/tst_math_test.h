@@ -792,7 +792,7 @@ TEST(calc_medium_math_test, test92) {
   QString test25 = "17%863*(-173";
   back test_b(test25); /// 17 863 173 unar * %
   double r25 = test_b.calculate();
-  double cp25 = 17;
+  double cp25 = -2941;
   ASSERT_NEAR(r25, cp25, EPS);
 }
 

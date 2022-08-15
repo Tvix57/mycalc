@@ -26,7 +26,6 @@ private:
 
   void parsing(QString);
   int getPriority(QString);
-  int getArgs(QString );
   void addAddress(int);
   void addFunctions(QString);
   double actionOne(double, QString);

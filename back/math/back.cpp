@@ -29,7 +29,6 @@ void back::parsing(QString input) {
           }
           addFunctions(sign_char);
       }
-
       data_t tmp_node;
       tmp_node.num = number;
       tmp_node.fun.clear();
@@ -71,7 +70,6 @@ void back::polishConvertation() {
       if (!position_x.empty()) {
           subAllIndex();
       }
-
       //////если встретил приоритет выше //////
       if (!tmp_stack.isEmpty() &&
          (!tmp.fun.contains('(') && !tmp.fun.contains(')')) &&
@@ -122,7 +120,6 @@ void back::polishConvertation() {
         }
     }
   }
-
   if (!tmp_stack.isEmpty()) {
       while (!tmp_stack.isEmpty()) {
           if (!(tmp_stack.first().fun.contains('(') || tmp_stack.first().fun.contains(')'))) {
@@ -132,17 +129,13 @@ void back::polishConvertation() {
             }
           }
           tmp_stack.pop_front();
-        }
+      }
   }
 }
 
 bool back::leftAssotiation(QString input) {
   if (input.length() > 1) {
-    if (input.contains("unar")) {
-        return true;
-    }  else {
         return false;
-    }
   } else {
     if (input.contains('^'))  {
         return false;
@@ -175,22 +168,6 @@ int back::getPriority(QString input) {
       return 0;
       break;
     }
-  }
-}
-
-int back::getArgs(QString input) {
-  switch ((char)input.at(0).cell()) {
-    case '-':
-    case '+':
-    case '*':
-    case '/':
-    case '%':
-    case '^':
-      return 2;
-      break;
-    default:
-      return 1;
-      break;
   }
 }
 
