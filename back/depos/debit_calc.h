@@ -1,6 +1,7 @@
 #ifndef DEBIT_CALC_H
 #define DEBIT_CALC_H
 #include <QDate>
+#include <QSet>
 
 class Debit_calc
 {
@@ -13,11 +14,12 @@ public:
     double get_summ_on_bill() {return summ_on_bill;}
     double get_nalog() {return nalog;}
     double get_profit() {return profit;}
-
-    void set_start_date(QDate date);
-
+    void calculateNOcapit();
+    void calculate(int);
+    void getNewAddition(QDate, double);
 private:
     QDate start_date, end_date;
+    QSet <double> addition_list;
     double summ, proc, nalog;
 
     double summ_on_bill;

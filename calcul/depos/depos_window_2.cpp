@@ -19,7 +19,6 @@ depos_window_2::depos_window_2(QWidget *parent) :
     connect(ui->capit_checkBox, SIGNAL(clicked(bool)), this, SLOT(hide_capit_period(bool)));
 }
 
-
 depos_window_2::~depos_window_2()
 {
     delete ui;
@@ -38,9 +37,6 @@ void depos_window_2::on_main_calc_buttom_triggered()
 }
 
 void depos_window_2::on_calc_pushButton_clicked() {
-//    if (check_all_field()) {
-//        QDialog error_msg = new QDialog()
-//    } else {
     int period = ui->spinBox_day->value();
     double summ = ui->doubleSpinBox_summ->value();
     double proc = ui->proc_doubleSpinBox->value();
@@ -60,38 +56,23 @@ void depos_window_2::on_calc_pushButton_clicked() {
         break;
     }
     Debit_calc calc(summ, proc, nalog, start_date, end_date);
-    if (!ui->capit_checkBox->isChecked()) {
-
-    } else {
-    switch (ui->comboBox->currentIndex()) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            default:
-                break;
+    if (widg_count > 0) {
+        for (int i = 1; i <= widg_count; i++) {
+            QWidget *tmp_widget = addition->itemAtPosition(i, 0)->widget();
+            QList <QDateEdit*> list = tmp_widget->findChildren<QDateEdit*>("date_addition_form");
+            QList <QDoubleSpinBox*> list2 = tmp_widget->findChildren<QDoubleSpinBox*>("summ_addition_form");
+            QList <QComboBox*> list3 = tmp_widget->findChildren<QComboBox*>("type_addition_form");
+            double add = list2[0]->value();
+            if (list3[0]->currentIndex() == 1) {
+                add *=-1;
             }
+            calc.getNewAddition(list[0]->date(), add);
         }
-
-        if (widg_count > 0) {
-
-            for (int i = 1; i <= widg_count; i++) {
-                QWidget *tmp_widget = addition->itemAtPosition(i, 0)->widget();
-
-                QList <QDateEdit*> list = tmp_widget->findChildren<QDateEdit*>("date_addition_form");
-                QList <QDoubleSpinBox*> list2 = tmp_widget->findChildren<QDoubleSpinBox*>("summ_addition_form");
-                QList <QComboBox*> list3 = tmp_widget->findChildren<QComboBox*>("type_addition_form");
-             }
+    }
+    if (!ui->capit_checkBox->isChecked()) {
+      calc.calculateNOcapit();
+    } else {
+      calc.calculate(ui->comboBox->currentIndex());
     }
     ui->label_summ_out->setText(QString::number(calc.get_profit(), 'f', 2));
     ui->label_nalog_out->setText(QString::number(calc.get_nalog(), 'f', 2));

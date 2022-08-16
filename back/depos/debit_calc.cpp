@@ -22,3 +22,10 @@ void Debit_calc::add_summ_on_bill(double addition)
     summ_on_bill += addition;
 }
 
+void Debit_calc::calculateNOcapit() {
+
+}
+
+void Debit_calc::calculate(int preiod) {
+
+}
