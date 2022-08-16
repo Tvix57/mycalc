@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QThread>
 #include <QTimer>
+#include <QScrollArea>
 
 Calcul::Calcul(QWidget *parent)
     : QMainWindow(parent)
@@ -28,6 +29,7 @@ Calcul::Calcul(QWidget *parent)
     connect(ui->buttonGroup_fnc_twoarg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(control_input(QAbstractButton *)));
     set_default_input();
     ui->scrollArea->setWidget(ui->Out_lable);
+
 }
 
 Calcul::~Calcul()
@@ -166,6 +168,8 @@ void Calcul::on_equal_button_clicked()
                 ui->Out_lable->setText(history+"\n"+ QString::number(calc->calculate(), 'g', 15));
                 ui->input_line->clear();
                 calc->deleteLater();
+//                ui->scrollArea->verticalScrollBar()->setSliderPosition(ui->scrollArea->verticalScrollBar->minimum());
+                ui->scrollArea->setVerticalScrollBar(0);
             } else {
                 new_graph = new graph_window();
                 opti_graph(new_graph, calc);
@@ -176,6 +180,7 @@ void Calcul::on_equal_button_clicked()
           ui->input_line->clear();
           ui->Out_lable->setText(history+"\n"+ QString::number(calc->calculate(), 'g', 15));
           calc->deleteLater();
+//          ui->scrollArea->setVerticalScrollBar(ui->scro)
         }
     }
 }

@@ -8,7 +8,8 @@ Credit_calc::Credit_calc(double summ, int term, double nalog) {
 }
 
 void Credit_calc::calculated_anuited() {
-    month_pay = summ * (nalog + (nalog/(pow(1+nalog, term)-1)));
+    double month_nalog = nalog / 12;
+    month_pay = summ * (month_nalog/(1-pow((1+month_nalog),((-1*term)-1))));
     all_payed = month_pay * term;
     overpay = all_payed - summ;
 }
@@ -25,3 +26,4 @@ void Credit_calc::calculated_differ() {
     }
     final_monthpay = credit_part + bank_part;
 }
+

@@ -45,6 +45,8 @@ void graph_window::update_graph() {
     ui->widget->addGraph();
     ui->widget->graph(conut_graph)->addData(x,y);
     ui->widget->replot();
+    x.clear();
+    y.clear();
 }
 
 double graph_window::get_last_y() {
