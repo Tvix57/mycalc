@@ -29,3 +29,7 @@ void Debit_calc::calculateNOcapit() {
 void Debit_calc::calculate(int preiod) {
 
 }
+
+void Debit_calc::getNewAddition(QDate date, double summ) {
+
+}
