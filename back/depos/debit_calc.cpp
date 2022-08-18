@@ -8,14 +8,26 @@ Debit_calc::Debit_calc(double summ, double proc, double nalog , QDate start_date
     this->nalog = nalog/100;
     this->start_date = start_date;
     this->end_date = end_date;
+    profit = 0;
+    summ_on_bill = 0;
 }
 
 void Debit_calc::calculateNOcapit() {
     if (addition_list.empty()) {
-        summ_on_bill = (summ * proc * (start_date.daysTo(end_date))) / start_date.daysInYear() /100;
+        profit = (summ * proc * (start_date.daysTo(end_date))) / start_date.daysInYear();
     } else {
-
+        QDate tmp = start_date;
+        for(auto i = addition_list.begin(); i!= addition_list.end(); i++) {
+            if (tmp < i.key()) {
+                profit += round(summ * proc * tmp.daysTo(i.key()) / tmp.daysInYear() * 100)/100;
+                summ += i.value();
+                tmp = i.key();
+            }
+        }
+        profit += round(summ * proc * tmp.daysTo(end_date) / tmp.daysInYear() * 100)/100;
     }
+    nalog_on_profit = profit * nalog;
+    summ_on_bill = summ;
 }
 
 void Debit_calc::calculate(int period) {
@@ -28,21 +40,22 @@ void Debit_calc::calculate(int period) {
             summ_on_bill += profit;
             profit = 0;
         }
-        if (start_date == addition_list.firstKey()) {
-            summ_on_bill += addition_list.value(start_date);
+        if (addition_list.contains(start_date)) {
+            summ_on_bill += addition_list.value(start_date, 0);
+            summ += addition_list.value(start_date, 0);
         }
-      profit +=  round(summ_on_bill * proc * 1 / start_date.daysInYear()) / 100;
+      profit +=  round(summ_on_bill * (1+ ( proc  / start_date.daysInYear()))) / 100;
     }
     profit = summ_on_bill - summ;
-    if (nalog != 0) {
-        nalog_on_profit = profit * nalog;
-        profit -= nalog_on_profit;
-        summ_on_bill = summ + profit;
-    }
+    nalog_on_profit = profit * nalog;
 }
 
 void Debit_calc::getNewAddition(QDate date, double summ) {
-    addition_list.insert(date, summ);
+    if (addition_list.contains(date)) {
+        *addition_list.find(date) += summ;
+    } else {
+      addition_list.insert(date, summ);
+    }
 }
 
 QDate Debit_calc::updateCapitDay(QDate date, int period) {

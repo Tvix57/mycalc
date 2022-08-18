@@ -42,17 +42,17 @@ void depos_window_2::on_calc_pushButton_clicked() {
     double proc = ui->proc_doubleSpinBox->value();
     double nalog = ui->nalog_doubleSpinBox_2->value();
     QDate start_date = ui->start_dateEdit->date();
-    QDate end_date = start_date;
+    QDate end_date;
 
     switch (ui->comboBox_period->currentIndex()) {
     case 1:
-        end_date.addMonths(period);
+        end_date = start_date.addMonths(period);
         break;
     case 2:
-        end_date.addYears(period);
+        end_date = start_date.addYears(period);
         break;
     default:
-        end_date.addDays(period);
+        end_date = start_date.addDays(period);
         break;
     }
     Debit_calc calc(summ, proc, nalog, start_date, end_date);
