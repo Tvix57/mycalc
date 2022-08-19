@@ -44,7 +44,11 @@ void Debit_calc::calculate(int period) {
             summ_on_bill += addition_list.value(start_date, 0);
             summ += addition_list.value(start_date, 0);
         }
-      profit +=  round(summ_on_bill * (1+ ( proc  / start_date.daysInYear()))) / 100;
+      profit +=  round(summ_on_bill *  proc  / start_date.daysInYear()) / 100;
+    }
+    if (profit != 0) {
+        summ_on_bill += profit;
+        profit = 0;
     }
     profit = summ_on_bill - summ;
     nalog_on_profit = profit * nalog;

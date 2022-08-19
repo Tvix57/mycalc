@@ -142,6 +142,9 @@
           <property name="singleStep">
            <double>0.000100000000000</double>
           </property>
+          <property name="value">
+           <double>10.000000000000000</double>
+          </property>
          </widget>
         </item>
         <item>
@@ -364,8 +367,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>501</width>
-         <height>215</height>
+         <width>495</width>
+         <height>83</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -468,7 +471,7 @@
      <x>0</x>
      <y>0</y>
      <width>521</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
