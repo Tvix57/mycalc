@@ -38,7 +38,6 @@ FORMS += \
     math/calcul.ui \
     credit/credit_window.ui \
     depos/depos_window_2.ui \
-    error_msg_form.ui \
     graph/graph_window.ui \
     graph/range_x_window.ui
 
