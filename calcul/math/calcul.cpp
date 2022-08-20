@@ -168,7 +168,6 @@ void Calcul::on_equal_button_clicked()
                 ui->Out_lable->setText(history+"\n"+ QString::number(calc->calculate(), 'g', 15));
                 ui->input_line->clear();
                 calc->deleteLater();
-//                ui->scrollArea->verticalScrollBar()->setSliderPosition(ui->scrollArea->verticalScrollBar->minimum());
                 ui->scrollArea->setVerticalScrollBar(0);
             } else {
                 new_graph = new graph_window();
@@ -180,7 +179,6 @@ void Calcul::on_equal_button_clicked()
           ui->input_line->clear();
           ui->Out_lable->setText(history+"\n"+ QString::number(calc->calculate(), 'g', 15));
           calc->deleteLater();
-//          ui->scrollArea->setVerticalScrollBar(ui->scro)
         }
     }
 }
@@ -293,7 +291,6 @@ void Calcul::opti_graph(graph_window *new_graph, back *stack)
     stack->setRange(range_window->range_row_x_begin,
                    range_window->range_row_x_end,
                    range_window->step);
-//    connect(stack, SIGNAL(new_coord(double, double)) , new_graph, SLOT(addData(double, double)));
     connect(stack, SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
     connect(thread1, SIGNAL(started()), stack, SLOT(calculateGraph()));
     connect(time, SIGNAL(timeout()), new_graph, SLOT(update_graph()));
@@ -302,7 +299,6 @@ void Calcul::opti_graph(graph_window *new_graph, back *stack)
     connect(thread1, SIGNAL(finished()), time, SLOT(deleteLater()));
     connect(thread1, SIGNAL(finished()), thread1, SLOT(deleteLater()));
     stack->moveToThread(thread1);
-
     thread1->start(QThread::NormalPriority);
     time->start(100);
     new_graph->show();
