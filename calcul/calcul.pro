@@ -42,6 +42,9 @@ FORMS += \
     graph/graph_window.ui \
     graph/range_x_window.ui
 
+win32: RC_ICONS += img/premium-icon-calculator-2141413.ico
+macx: ICON = $${PWD}/img/icon-calculator-mac.icns
+
 TRANSLATIONS += \
     calcul_ru_RU.ts
 CONFIG += lrelease

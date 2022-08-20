@@ -6,6 +6,7 @@ add_date::add_date(QWidget *parent) :
     ui(new Ui::add_date)
 {
     ui->setupUi(this);
+    ui->date_addition_form->setDate(QDate::currentDate());
 }
 
 add_date::~add_date() {
