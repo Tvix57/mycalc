@@ -16,10 +16,11 @@ TEST(calc_depos_test, test1_d) {
   QDate end_date = start_date.addDays(100);
   Debit_calc test(2000, 10, 0, start_date, end_date);
 
+  test.getNewAddition(start_date.addDays(3), -500);
   test.getNewAddition(start_date, 500);
   test.getNewAddition(start_date, 200);
   test.getNewAddition(start_date.addDays(1), 1000);
-  test.getNewAddition(start_date.addDays(3), -500);
+
   test.getNewAddition(start_date.addDays(10), 200);
 
   test.calculateNOcapit();
@@ -42,7 +43,7 @@ TEST(calc_depos_test, test4_d) {
     test.getNewAddition(start_date.addDays(1), 1000);
     test.getNewAddition(start_date.addDays(3), -500);
     test.getNewAddition(start_date.addDays(10), 200);
-
+  test.calculateNOcapit();
   double debit_bill = 201400.00;
   double debit_nalog = 0;
   double debit_perc = 55124.65;

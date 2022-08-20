@@ -17,7 +17,15 @@ void Debit_calc::calculateNOcapit() {
         profit = (summ * proc * (start_date.daysTo(end_date))) / start_date.daysInYear();
     } else {
         QDate tmp = start_date;
-        for(auto i = addition_list.begin(); i!= addition_list.end(); i++) {
+        auto i = addition_list.begin();
+        while (i.key() < tmp) {
+            i++;
+        }
+        if  (i.key() == tmp) {
+            summ += i.value();
+            i++;
+        }
+        for(; i!= addition_list.end(); i++) {
             if (tmp < i.key()) {
                 profit += round(summ * proc * tmp.daysTo(i.key()) / tmp.daysInYear() * 100)/100;
                 summ += i.value();

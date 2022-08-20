@@ -37,13 +37,13 @@ TEST(calc_credit_test, test2_c) {
 TEST(calc_credit_test, test3_c) {
   Credit_calc test(2000, 12, 10);
   test.calculated_differ();
-  double month_pay_1 = 183.33;
+  double month_pay_1 = 183.34;
   double month_pay_2 = 168.06;
-  double overpay = 108.33;
-  double summ = 2108.33;
+  double overpay = 108.38;
+  double summ = 2108.38;
   ASSERT_NEAR(month_pay_1, test.get_month_pay(), 1e-2);
-//  ASSERT_NEAR(overpay, test.get_overpay(), 1e-2);
-//  ASSERT_NEAR(summ, test.get_allpayed(), 1e-2);
+  ASSERT_NEAR(overpay, test.get_overpay(), 1e-2);
+  ASSERT_NEAR(summ, test.get_allpayed(), 1e-2);
   ASSERT_NEAR(month_pay_2, test.get_final_pay(), 1e-2);
 }
 
@@ -53,11 +53,11 @@ TEST(calc_credit_test, test4_c) {
   test.calculated_differ();
   double month_pay_1 = 16666.67;
   double month_pay_2 = 13444.44;
-  double overpay = 51666.67;
-  double summ = 451666.67;
+  double overpay = 51666.57;
+  double summ = 451666.57;
   ASSERT_NEAR(month_pay_1, test.get_month_pay(), 1e-2);
-//  ASSERT_NEAR(overpay, test.get_overpay(), 1e-2);
-//  ASSERT_NEAR(summ, test.get_allpayed(), 1e-2);
+  ASSERT_NEAR(overpay, test.get_overpay(), 1e-2);
+  ASSERT_NEAR(summ, test.get_allpayed(), 1e-2);
   ASSERT_NEAR(month_pay_2, test.get_final_pay(), 1e-2);
 }
 
@@ -79,11 +79,11 @@ TEST(calc_credit_test, test6_c) {
   test.calculated_differ();
   double month_pay_1 = 1250000.00;
   double month_pay_2 = 840277.78;
-  double overpay = 12708333.33;
-  double summ = 62708333.33;
+  double overpay = 12708333.18;
+  double summ = 62708333.18;
   ASSERT_NEAR(month_pay_1, test.get_month_pay(), 1e-2);
-//  ASSERT_NEAR(overpay, test.get_overpay(), 1e-2);
-//  ASSERT_NEAR(summ, test.get_allpayed(), 1e-2);
+  ASSERT_NEAR(overpay, test.get_overpay(), 1e-2);
+  ASSERT_NEAR(summ, test.get_allpayed(), 1e-2);
   ASSERT_NEAR(month_pay_2, test.get_final_pay(), 1e-2);
 }
 
