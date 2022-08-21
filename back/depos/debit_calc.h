@@ -8,6 +8,14 @@ class Debit_calc
 public:
     Debit_calc(double, double, double, QDate, QDate);
 
+    Debit_calc(const Debit_calc&);
+    Debit_calc(Debit_calc&&) = delete;
+    Debit_calc& operator=(const Debit_calc&);
+    Debit_calc& operator=(Debit_calc&&);
+    ~Debit_calc();
+
+
+
     double get_summ_on_bill() {return summ_on_bill;}
     double get_nalog() {return nalog;}
     double get_profit() {return profit;}

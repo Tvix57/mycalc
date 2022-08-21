@@ -88,6 +88,7 @@ void depos_window_2::on_calc_pushButton_2_clicked()
     new_add = new add_date();
     new_add->setMinimumHeight(50);
     widg_count++;
+    //////// при удалении объекта он просто скрывается но не удалается
     connect(new_add, &add_date::Close_add_window, this, &depos_window_2::delete_widg);
     addition->addWidget(new_add, widg_count, 0);
     ui->scrollArea->show();

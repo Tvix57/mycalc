@@ -12,6 +12,27 @@ Debit_calc::Debit_calc(double summ, double proc, double nalog , QDate start_date
     summ_on_bill = 0;
 }
 
+Debit_calc::Debit_calc(const Debit_calc&) {
+
+}
+
+//Debit_calc::Debit_calc(Debit_calc&&) {
+
+//}
+
+Debit_calc& Debit_calc::operator=(const Debit_calc&) {
+
+}
+
+Debit_calc& Debit_calc::operator=(Debit_calc&&) {
+
+}
+
+Debit_calc::~Debit_calc() {
+
+}
+
+
 void Debit_calc::calculateNOcapit() {
     if (addition_list.empty()) {
         profit = (summ * proc * (start_date.daysTo(end_date))) / start_date.daysInYear();
