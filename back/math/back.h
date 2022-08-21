@@ -10,14 +10,14 @@ class back: public QObject
 {
     Q_OBJECT
 public:
-  back(QString input);
-  back(const back& other);
+  back(QString);
+  back(const back&);
+  back(back&&);
+  back& operator=(const back&);
+  back& operator=(back&&);
   ~back();
-//  Оператор присваивания копированием
-//  Конструктор перемещения
-//  Оператор присваивания перемещением
 
-  void replaceAllX(double x);
+  void replaceAllX(double);
   double calculate();
   void setRange(double, double, double);
 

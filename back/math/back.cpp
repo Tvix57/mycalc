@@ -9,16 +9,18 @@ back::back(QString input) {
     polishConvertation();
 }
 
-
 back::~back() {
     start = 0;
     end = 0;
     step = 0;
-    polish_stack.clear();
-    position_x.clear();
+    if (!polish_stack.empty()) {
+        polish_stack.clear();
+    }
+    if (!position_x.empty()) {
+        position_x.clear();
+    }
 }
 
-//Конструктор копирования
 back::back(const back& other) {
     for(auto i = other.polish_stack.begin(); i != other.polish_stack.end(); i++) {
         this->polish_stack.push_back(*i);
@@ -31,36 +33,29 @@ back::back(const back& other) {
     this->step = other.step;
 }
 
-//back::back(back&& other) noexcept
-//    {
-//        cstring = other.cstring;
-//        other.cstring = nullptr;
-//    }
+back& back::operator=(const back& other)  {
+  if (this != &other) {
+    this->~back();
+    back(*other);
+  }
+  return *this;
+}
 
-//    // Оператор присваивания копированием (copy assignment)
-//    back::back& operator=(const back& other)
-//    {
-//        if (this == &other)
-//            return *this;
+back::back(back&& other)  {
+    polish_stack = other.polish_stack;
+    position_x = other.position_x;
+    this->start = other.start;
+    this->end = other.end;
+    this->step = other.step;
+}
 
-//        char* tmp_cstring = new char[std::strlen(other.cstring) + 1];
-//        std::strcpy(tmp_cstring, other.cstring);
-//        delete[] cstring;
-//        cstring = tmp_cstring;
-//        return *this;
-//    }
-
-//    // Оператор присваивания перемещением (move assignment)
-//    back::back& operator=(back&& other) noexcept
-//    {
-//        if (this == &other)
-//            return *this;
-
-//        delete[] cstring;
-//        cstring = other.cstring;
-//        other.cstring = nullptr;
-//        return *this;
-//    }
+back& back::operator=(back&& other) {
+  if (this != &other) {
+    this->~back();
+    back(std::move(other));
+  }
+  return *this;
+}
 
 void back::parsing(QString input) {
   QTextStream stream(&input);
