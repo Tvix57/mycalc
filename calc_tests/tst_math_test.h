@@ -963,4 +963,59 @@ TEST(calc_simple_math_test, test111) {
   ASSERT_NEAR(r25, cp25, EPS);
 }
 
+TEST(calc_math_construct_test, copy_contruct1) {
+  QString test25 = "34.4+34/3";
+  back test_b(test25);
+  back test_copy(test_b);
+
+//  test_b.~back();
+  double r25 = test_copy.calculate();
+  double cp25 = 45.7333333333333333;
+  ASSERT_NEAR(r25, cp25, EPS);
+}
+
+
+TEST(calc_math_construct_test, copy_contruct2) {
+  QString test25 = "123%sqrt(100)";
+  back test_b(test25);
+  back test_copy(test_b);
+  //  test_b.~back();
+  double r25 = test_copy.calculate();
+  double cp25 = fmod(123, sqrt(100));
+  ASSERT_NEAR(r25, cp25, EPS);
+}
+
+
+TEST(calc_math_construct_test, copy_contruct3) {
+  QString test25 = "ln(256-3)";
+  back test_b(test25);
+  back test_copy(test_b);
+  //  test_b.~back();
+  double r25 = test_copy.calculate();
+  double cp25 = log(256 - 3);
+  ASSERT_NEAR(r25, cp25, EPS);
+}
+
+
+TEST(calc_math_construct_test, copy_contruct4) {
+  QString test25 = "log(123.345)";
+  back test_b(test25);
+  back test_copy(test_b);
+//  test_b.~back();
+  double r25 = test_copy.calculate();
+  double cp25 = log10(123.345);
+  ASSERT_NEAR(r25, cp25, EPS);
+}
+
+
+TEST(calc_math_construct_test, copy_contruct5) {
+  QString test25 = "(-sin(13.4+atan(7)*56.4-17/4)*(cos(tan(2^4)))";
+  back test_b(test25);
+  back test_copy(test_b);
+  //  test_b.~back();
+  double r25 = test_copy.calculate();
+  double cp25 = -sin(13.4 + atan(7) * 56.4 - 17 / 4.0) * (cos(tan(pow(2, 4))));
+  ASSERT_NEAR(r25, cp25, EPS);
+}
+
 #endif // TST_MATH_TEST_H

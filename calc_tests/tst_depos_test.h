@@ -12,7 +12,8 @@ using namespace testing;
 
 
 TEST(calc_depos_test, test1_d) {
-  QDate start_date = QDate::currentDate();
+  QDate start_date;
+  start_date.setDate(2022,8,20);
   QDate end_date = start_date.addDays(100);
   Debit_calc test(2000, 10, 0, start_date, end_date);
 
@@ -34,7 +35,8 @@ TEST(calc_depos_test, test1_d) {
 }
 
 TEST(calc_depos_test, test4_d) {
-    QDate start_date = QDate::currentDate();
+    QDate start_date;
+    start_date.setDate(2022,8,20);
     QDate end_date = start_date.addDays(1000);
     Debit_calc test(2000, 10, 0, start_date, end_date);
 
@@ -53,7 +55,8 @@ TEST(calc_depos_test, test4_d) {
 }
 
 TEST(calc_depos_test, test7_d) {
-    QDate start_date = QDate::currentDate();
+    QDate start_date;
+    start_date.setDate(2022,8,20);
     QDate end_date = start_date.addDays(100);
     Debit_calc test(2000, 10, 0,start_date, end_date);
 
@@ -75,7 +78,8 @@ TEST(calc_depos_test, test7_d) {
 
 
 TEST(calc_depos_test, test8_d) {
-    QDate start_date = QDate::currentDate();
+    QDate start_date;
+    start_date.setDate(2022,8,20);
     QDate end_date = start_date.addDays(100);
     Debit_calc test(2000, 10, 0,start_date, end_date);
 
@@ -97,7 +101,8 @@ TEST(calc_depos_test, test8_d) {
 
 
 TEST(calc_depos_test, test9_d) {
-    QDate start_date = QDate::currentDate();
+    QDate start_date;
+    start_date.setDate(2022,8,20);
     QDate end_date = start_date.addDays(100);
     Debit_calc test(2000, 10, 0,start_date, end_date);
 
@@ -118,7 +123,8 @@ TEST(calc_depos_test, test9_d) {
 
 
 TEST(calc_depos_test, test10_d) {
-  QDate start_date = QDate::currentDate();
+  QDate start_date;
+  start_date.setDate(2022,8,20);
   QDate end_date = start_date.addDays(1000);
   Debit_calc test(200000, 10, 0,start_date, end_date);
 
@@ -140,7 +146,8 @@ TEST(calc_depos_test, test10_d) {
 
 
 TEST(calc_depos_test, test11_d) {
-    QDate start_date = QDate::currentDate();
+    QDate start_date;
+    start_date.setDate(2022,8,20);
     QDate end_date = start_date.addDays(1000);
     Debit_calc test(200000, 10, 0,start_date, end_date);
 
@@ -162,7 +169,8 @@ TEST(calc_depos_test, test11_d) {
 
 
 TEST(calc_depos_test, test12_d) {
-    QDate start_date = QDate::currentDate();
+    QDate start_date;
+    start_date.setDate(2022,8,20);
     QDate end_date = start_date.addDays(1000);
     Debit_calc test(200000, 10, 0,start_date, end_date);
 

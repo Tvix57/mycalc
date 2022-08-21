@@ -9,6 +9,59 @@ back::back(QString input) {
     polishConvertation();
 }
 
+
+back::~back() {
+    start = 0;
+    end = 0;
+    step = 0;
+    polish_stack.clear();
+    position_x.clear();
+}
+
+//Конструктор копирования
+back::back(const back& other) {
+    for(auto i = other.polish_stack.begin(); i != other.polish_stack.end(); i++) {
+        this->polish_stack.push_back(*i);
+    }
+    for(auto i = other.position_x.begin(); i != other.position_x.end(); i++) {
+        this->position_x.push_back(*i);
+    }
+    this->start = other.start;
+    this->end = other.end;
+    this->step = other.step;
+}
+
+//back::back(back&& other) noexcept
+//    {
+//        cstring = other.cstring;
+//        other.cstring = nullptr;
+//    }
+
+//    // Оператор присваивания копированием (copy assignment)
+//    back::back& operator=(const back& other)
+//    {
+//        if (this == &other)
+//            return *this;
+
+//        char* tmp_cstring = new char[std::strlen(other.cstring) + 1];
+//        std::strcpy(tmp_cstring, other.cstring);
+//        delete[] cstring;
+//        cstring = tmp_cstring;
+//        return *this;
+//    }
+
+//    // Оператор присваивания перемещением (move assignment)
+//    back::back& operator=(back&& other) noexcept
+//    {
+//        if (this == &other)
+//            return *this;
+
+//        delete[] cstring;
+//        cstring = other.cstring;
+//        other.cstring = nullptr;
+//        return *this;
+//    }
+
 void back::parsing(QString input) {
   QTextStream stream(&input);
   QString tmp;
