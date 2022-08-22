@@ -123,7 +123,6 @@ void back::polishConvertation() {
          (!tmp.fun.contains('(') && !tmp.fun.contains(')')) &&
          ((getPriority(tmp.fun) < getPriority(tmp_stack.first().fun)) ||
           (getPriority(tmp.fun) == getPriority(tmp_stack.first().fun)) && leftAssotiation(tmp.fun))) {
-
           while (!tmp_stack.isEmpty() &&
                  ((getPriority(tmp.fun) < getPriority(tmp_stack.first().fun)) ||
                   (getPriority(tmp.fun) == getPriority(tmp_stack.first().fun)) && leftAssotiation(tmp.fun))) {
@@ -195,7 +194,7 @@ bool back::leftAssotiation(QString input) {
 
 int back::getPriority(QString input) {
   if (input.length() > 1) {
-    if (QString("asinaconatanunar").contains(input)) {
+    if (QString("asinaconatan").contains(input)) {
       return 3;
     } else {
       return 2;

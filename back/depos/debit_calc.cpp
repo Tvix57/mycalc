@@ -16,9 +16,9 @@ Debit_calc::Debit_calc(const Debit_calc&) {
 
 }
 
-//Debit_calc::Debit_calc(Debit_calc&&) {
+Debit_calc::Debit_calc(Debit_calc&&) {
 
-//}
+}
 
 Debit_calc& Debit_calc::operator=(const Debit_calc&) {
 

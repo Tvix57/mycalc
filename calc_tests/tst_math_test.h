@@ -175,6 +175,22 @@ TEST(calc_simple_math_test, nan_test2) {
 }
 
 TEST(calc_logic_math_test, more_unar_mins) {
+  QString test22 = "(-sqrt(2))";
+  back test_b(test22);
+  double r22 = test_b.calculate();
+  double cp22 = -1.4142135623731;
+  ASSERT_NEAR(r22, cp22, EPS);
+}
+
+TEST(calc_logic_math_test, unar_mins_and_sqrt) {
+  QString test22 = "(-sqrt(2"; ////2 sqrt unar
+  back test_b(test22);
+  double r22 = test_b.calculate();
+  double cp22 = -1.4142135623731;
+  ASSERT_NEAR(r22, cp22, EPS);
+}
+
+TEST(calc_logic_math_test, unar_mins_and_sqrt_branch) {
   QString test22 = "(-(-(-5)))";
   back test_b(test22);
   double r22 = test_b.calculate();
