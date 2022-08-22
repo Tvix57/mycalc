@@ -59,16 +59,14 @@ void depos_window_2::on_calc_pushButton_clicked() {
     if (widg_count > 0) {
         for (int i = 1; i <= widg_count; i++) {
             QWidget *tmp_widget = addition->itemAtPosition(i, 0)->widget();
-            if (tmp_widget != nullptr) {
-                QList <QDateEdit*> list = tmp_widget->findChildren<QDateEdit*>("date_addition_form");
-                QList <QDoubleSpinBox*> list2 = tmp_widget->findChildren<QDoubleSpinBox*>("summ_addition_form");
-                QList <QComboBox*> list3 = tmp_widget->findChildren<QComboBox*>("type_addition_form");
-                double add = list2[0]->value();
-                if (list3[0]->currentIndex() == 1) {
-                    add *=-1;
-                }
-                calc.getNewAddition(list[0]->date(), add);
+            QList <QDateEdit*> list = tmp_widget->findChildren<QDateEdit*>("date_addition_form");
+            QList <QDoubleSpinBox*> list2 = tmp_widget->findChildren<QDoubleSpinBox*>("summ_addition_form");
+            QList <QComboBox*> list3 = tmp_widget->findChildren<QComboBox*>("type_addition_form");
+            double add = list2[0]->value();
+            if (list3[0]->currentIndex() == 1) {
+                add *=-1;
             }
+            calc.getNewAddition(list[0]->date(), add);
         }
     }
     if (!ui->capit_checkBox->isChecked()) {
@@ -91,15 +89,15 @@ void depos_window_2::on_calc_pushButton_2_clicked()
     new_add->setMinimumHeight(50);
     widg_count++;
     connect(new_add, &add_date::Close_add_window, this, &depos_window_2::delete_widg);
+    connect(new_add, SIGNAL(Close_add_window()), new_add, SLOT(deleteLater()));
     addition->addWidget(new_add, widg_count, 0);
     ui->scrollArea->show();
 }
 
 void depos_window_2::delete_widg() {
     widg_count--;
-    QObject* sender = QObject::sender();
-//    sender->
-    addition->removeEventFilter(sender);
+    int index = addition->indexOf((QWidget*)this->sender());
+    addition->removeWidget((QWidget*)this->sender());
     //////// при удалении объекта он сохраняет индекс
 }
 
