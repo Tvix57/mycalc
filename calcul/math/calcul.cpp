@@ -29,7 +29,6 @@ Calcul::Calcul(QWidget *parent)
     connect(ui->buttonGroup_fnc_twoarg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(control_input(QAbstractButton *)));
     set_default_input();
     ui->scrollArea->setWidget(ui->Out_lable);
-
 }
 
 Calcul::~Calcul()
@@ -121,6 +120,7 @@ void Calcul::control_input(QAbstractButton *pres_button) {
 void Calcul::on_C_button_clicked()
 {
     ui->input_line->clear();
+    set_default_input();
 }
 
 void Calcul::on_Credit_calc_button_triggered()
