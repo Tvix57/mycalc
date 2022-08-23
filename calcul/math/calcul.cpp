@@ -161,7 +161,7 @@ void Calcul::on_equal_button_clicked()
     QRegularExpression reg ("(([0-9]|[0-9]+['.']|['.'][0-9]+)|['X'])[)]*$");
     if (input.contains(reg)) {
         set_default_input();
-        back *calc = new back(input);
+        s21::back *calc = new s21::back(input);
         if (input.contains("X")) {
             if (range_window->range_row_x_begin == range_window->range_row_x_end) {
                 calc->replaceAllX(range_window->range_row_x_begin);
@@ -171,6 +171,8 @@ void Calcul::on_equal_button_clicked()
                 ui->scrollArea->setVerticalScrollBar(0);
             } else {
                 new_graph = new graph_window();
+//                connect(new_graph, SIGNAL(), new_graph, SLOT(deleteLater()));
+
                 opti_graph(new_graph, calc);
                 ui->Out_lable->setText(history+"\n"+ input);
                 ui->input_line->clear();
@@ -284,7 +286,7 @@ void Calcul::get_new_data(double x, double y) {
     new_graph->add_data(x,y,false);
 }
 
-void Calcul::opti_graph(graph_window *new_graph, back *stack)
+void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
 {
     QThread *thread1 = new QThread;
     QTimer *time = new QTimer;
@@ -292,14 +294,17 @@ void Calcul::opti_graph(graph_window *new_graph, back *stack)
                    range_window->range_row_x_end,
                    range_window->step);
     connect(stack, SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
+    connect(stack, SIGNAL(done()), thread1, SIGNAL(finished()));
+    connect(stack, SIGNAL(done()), new_graph, SLOT(update_graph()));
     connect(thread1, SIGNAL(started()), stack, SLOT(calculateGraph()));
     connect(time, SIGNAL(timeout()), new_graph, SLOT(update_graph()));
     connect(thread1, SIGNAL(finished()), time, SLOT(stop()));
     connect(thread1, SIGNAL(finished()), stack, SLOT(deleteLater()));
     connect(thread1, SIGNAL(finished()), time, SLOT(deleteLater()));
+    connect(thread1, SIGNAL(finished()), thread1, SLOT(quit()));
     connect(thread1, SIGNAL(finished()), thread1, SLOT(deleteLater()));
     stack->moveToThread(thread1);
-    thread1->start(QThread::NormalPriority);
+    thread1->start(QThread::HighPriority);
     time->start(100);
     new_graph->show();
 }

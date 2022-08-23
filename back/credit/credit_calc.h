@@ -1,7 +1,7 @@
 #ifndef CREDIT_CALC_H
 #define CREDIT_CALC_H
 
-
+namespace s21{
 class Credit_calc
 {
 public:
@@ -21,5 +21,7 @@ private:
     double all_payed;
     double final_monthpay;
 };
+}
+
 
 #endif // CREDIT_CALC_H

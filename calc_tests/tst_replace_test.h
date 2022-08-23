@@ -8,6 +8,7 @@
 #include <cmath>
 #define EPS 1e-6
 using namespace testing;
+using namespace s21;
 
 TEST(X_simple_math_test, test1) {
   QString test25 = "X";

@@ -1,6 +1,6 @@
 #include "back.h"
 #include <cmath>
-
+using namespace s21;
 back::back(QString input) {
     start = 0;
     end = 0;
@@ -354,4 +354,5 @@ void back::calculateGraph() {
         double y = calculate();
         emit new_coord(start, y);
     }
+    emit done();
 }

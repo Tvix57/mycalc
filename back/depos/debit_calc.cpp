@@ -1,6 +1,6 @@
 #include "debit_calc.h"
 #include <QtMath>
-
+using namespace s21;
 
 Debit_calc::Debit_calc(double summ, double proc, double nalog , QDate start_date, QDate end_date) {
     this->summ = summ;

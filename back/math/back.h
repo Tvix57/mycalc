@@ -5,7 +5,7 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QList>
 #include <QtCore/QObject>
-
+namespace s21{
 class back: public QObject
 {
     Q_OBJECT
@@ -47,6 +47,7 @@ public slots:
 
 signals:
   void new_coord(double x, double y);
+  void done();
 };
-
+}
 #endif //  SRC_BACK_BACK_H_

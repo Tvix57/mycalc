@@ -31,7 +31,7 @@ void Credit_window::on_calc_Button_clicked()
     default:
         break;
     }
-    Credit_calc calc(summ, month, proc);
+    s21::Credit_calc calc(summ, month, proc);
     if (ui->radio_anue_type->isChecked()) {
         calc.calculated_anuited();
     } else if (ui->radio_dif_type->isChecked()) {

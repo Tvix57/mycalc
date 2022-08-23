@@ -49,7 +49,7 @@ private:
     range_x_window *range_window;
     graph_window *new_graph;
 
-    void opti_graph(graph_window *new_graph, back *stack);
+    void opti_graph(graph_window *new_graph, s21::back *stack);
 
 };
 

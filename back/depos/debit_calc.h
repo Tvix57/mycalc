@@ -3,6 +3,7 @@
 #include <QDate>
 #include <QMap>
 
+namespace s21{
 class Debit_calc
 {
 public:
@@ -31,5 +32,5 @@ private:
 
     QDate updateCapitDay(QDate, int);
 };
-
+}
 #endif // DEBIT_CALC_H
