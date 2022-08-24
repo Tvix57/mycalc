@@ -16,10 +16,6 @@ class graph_window : public QDialog
 public:
     explicit graph_window(QWidget *parent = nullptr);
     ~graph_window();
-    void add_data(double x_out, double y_out, bool new_grap_flag);
-
-    double get_last_y();
-    double get_last_x();
 
 public slots:
     void update_graph();
@@ -29,7 +25,6 @@ private:
     QVector<double> x,y;
     QMouseEvent *mouse;
     int conut_graph;
-    double break_point;
 };
 
 #endif // GRAPH_WINDOW_H

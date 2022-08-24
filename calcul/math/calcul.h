@@ -10,7 +10,6 @@
 #include "depos/depos_window_2.h"
 #include "graph/graph_window.h"
 #include "graph/range_x_window.h"
-
 #include "./../back/math/back.h"
 
 QT_BEGIN_NAMESPACE
@@ -39,7 +38,7 @@ private slots:
     void on_sign_button_clicked();
     void on_lbranch_button_clicked();
     void on_rbranch_button_clicked();
-    void get_new_data(double x, double y);
+//    void get_new_data(double x, double y);
     void set_default_input();
 
 private:

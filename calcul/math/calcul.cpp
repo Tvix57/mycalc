@@ -1,8 +1,6 @@
 #include "calcul.h"
 #include "ui_calcul.h"
 
-
-#include <QMessageBox>
 #include <QThread>
 #include <QTimer>
 #include <QScrollArea>
@@ -34,6 +32,10 @@ Calcul::Calcul(QWidget *parent)
 Calcul::~Calcul()
 {
     delete ui;
+    delete range_window;
+    delete deposW;
+    delete credit_window;
+
 }
 
 void Calcul::digits_end_fnc_but(QAbstractButton * pres_button) {
@@ -46,7 +48,7 @@ void Calcul::digits_end_fnc_but(QAbstractButton * pres_button) {
     if (pres_button->group() == ui->buttonGroup_fnc_onearg) {
         input +="(";
     }
-        ui->input_line->setText(input);
+    ui->input_line->setText(input);
 }
 
 void Calcul::control_input(QAbstractButton *pres_button) {
@@ -165,21 +167,21 @@ void Calcul::on_equal_button_clicked()
         if (input.contains("X")) {
             if (range_window->range_row_x_begin == range_window->range_row_x_end) {
                 calc->replaceAllX(range_window->range_row_x_begin);
-                ui->Out_lable->setText(history+"\n"+ QString::number(calc->calculate(), 'g', 15));
+                input.replace("X", QString::number(range_window->range_row_x_begin, 'g', 15));
+                ui->Out_lable->setText(history+"\n"+ input +" = " + QString::number(calc->calculate(), 'g', 15));
                 ui->input_line->clear();
                 calc->deleteLater();
                 ui->scrollArea->setVerticalScrollBar(0);
             } else {
                 new_graph = new graph_window();
-//                connect(new_graph, SIGNAL(), new_graph, SLOT(deleteLater()));
-
+                new_graph->setWindowTitle("График функции " + input);
                 opti_graph(new_graph, calc);
                 ui->Out_lable->setText(history+"\n"+ input);
                 ui->input_line->clear();
             }
         } else {
           ui->input_line->clear();
-          ui->Out_lable->setText(history+"\n"+ QString::number(calc->calculate(), 'g', 15));
+          ui->Out_lable->setText(history + "\n" + input + " = " + QString::number(calc->calculate(), 'g', 15));
           calc->deleteLater();
         }
     }
@@ -196,11 +198,9 @@ void Calcul::on_backs_button_clicked()
       }
     } else if (input.endsWith("ln(")) {
       input.chop(3);
-
     } else if (input.endsWith("sqrt(") || input.endsWith("asin(") ||
                input.endsWith("acos(") || input.endsWith("atan(")) {
       input.chop(5);
-
     }else if (input.endsWith("(-")) {
       input.chop(2);
     } else {
@@ -236,20 +236,20 @@ void Calcul::on_backs_button_clicked()
         ui->dot_button->blockSignals(false);
         ui->one_more_x->blockSignals(false);
     } else if (input.endsWith("(")) {
-        ui->buttonGroup_num->blockSignals(false);
-        ui->buttonGroup_fnc_onearg->blockSignals(false);
-        ui->buttonGroup_fnc_twoarg->blockSignals(true);
-        ui->rbranch_button->blockSignals(true);
-        ui->lbranch_button->blockSignals(false);
-         ui->dot_button->blockSignals(false);
-        ui->one_more_x->blockSignals(false);
+        ui->buttonGroup_num->blockSignals(false);/////////////
+        ui->buttonGroup_fnc_onearg->blockSignals(false);/////////////
+        ui->buttonGroup_fnc_twoarg->blockSignals(true);/////////////
+        ui->rbranch_button->blockSignals(true);/////////////
+        ui->lbranch_button->blockSignals(false);/////////////
+        ui->dot_button->blockSignals(false);/////////////
+        ui->one_more_x->blockSignals(false);/////////////
     } else if (input.endsWith(")")) {
-        ui->buttonGroup_fnc_onearg->blockSignals(true);
-        ui->buttonGroup_fnc_twoarg->blockSignals(false);
-        ui->rbranch_button->blockSignals(false);
-        ui->lbranch_button->blockSignals(true);
-        ui->one_more_x->blockSignals(true);
-         ui->dot_button->blockSignals(true);
+        ui->buttonGroup_fnc_onearg->blockSignals(true);/////////////
+        ui->buttonGroup_fnc_twoarg->blockSignals(false);/////////////
+        ui->rbranch_button->blockSignals(false);/////////////
+        ui->lbranch_button->blockSignals(true);/////////////
+        ui->one_more_x->blockSignals(true);/////////////
+        ui->dot_button->blockSignals(true);/////////////
     } else if (input.endsWith("X")) {
         ui->one_more_x->blockSignals(true);
         ui->dot_button->blockSignals(true);
@@ -282,10 +282,6 @@ void Calcul::on_rbranch_button_clicked()
     control_input(pres_button);
 }
 
-void Calcul::get_new_data(double x, double y) {
-    new_graph->add_data(x,y,false);
-}
-
 void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
 {
     QThread *thread1 = new QThread;
@@ -293,7 +289,7 @@ void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
     stack->setRange(range_window->range_row_x_begin,
                    range_window->range_row_x_end,
                    range_window->step);
-    connect(stack, SIGNAL(new_coord(double, double)) , this, SLOT(get_new_data(double, double)));
+    connect(stack, SIGNAL(new_coord(double, double)) , new_graph, SLOT(addData(double, double)));
     connect(stack, SIGNAL(done()), thread1, SIGNAL(finished()));
     connect(stack, SIGNAL(done()), new_graph, SLOT(update_graph()));
     connect(thread1, SIGNAL(started()), stack, SLOT(calculateGraph()));
@@ -320,6 +316,3 @@ void Calcul::set_default_input()
     ui->sign_button->blockSignals(false);
     ui->buttonGroup_num->blockSignals(false);
 }
-
-
-

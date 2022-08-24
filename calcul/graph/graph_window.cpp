@@ -1,6 +1,6 @@
 #include "graph_window.h"
 #include "ui_graph_window.h"
-
+#include <cmath>
 #include "range_x_window.h"
 
 graph_window::graph_window(QWidget *parent) :
@@ -13,10 +13,10 @@ graph_window::graph_window(QWidget *parent) :
     conut_graph = 0;
     connect(ui->widget->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->widget->xAxis2, SLOT(setRange(QCPRange)));
     connect(ui->widget->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->widget->yAxis2, SLOT(setRange(QCPRange)));
-
     ui->widget->setMouseTracking(true);
     ui->widget->setInteraction(QCP::iRangeZoom, true);
     ui->widget->setInteraction(QCP::iRangeDrag, true);
+    connect(this, SIGNAL(rejected()), this, SLOT(deleteLater()));
 }
 
 graph_window::~graph_window()
@@ -24,22 +24,14 @@ graph_window::~graph_window()
     delete ui;
 }
 
-void graph_window::add_data(double x_out, double y_out, bool new_grap_flag) {
-    if (new_grap_flag) {
-      update_graph();
-      conut_graph++;
-      x.clear();
-      y.clear();
-    }
-        x.push_back(x_out);
-        y.push_back(y_out);
-}
-
 void graph_window::addData(double x_in, double y_in) {
+//    if ( y_in  * y.last() < 0) {
+//        conut_graph++;
+//        update_graph();
+//    }
         x.push_back(x_in);
         y.push_back(y_in);
 }
-
 
 void graph_window::update_graph() {
     ui->widget->addGraph();
@@ -48,11 +40,3 @@ void graph_window::update_graph() {
     x.clear();
     y.clear();
 }
-
-double graph_window::get_last_y() {
-    return y.last();
-}
-double graph_window::get_last_x() {
-    return x.last();
-}
-
