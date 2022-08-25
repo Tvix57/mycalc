@@ -35,7 +35,6 @@ Calcul::~Calcul()
     delete range_window;
     delete deposW;
     delete credit_window;
-
 }
 
 void Calcul::digits_end_fnc_but(QAbstractButton * pres_button) {
@@ -215,6 +214,8 @@ void Calcul::on_backs_button_clicked()
         ui->one_more_x->blockSignals(true);
         ui->buttonGroup_fnc_onearg->blockSignals(true);
         ui->buttonGroup_fnc_twoarg->blockSignals(false);
+        ui->rbranch_button->blockSignals(false);
+        ui->lbranch_button->blockSignals(true);
         QRegularExpression dot_reg ("[0-9]*[.][0-9]*$");
         if (input.contains(dot_reg)) {
            ui->dot_button->blockSignals(true);
@@ -235,27 +236,31 @@ void Calcul::on_backs_button_clicked()
         ui->buttonGroup_num->blockSignals(false);
         ui->dot_button->blockSignals(false);
         ui->one_more_x->blockSignals(false);
+        ui->rbranch_button->blockSignals(true);
+        ui->lbranch_button->blockSignals(false);
     } else if (input.endsWith("(")) {
-        ui->buttonGroup_num->blockSignals(false);/////////////
-        ui->buttonGroup_fnc_onearg->blockSignals(false);/////////////
-        ui->buttonGroup_fnc_twoarg->blockSignals(true);/////////////
-        ui->rbranch_button->blockSignals(true);/////////////
-        ui->lbranch_button->blockSignals(false);/////////////
-        ui->dot_button->blockSignals(false);/////////////
-        ui->one_more_x->blockSignals(false);/////////////
+        ui->buttonGroup_num->blockSignals(false);
+        ui->buttonGroup_fnc_onearg->blockSignals(false);
+        ui->buttonGroup_fnc_twoarg->blockSignals(true);
+        ui->rbranch_button->blockSignals(true);
+        ui->lbranch_button->blockSignals(false);
+        ui->dot_button->blockSignals(false);
+        ui->one_more_x->blockSignals(false);
     } else if (input.endsWith(")")) {
-        ui->buttonGroup_fnc_onearg->blockSignals(true);/////////////
-        ui->buttonGroup_fnc_twoarg->blockSignals(false);/////////////
-        ui->rbranch_button->blockSignals(false);/////////////
-        ui->lbranch_button->blockSignals(true);/////////////
-        ui->one_more_x->blockSignals(true);/////////////
-        ui->dot_button->blockSignals(true);/////////////
+        ui->buttonGroup_fnc_onearg->blockSignals(true);
+        ui->buttonGroup_fnc_twoarg->blockSignals(false);
+        ui->rbranch_button->blockSignals(false);
+        ui->lbranch_button->blockSignals(true);
+        ui->one_more_x->blockSignals(true);
+        ui->dot_button->blockSignals(true);
     } else if (input.endsWith("X")) {
         ui->one_more_x->blockSignals(true);
         ui->dot_button->blockSignals(true);
         ui->buttonGroup_num->blockSignals(true);
         ui->buttonGroup_fnc_onearg->blockSignals(true);
         ui->buttonGroup_fnc_twoarg->blockSignals(false);
+        ui->rbranch_button->blockSignals(false);
+        ui->lbranch_button->blockSignals(true);
     }
 }
 
@@ -298,9 +303,10 @@ void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
     connect(thread1, SIGNAL(finished()), stack, SLOT(deleteLater()));
     connect(thread1, SIGNAL(finished()), time, SLOT(deleteLater()));
     connect(thread1, SIGNAL(finished()), thread1, SLOT(quit()));
+    connect(thread1, SIGNAL(finished()), stack, SLOT(deleteLater()));
     connect(thread1, SIGNAL(finished()), thread1, SLOT(deleteLater()));
     stack->moveToThread(thread1);
-    thread1->start(QThread::HighPriority);
+    thread1->start(QThread::NormalPriority);
     time->start(100);
     new_graph->show();
 }

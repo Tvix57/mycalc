@@ -12,24 +12,40 @@ Debit_calc::Debit_calc(double summ, double proc, double nalog , QDate start_date
     summ_on_bill = 0;
 }
 
-Debit_calc::Debit_calc(const Debit_calc&) {
-
+Debit_calc::Debit_calc(const Debit_calc& other) {
+    this->start_date = other.start_date;
+    this->end_date = other.end_date;
+    this->addition_list = other.addition_list;
+    this->summ = other.summ;
+    this->proc = other.proc;
+    this->nalog = other.nalog;
+    this->summ_on_bill = other.summ_on_bill;
+    this->nalog_on_profit = other.nalog_on_profit;
+    this->profit = other.profit;
 }
 
-Debit_calc::Debit_calc(Debit_calc&&) {
-
+Debit_calc::Debit_calc(Debit_calc&& other) {
+    *this = other;
 }
 
-Debit_calc& Debit_calc::operator=(const Debit_calc&) {
-
+Debit_calc& Debit_calc::operator=(const Debit_calc& other) {
+    if (this != &other) {
+        this->~Debit_calc();
+        Debit_calc(*other);
+    }
+    return *this;
 }
 
-Debit_calc& Debit_calc::operator=(Debit_calc&&) {
-
+Debit_calc& Debit_calc::operator=(Debit_calc&& other) {
+    if (this != &other) {
+        this->~Debit_calc();
+        Debit_calc(std::move(other));
+    }
+    return *this;
 }
 
 Debit_calc::~Debit_calc() {
-
+    addition_list.clear();
 }
 
 

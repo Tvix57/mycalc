@@ -33,8 +33,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>390</width>
-           <height>154</height>
+           <width>384</width>
+           <height>184</height>
           </rect>
          </property>
         </widget>
@@ -276,7 +276,7 @@
              <string>sin</string>
             </property>
             <property name="shortcut">
-             <string>Esc</string>
+             <string>S, I, N</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">buttonGroup_fnc_onearg</string>
@@ -676,7 +676,7 @@
              <string>acos</string>
             </property>
             <property name="shortcut">
-             <string>Esc</string>
+             <string>Shift+C</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">buttonGroup_fnc_onearg</string>
@@ -705,7 +705,7 @@
              <string>cos</string>
             </property>
             <property name="shortcut">
-             <string>Esc</string>
+             <string>C, O, S</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">buttonGroup_fnc_onearg</string>
@@ -1114,7 +1114,7 @@
      <x>0</x>
      <y>0</y>
      <width>412</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -1175,7 +1175,7 @@
  </connections>
  <buttongroups>
   <buttongroup name="buttonGroup_fnc_onearg"/>
-  <buttongroup name="buttonGroup_fnc_twoarg"/>
   <buttongroup name="buttonGroup_num"/>
+  <buttongroup name="buttonGroup_fnc_twoarg"/>
  </buttongroups>
 </ui>
