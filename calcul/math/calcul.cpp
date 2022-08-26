@@ -294,6 +294,9 @@ void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
     stack->setRange(range_window->range_row_x_begin,
                    range_window->range_row_x_end,
                    range_window->step);
+    new_graph->setRange(range_window->range_row_x_begin,
+            range_window->range_row_x_end);
+    connect(new_graph, SIGNAL(rejected()), thread1, SLOT(terminate()));
     connect(stack, SIGNAL(new_coord(double, double)) , new_graph, SLOT(addData(double, double)));
     connect(stack, SIGNAL(done()), thread1, SIGNAL(finished()));
     connect(stack, SIGNAL(done()), new_graph, SLOT(update_graph()));
@@ -307,6 +310,7 @@ void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
     connect(thread1, SIGNAL(finished()), thread1, SLOT(deleteLater()));
     stack->moveToThread(thread1);
     thread1->start(QThread::NormalPriority);
+
     time->start(100);
     new_graph->show();
 }

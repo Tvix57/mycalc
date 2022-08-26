@@ -24,11 +24,16 @@ graph_window::~graph_window()
     delete ui;
 }
 
+void graph_window::setRange(double x_from, double x_to) {
+    ui->widget->xAxis->setRange(x_from, x_to);
+    ui->widget->yAxis->setRange(x_from, x_to);
+}
+
 void graph_window::addData(double x_in, double y_in) {
-//    if ( y_in  * y.last() < 0) {
-//        conut_graph++;
-//        update_graph();
-//    }
+    if (!y.empty() && y_in  * y.last() < 0) {
+        conut_graph++;
+        update_graph();
+    }
         x.push_back(x_in);
         y.push_back(y_in);
 }

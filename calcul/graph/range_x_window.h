@@ -21,6 +21,10 @@ private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
 
+    void on_end_doubleSpinBox_valueChanged(double arg1);
+
+    void on_start_doubleSpinBox_valueChanged(double arg1);
+
 private:
     Ui::range_x_window *ui;
 

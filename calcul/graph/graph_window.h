@@ -15,6 +15,7 @@ class graph_window : public QDialog
 
 public:
     explicit graph_window(QWidget *parent = nullptr);
+    void setRange(double x_from, double x_to);
     ~graph_window();
 
 public slots:
