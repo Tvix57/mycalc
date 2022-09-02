@@ -4,8 +4,8 @@ LDFLAGS = -O2 -Ofast -std=c11
 SOURCE = $(wildcard ./back/backend.c)
 HEADER = $(wildcard ./back/backend.h)
 OBJECTS = $(patsubst ./back/%.c, %.o, ${SOURCE})
-TESTS_SOURCE = $(wildcard ./back/test_f/test.c)
-TESTS_OBJECTS = $(patsubst ./back/test_f/%.c, %.o, ${TESTS_SOURCE})
+TESTS_SOURCE = $(wildcard ./calc_tests/test_f/test.c)
+TESTS_OBJECTS = $(patsubst ./calc_tests/%.cpp, %.o, ${TESTS_SOURCE})
 .LIBPATTERNS:=%.a %.so lib%.so lib%.a
 UNAME:= $(shell uname -s)
 TEXI_FILES = ./docks/man.texi
@@ -39,9 +39,11 @@ s21_calc_back.a: ${SOURCE}
 	ar rcs $(PROJECTNAME).a ./backend.o
 	cp $@ lib$@
 
-test: ${TESTS_SOURCE} $(PROJECTNAME).a
-	${CC} ${LDFLAGS} -o $@ $^ -lcheck ${TESTS_FLAGS}
-	./$@
+test: ./calc_tests
+	./calc_tests
+
+calc_tests: Qmaketest
+	make -f Qmaketest
 
 gcov_report: clean ${SOURCE} ${TESTS_SOURCE}
 	-mkdir report
@@ -54,7 +56,7 @@ gcov_report: clean ${SOURCE} ${TESTS_SOURCE}
 	$(OPEN_CMD) ./report/index.html
 
 clean: uninstall
-	rm -f -R *.gch *.info *.o *.a *.out *.gcda *.gcno *.gcov gcov_report test report Qmakefile *.stash *.qrc ./Build/ *.app ./man/
+	rm -f -R *.gch *.info *.o *.a *.out *.gcda *.gcno *.gcov gcov_report test report Qmakefile Qmaketest *.stash *.qrc ./Build/ *.app ./man/ ./calc_tests
 
 style: ${SOURCE} ${HEADER}
 ifeq ("","$(wildcard ./CPPLINT.cfg)")
@@ -80,5 +82,8 @@ uninstall: Qmakefile
 	make -f Qmakefile uninstall INSTALL_ROOT=$(INSTALL_PATH)
 	rm -f *.cpp *.h Qmakefile
 
-Qmakefile:
+Qmakefile: ./calcul/calcul.pro
 	qmake ./calcul/calcul.pro -o Qmakefile
+
+Qmaketest: ./tests/calc_tests.pro
+	qmake ./tests/calc_tests.pro -o Qmaketest

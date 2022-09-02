@@ -4,14 +4,16 @@
 #include <QRegularExpression>
 #include <QMainWindow>
 #include <QThread>
-#include "credit_window.h"
-#include "depos_window_2.h"
 #include <QButtonGroup>
-#include "range_x_window.h"
-#include "graph_window.h"
+
+#include "credit/credit_window.h"
+#include "depos/depos_window_2.h"
+#include "graph/graph_window.h"
+#include "graph/range_x_window.h"
+#include "./../back/math/back.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class Calcul; }
+namespace Ui { class Calcul;}
 QT_END_NAMESPACE
 
 class Calcul : public QMainWindow
@@ -21,8 +23,8 @@ class Calcul : public QMainWindow
 public:
     Calcul(QWidget *parent = nullptr);
     ~Calcul();
-private slots:
 
+private slots:
     void digits_end_fnc_but(QAbstractButton *pres_button);
     void control_input(QAbstractButton *pres_button);
     void on_C_button_clicked();
@@ -36,10 +38,8 @@ private slots:
     void on_sign_button_clicked();
     void on_lbranch_button_clicked();
     void on_rbranch_button_clicked();
-    void opti_graph(graph_window *new_graph, QString *input);
+//    void get_new_data(double x, double y);
     void set_default_input();
-    double default_calc(QString input);
-    void calc_graph(graph_window *new_graph, QString *input, double start, double end, double step);
 
 private:
     Ui::Calcul *ui;
@@ -47,15 +47,9 @@ private:
     depos_window_2 *deposW;
     range_x_window *range_window;
     graph_window *new_graph;
+
+    void opti_graph(graph_window *new_graph, s21::back *stack);
+
 };
-
-//class MyThread : public QThread
-//{
-//    Q_OBJECT
-
-//protected:
-//    void run();
-//};
-
 
 #endif // CALCUL_H

@@ -1,4 +1,4 @@
-QT       += core gui printsupport
+QT       += core gui printsupport testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,8 +19,7 @@ SOURCES += \
     graph/graph_window.cpp \
     main.cpp \
     math/calcul.cpp \
-    graph/range_x_window.cpp \
-    ../back/math/stack_func.cpp
+    graph/range_x_window.cpp
 
 HEADERS += \
     ../back/math/back.h \
@@ -32,23 +31,23 @@ HEADERS += \
     credit/credit_window.h \
     depos/depos_window_2.h \
     graph/graph_window.h \
-    graph/range_x_window.h \
-    ../back/math/stack_func.h
+    graph/range_x_window.h
 
 FORMS += \
     depos/add_date.ui \
     math/calcul.ui \
     credit/credit_window.ui \
     depos/depos_window_2.ui \
-    error_msg_form.ui \
     graph/graph_window.ui \
     graph/range_x_window.ui
+
+win32: RC_ICONS += img/premium-icon-calculator-2141413.ico
+macx: ICON = $${PWD}/img/icon-calculator-mac.icns
 
 TRANSLATIONS += \
     calcul_ru_RU.ts
 CONFIG += lrelease
 CONFIG += embed_translations
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

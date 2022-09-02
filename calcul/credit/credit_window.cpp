@@ -20,7 +20,7 @@ void Credit_window::on_calc_Button_clicked()
     double summ = ui->sum_doubleSpinBox->value();
     int month = ui->term_spinBox->value();
     double proc = ui->proc_doubleSpinBox->value();
-    switch (ui->term_spinBox->value()) {
+    switch (ui->period_comboBox->currentIndex()) {
     case 0: if (month%30 != 0) {
             month+=30;
         }
@@ -31,7 +31,7 @@ void Credit_window::on_calc_Button_clicked()
     default:
         break;
     }
-    Credit_calc calc(summ, month, proc);
+    s21::Credit_calc calc(summ, month, proc);
     if (ui->radio_anue_type->isChecked()) {
         calc.calculated_anuited();
     } else if (ui->radio_dif_type->isChecked()) {

@@ -1,2 +1,4 @@
 
+calc_tests/calc_tests.pro.user
 *.user
+.vscode/c_cpp_properties.json

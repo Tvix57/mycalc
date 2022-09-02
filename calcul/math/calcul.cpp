@@ -1,7 +1,9 @@
 #include "calcul.h"
 #include "ui_calcul.h"
-#include <QMessageBox>
-#include "back.h"
+
+#include <QThread>
+#include <QTimer>
+#include <QScrollArea>
 
 Calcul::Calcul(QWidget *parent)
     : QMainWindow(parent)
@@ -30,6 +32,9 @@ Calcul::Calcul(QWidget *parent)
 Calcul::~Calcul()
 {
     delete ui;
+    delete range_window;
+    delete deposW;
+    delete credit_window;
 }
 
 void Calcul::digits_end_fnc_but(QAbstractButton * pres_button) {
@@ -42,7 +47,7 @@ void Calcul::digits_end_fnc_but(QAbstractButton * pres_button) {
     if (pres_button->group() == ui->buttonGroup_fnc_onearg) {
         input +="(";
     }
-        ui->input_line->setText(input);
+    ui->input_line->setText(input);
 }
 
 void Calcul::control_input(QAbstractButton *pres_button) {
@@ -116,6 +121,7 @@ void Calcul::control_input(QAbstractButton *pres_button) {
 void Calcul::on_C_button_clicked()
 {
     ui->input_line->clear();
+    set_default_input();
 }
 
 void Calcul::on_Credit_calc_button_triggered()
@@ -156,26 +162,28 @@ void Calcul::on_equal_button_clicked()
     QRegularExpression reg ("(([0-9]|[0-9]+['.']|['.'][0-9]+)|['X'])[)]*$");
     if (input.contains(reg)) {
         set_default_input();
-        back calc(input);
+        s21::back *calc = new s21::back(input);
         if (input.contains("X")) {
             if (range_window->range_row_x_begin == range_window->range_row_x_end) {
-                calc.replaceAllX(range_window->range_row_x_begin);
-                ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate(), 'g', 15));
+                calc->replaceAllX(range_window->range_row_x_begin);
+                input.replace("X", QString::number(range_window->range_row_x_begin, 'g', 15));
+                ui->Out_lable->setText(history+"\n"+ input +" = " + QString::number(calc->calculate(), 'g', 15));
                 ui->input_line->clear();
+                calc->deleteLater();
+                ui->scrollArea->setVerticalScrollBar(0);
             } else {
-                /////paint grapths
                 new_graph = new graph_window();
-                opti_graph(new_graph, &input);
+                new_graph->setWindowTitle("График функции " + input);
+                opti_graph(new_graph, calc);
                 ui->Out_lable->setText(history+"\n"+ input);
                 ui->input_line->clear();
             }
         } else {
           ui->input_line->clear();
-          ui->Out_lable->setText(history+"\n"+ QString::number(calc.calculate(), 'g', 15));
+          ui->Out_lable->setText(history + "\n" + input + " = " + QString::number(calc->calculate(), 'g', 15));
+          calc->deleteLater();
         }
-    } //else {
-        ////show error mesage
-//    }
+    }
 }
 
 void Calcul::on_backs_button_clicked()
@@ -189,11 +197,9 @@ void Calcul::on_backs_button_clicked()
       }
     } else if (input.endsWith("ln(")) {
       input.chop(3);
-
     } else if (input.endsWith("sqrt(") || input.endsWith("asin(") ||
                input.endsWith("acos(") || input.endsWith("atan(")) {
       input.chop(5);
-
     }else if (input.endsWith("(-")) {
       input.chop(2);
     } else {
@@ -208,6 +214,8 @@ void Calcul::on_backs_button_clicked()
         ui->one_more_x->blockSignals(true);
         ui->buttonGroup_fnc_onearg->blockSignals(true);
         ui->buttonGroup_fnc_twoarg->blockSignals(false);
+        ui->rbranch_button->blockSignals(false);
+        ui->lbranch_button->blockSignals(true);
         QRegularExpression dot_reg ("[0-9]*[.][0-9]*$");
         if (input.contains(dot_reg)) {
            ui->dot_button->blockSignals(true);
@@ -228,13 +236,15 @@ void Calcul::on_backs_button_clicked()
         ui->buttonGroup_num->blockSignals(false);
         ui->dot_button->blockSignals(false);
         ui->one_more_x->blockSignals(false);
+        ui->rbranch_button->blockSignals(true);
+        ui->lbranch_button->blockSignals(false);
     } else if (input.endsWith("(")) {
         ui->buttonGroup_num->blockSignals(false);
         ui->buttonGroup_fnc_onearg->blockSignals(false);
         ui->buttonGroup_fnc_twoarg->blockSignals(true);
         ui->rbranch_button->blockSignals(true);
         ui->lbranch_button->blockSignals(false);
-         ui->dot_button->blockSignals(false);
+        ui->dot_button->blockSignals(false);
         ui->one_more_x->blockSignals(false);
     } else if (input.endsWith(")")) {
         ui->buttonGroup_fnc_onearg->blockSignals(true);
@@ -242,13 +252,15 @@ void Calcul::on_backs_button_clicked()
         ui->rbranch_button->blockSignals(false);
         ui->lbranch_button->blockSignals(true);
         ui->one_more_x->blockSignals(true);
-         ui->dot_button->blockSignals(true);
+        ui->dot_button->blockSignals(true);
     } else if (input.endsWith("X")) {
         ui->one_more_x->blockSignals(true);
         ui->dot_button->blockSignals(true);
         ui->buttonGroup_num->blockSignals(true);
         ui->buttonGroup_fnc_onearg->blockSignals(true);
         ui->buttonGroup_fnc_twoarg->blockSignals(false);
+        ui->rbranch_button->blockSignals(false);
+        ui->lbranch_button->blockSignals(true);
     }
 }
 
@@ -275,59 +287,32 @@ void Calcul::on_rbranch_button_clicked()
     control_input(pres_button);
 }
 
-void Calcul::calc_graph(graph_window *new_graph, QString *input, double start, double end, double step) {
-    for(double tmp_d = start; tmp_d <= end; tmp_d+=step) {
-        QString tmp_str = *input;
-        tmp_str.replace("X", QString::number(tmp_d));
-        double y_tmp = default_calc(tmp_str);
-        bool new_grap_flag = false;
-//        if (y_tmp != y_tmp || y_tmp == INFINITY || y_tmp == -INFINITY) {
-//            new_grap_flag= true;
-//        }
-        if (tmp_d != start) {
-            if (new_graph->get_last_y() * y_tmp < 0) {
-                double potencial_break_point_x;
-//                = fabs((tmp_d-new_graph->get_last_x())/2);
-                if (tmp_d > 0) {
-                   potencial_break_point_x = tmp_d - potencial_break_point_x;
-                } else {
-                  potencial_break_point_x = tmp_d + potencial_break_point_x;
-                }
-                QString tmp_str2 = *input;
-                tmp_str2.replace("X", QString::number(potencial_break_point_x));
-                double potencial_break_point_y = default_calc(tmp_str2);
-//                if (potencial_break_point_y != potencial_break_point_y || potencial_break_point_y != 0 ||
-//                    potencial_break_point_y == INFINITY || potencial_break_point_y == -INFINITY) {
-//                new_grap_flag = true;
-//                }
-            } else {
-                new_grap_flag = false;
-            }
-        }
-        new_graph->add_data(tmp_d, y_tmp, new_grap_flag);
-    }
-}
-
-void Calcul::opti_graph(graph_window *new_graph, QString *input)
+void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
 {
-    double range_row_x_begin = range_window->range_row_x_begin;
-    double range_row_x_end = range_window->range_row_x_end;
-    double step = range_window->step;
-//    if ( range_row_x_end - range_row_x_begin > 2 ) {
-//        double range = range_row_x_end - range_row_x_begin;
-//        double half_range = range /2;
-//        double center = range_row_x_end - half_range;
-//        calc_graph(new_graph, input, center, center+1, );
-//        calc_graph(new_graph, input, center-1, center);
-//        new_graph->update_graph();
-//        new_graph->show();
-//        QThread *r_tread = new MyThread();
-//        r_tread->start(1);
-//    } else {
-        calc_graph(new_graph, input, range_row_x_begin, range_row_x_end, step);
-        new_graph->update_graph();
-        new_graph->show();
-//    }
+    QThread *thread1 = new QThread;
+    QTimer *time = new QTimer;
+    stack->setRange(range_window->range_row_x_begin,
+                   range_window->range_row_x_end,
+                   range_window->step);
+    new_graph->setRange(range_window->range_row_x_begin,
+            range_window->range_row_x_end);
+    connect(new_graph, SIGNAL(rejected()), thread1, SLOT(terminate()));
+    connect(stack, SIGNAL(new_coord(double, double)) , new_graph, SLOT(addData(double, double)));
+    connect(stack, SIGNAL(done()), thread1, SIGNAL(finished()));
+    connect(stack, SIGNAL(done()), new_graph, SLOT(update_graph()));
+    connect(thread1, SIGNAL(started()), stack, SLOT(calculateGraph()));
+    connect(time, SIGNAL(timeout()), new_graph, SLOT(update_graph()));
+    connect(thread1, SIGNAL(finished()), time, SLOT(stop()));
+    connect(thread1, SIGNAL(finished()), stack, SLOT(deleteLater()));
+    connect(thread1, SIGNAL(finished()), time, SLOT(deleteLater()));
+    connect(thread1, SIGNAL(finished()), thread1, SLOT(quit()));
+    connect(thread1, SIGNAL(finished()), stack, SLOT(deleteLater()));
+    connect(thread1, SIGNAL(finished()), thread1, SLOT(deleteLater()));
+    stack->moveToThread(thread1);
+    thread1->start(QThread::NormalPriority);
+
+    time->start(100);
+    new_graph->show();
 }
 
 void Calcul::set_default_input()
@@ -341,14 +326,3 @@ void Calcul::set_default_input()
     ui->sign_button->blockSignals(false);
     ui->buttonGroup_num->blockSignals(false);
 }
-
-double Calcul::default_calc(QString input)
-{
-//    return main_calc(arr_tmp);
-}
-//void MyThread::run()
-//{
-//    calc_graph(new_graph, input, center, center+1);
-//    center +=1;
-//    new_graph->update_graph();
-//}

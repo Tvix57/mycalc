@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 #include <QIntValidator>
-#include "credit_calc.h"
-
+//#include "credit_calc.h"
+#include "../back/credit/credit_calc.h"
 namespace Ui {
 class Credit_window;
 }
@@ -12,7 +12,7 @@ class Credit_window;
 class Credit_window : public QMainWindow
 {
     Q_OBJECT
-    friend Credit_calc;
+    friend s21::Credit_calc;
 public:
     explicit Credit_window(QWidget *parent = nullptr);
     ~Credit_window();
