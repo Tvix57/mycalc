@@ -1,13 +1,9 @@
-#include "calcul.h"
+#include "./math/calcul.h"
 
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
 #include <QLabel>
-
-extern  "C"{
-    #include "../back/backend.h"
-}
 
 int main(int argc, char *argv[])
 {
