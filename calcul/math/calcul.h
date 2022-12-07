@@ -16,6 +16,18 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class Calcul;}
 QT_END_NAMESPACE
 
+enum InputPreset {
+    Default = 0,
+    OneArgument,
+    TwoArgument,
+    Nums,
+    RightBranch,
+    LeftBranch,
+    XButon,
+    CButton,
+    SignButton
+};
+
 class Calcul : public QMainWindow
 {
     Q_OBJECT
@@ -25,8 +37,8 @@ public:
     ~Calcul();
 
 private slots:
-    void digits_end_fnc_but(QAbstractButton *pres_button);
-    void control_input(QAbstractButton *pres_button);
+    void inputString(QAbstractButton *pres_button);
+    void controlInput(QAbstractButton *pres_button);
     void on_C_button_clicked();
     void on_Credit_calc_button_triggered();
     void on_depos_calc_button_triggered();
@@ -38,8 +50,8 @@ private slots:
     void on_sign_button_clicked();
     void on_lbranch_button_clicked();
     void on_rbranch_button_clicked();
-//    void get_new_data(double x, double y);
-    void set_default_input();
+
+
 
 private:
     Ui::Calcul *ui;
@@ -49,7 +61,10 @@ private:
     graph_window *new_graph;
 
     void opti_graph(graph_window *new_graph, s21::back *stack);
-
+    void setInputPreset(InputPreset preset = Default);
+    void set_default_input();
+    void setOneArgPreset();
+    void setTwoArgPreset();
 };
 
 #endif // CALCUL_H

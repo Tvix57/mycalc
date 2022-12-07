@@ -5,6 +5,8 @@
 #include <QTimer>
 #include <QScrollArea>
 
+#include <QDebug>
+
 Calcul::Calcul(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Calcul)
@@ -19,12 +21,13 @@ Calcul::Calcul(QWidget *parent)
     connect(credit_window, &Credit_window::depow_window_from_credit, deposW, &depos_window_2::show);
     connect(deposW, &depos_window_2::credit_window_from_depos, credit_window, &Credit_window::show);
 
-    connect(ui->buttonGroup_num, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(digits_end_fnc_but(QAbstractButton *)));
-    connect(ui->buttonGroup_fnc_onearg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(digits_end_fnc_but(QAbstractButton *)));
-    connect(ui->buttonGroup_fnc_twoarg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(digits_end_fnc_but(QAbstractButton *)));
-    connect(ui->buttonGroup_num, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(control_input(QAbstractButton *)));
-    connect(ui->buttonGroup_fnc_onearg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(control_input(QAbstractButton *)));
-    connect(ui->buttonGroup_fnc_twoarg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(control_input(QAbstractButton *)));
+    connect(ui->buttonGroup_num, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(inputString(QAbstractButton *)));
+    connect(ui->buttonGroup_fnc_onearg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(inputString(QAbstractButton *)));
+    connect(ui->buttonGroup_fnc_twoarg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(inputString(QAbstractButton *)));
+
+    connect(ui->buttonGroup_num, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(controlInput(QAbstractButton *)));
+    connect(ui->buttonGroup_fnc_onearg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(controlInput(QAbstractButton *)));
+    connect(ui->buttonGroup_fnc_twoarg,SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(controlInput(QAbstractButton *)));
     set_default_input();
     ui->scrollArea->setWidget(ui->Out_lable);
 }
@@ -37,12 +40,12 @@ Calcul::~Calcul()
     delete credit_window;
 }
 
-void Calcul::digits_end_fnc_but(QAbstractButton * pres_button) {
+void Calcul::inputString(QAbstractButton * pres_button) {
     QString input = (ui->input_line->text());
     if (pres_button == ui->mod_button) {
         input += "%";
     } else {
-            input += pres_button->text();
+        input += pres_button->text();
     }
     if (pres_button->group() == ui->buttonGroup_fnc_onearg) {
         input +="(";
@@ -50,24 +53,11 @@ void Calcul::digits_end_fnc_but(QAbstractButton * pres_button) {
     ui->input_line->setText(input);
 }
 
-void Calcul::control_input(QAbstractButton *pres_button) {
+void Calcul::controlInput(QAbstractButton *pres_button) {
     if (pres_button->group() == ui->buttonGroup_fnc_onearg) {
-        ui->buttonGroup_fnc_twoarg->blockSignals(true);
-        ui->rbranch_button->blockSignals(true);
-        ui->sign_button->blockSignals(false);
-        ui->buttonGroup_num->blockSignals(false);
-        ui->one_more_x->blockSignals(false);
-        ui->dot_button->blockSignals(false);
-        ui->lbranch_button->blockSignals(false);
+        setInputPreset(InputPreset::OneArgument);
     } else if (pres_button->group() == ui->buttonGroup_fnc_twoarg) {
-        ui->buttonGroup_fnc_twoarg->blockSignals(true);
-        ui->rbranch_button->blockSignals(true);
-        ui->buttonGroup_fnc_onearg->blockSignals(false);
-        ui->buttonGroup_num->blockSignals(false);
-        ui->dot_button->blockSignals(false);
-        ui->one_more_x->blockSignals(false);
-        ui->lbranch_button->blockSignals(false);
-        ui->sign_button->blockSignals(false);
+        setInputPreset(InputPreset::TwoArgument);
     } else if (pres_button->group() == ui->buttonGroup_num) {
         ui->buttonGroup_fnc_onearg->blockSignals(true);
         ui->one_more_x->blockSignals(true);
@@ -144,14 +134,14 @@ void Calcul::on_graph_button_clicked()
 void Calcul::on_one_more_x_clicked()
 {
     QPushButton *pres_button = (QPushButton *) sender();
-    digits_end_fnc_but(pres_button);
-    control_input(pres_button);
+    inputString(pres_button);
+    controlInput(pres_button);
 }
 
 void Calcul::on_dot_button_clicked()
 {
     QPushButton *pres_button = (QPushButton *) sender();
-    digits_end_fnc_but(pres_button);
+    inputString(pres_button);
     pres_button->blockSignals(true);
 }
 
@@ -270,27 +260,36 @@ void Calcul::on_sign_button_clicked()
         input +="(-";
     ui->input_line->setText(input);
     QPushButton *pres_button = (QPushButton *) sender();
-    control_input(pres_button);
+    controlInput(pres_button);
 }
 
 void Calcul::on_lbranch_button_clicked()
 {
     QPushButton *pres_button = (QPushButton *) sender();
-    digits_end_fnc_but(pres_button);
-    control_input(pres_button);
+    inputString(pres_button);
+    controlInput(pres_button);
 }
 
 void Calcul::on_rbranch_button_clicked()
 {
     QPushButton *pres_button = (QPushButton *) sender();
-    digits_end_fnc_but(pres_button);
-    control_input(pres_button);
+    inputString(pres_button);
+    controlInput(pres_button);
+}
+
+void Calcul::setInputPreset(InputPreset preset) {
+    switch (preset) {
+        case InputPreset::OneArgument: setOneArgPreset();
+        case InputPreset::TwoArgument: setTwoArgPreset();
+        default: set_default_input();
+    }
 }
 
 void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
 {
     QThread *thread1 = new QThread;
     QTimer *time = new QTimer;
+    time->setInterval(100);
     stack->setRange(range_window->range_row_x_begin,
                    range_window->range_row_x_end,
                    range_window->step);
@@ -301,6 +300,7 @@ void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
     connect(stack, SIGNAL(done()), thread1, SIGNAL(finished()));
     connect(stack, SIGNAL(done()), new_graph, SLOT(update_graph()));
     connect(thread1, SIGNAL(started()), stack, SLOT(calculateGraph()));
+    connect(thread1, SIGNAL(started()), time, SLOT(start()));
     connect(time, SIGNAL(timeout()), new_graph, SLOT(update_graph()));
     connect(thread1, SIGNAL(finished()), time, SLOT(stop()));
     connect(thread1, SIGNAL(finished()), stack, SLOT(deleteLater()));
@@ -311,7 +311,6 @@ void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
     stack->moveToThread(thread1);
     thread1->start(QThread::NormalPriority);
 
-    time->start(100);
     new_graph->show();
 }
 
@@ -325,4 +324,27 @@ void Calcul::set_default_input()
     ui->rbranch_button->blockSignals(true);
     ui->sign_button->blockSignals(false);
     ui->buttonGroup_num->blockSignals(false);
+}
+
+void Calcul::setOneArgPreset()
+{
+    ui->buttonGroup_fnc_twoarg->blockSignals(true);
+    ui->rbranch_button->blockSignals(true);
+    ui->sign_button->blockSignals(false);
+    ui->buttonGroup_num->blockSignals(false);
+    ui->one_more_x->blockSignals(false);
+    ui->dot_button->blockSignals(false);
+    ui->lbranch_button->blockSignals(false);
+}
+
+void Calcul::setTwoArgPreset()
+{
+    ui->buttonGroup_fnc_twoarg->blockSignals(true);
+    ui->rbranch_button->blockSignals(true);
+    ui->buttonGroup_fnc_onearg->blockSignals(false);
+    ui->buttonGroup_num->blockSignals(false);
+    ui->dot_button->blockSignals(false);
+    ui->one_more_x->blockSignals(false);
+    ui->lbranch_button->blockSignals(false);
+    ui->sign_button->blockSignals(false);
 }
