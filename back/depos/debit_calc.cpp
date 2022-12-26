@@ -1,16 +1,15 @@
 #include "debit_calc.h"
 #include <QtMath>
-using namespace s21;
+using namespace Tvix57;
 
-Debit_calc::Debit_calc(double summ, double proc, double nalog , QDate start_date, QDate end_date) {
-    this->summ = summ;
-    this->proc = proc/100;
-    this->nalog = nalog/100;
-    this->start_date = start_date;
-    this->end_date = end_date;
-    profit = 0;
-    summ_on_bill = 0;
-}
+Debit_calc::Debit_calc(double _summ, double _proc, double _nalog , QDate _start_date, QDate _end_date)
+    : start_date{_start_date},
+      end_date{_end_date},
+      summ{_summ},
+      proc{_proc/100},
+      nalog{_nalog/100},
+      summ_on_bill{0},
+      profit{0} {}
 
 Debit_calc::Debit_calc(const Debit_calc& other) {
     this->start_date = other.start_date;
@@ -47,7 +46,6 @@ Debit_calc& Debit_calc::operator=(Debit_calc&& other) {
 Debit_calc::~Debit_calc() {
     addition_list.clear();
 }
-
 
 void Debit_calc::calculateNOcapit() {
     if (addition_list.empty()) {

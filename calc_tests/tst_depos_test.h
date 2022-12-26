@@ -9,7 +9,7 @@
 #include <cmath>
 #define EPS 1e-6
 using namespace testing;
-using namespace s21;
+using namespace Tvix57;
 
 TEST(calc_depos_test, test1_d) {
   QDate start_date;

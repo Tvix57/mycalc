@@ -60,7 +60,7 @@ private:
     range_x_window *range_window;
     graph_window *new_graph;
 
-    void opti_graph(graph_window *new_graph, s21::back *stack);
+    void opti_graph(graph_window *new_graph, Tvix57::back *stack);
     void setInputPreset(InputPreset preset = Default);
     void set_default_input();
     void setOneArgPreset();

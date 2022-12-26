@@ -8,7 +8,7 @@
 #include <cmath>
 #define EPS 1e-6
 using namespace testing;
-using namespace s21;
+using namespace Tvix57;
 
 TEST(calc_credit_test, test1_c) {
   Credit_calc test(2000, 12, 10);

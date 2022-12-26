@@ -152,7 +152,7 @@ void Calcul::on_equal_button_clicked()
     QRegularExpression reg ("(([0-9]|[0-9]+['.']|['.'][0-9]+)|['X'])[)]*$");
     if (input.contains(reg)) {
         set_default_input();
-        s21::back *calc = new s21::back(input);
+        Tvix57::back *calc = new Tvix57::back(input);
         if (input.contains("X")) {
             if (range_window->range_row_x_begin == range_window->range_row_x_end) {
                 calc->replaceAllX(range_window->range_row_x_begin);
@@ -285,7 +285,7 @@ void Calcul::setInputPreset(InputPreset preset) {
     }
 }
 
-void Calcul::opti_graph(graph_window *new_graph, s21::back *stack)
+void Calcul::opti_graph(graph_window *new_graph, Tvix57::back *stack)
 {
     QThread *thread1 = new QThread;
     QTimer *time = new QTimer;

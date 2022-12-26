@@ -3,7 +3,7 @@
 #include <QDate>
 #include <QMap>
 
-namespace s21{
+namespace Tvix57{
 class Debit_calc
 {
 public:

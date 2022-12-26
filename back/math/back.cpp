@@ -1,18 +1,15 @@
 #include "back.h"
 #include <cmath>
-using namespace s21;
-back::back(QString input) {
-    start = 0;
-    end = 0;
-    step = 0;
+using namespace Tvix57;
+back::back(QString input) :
+                  start{0},
+                  end{0},
+                  step{0} {
     parsing(input);
     polishConvertation();
 }
 
 back::~back() {
-    start = 0;
-    end = 0;
-    step = 0;
     if (!polish_stack.empty()) {
         polish_stack.clear();
     }
@@ -266,7 +263,7 @@ void back::addFunctions(QString input) {
   }
 }
 
-double back::actionOne(double x,QString input) {
+double back::actionOne(double x, QString input) {
   if (input.contains("sin")) {
     if (input.startsWith("a")) {
       return asin(x);
@@ -292,32 +289,19 @@ double back::actionOne(double x,QString input) {
   } else if (input.contains("sqrt")) {
     return sqrt(x);
   } else if (input.contains("unar")) {
-      return (x*-1);
-    }
+    return (x*-1);
+  }
 }
 
 double back::actionTwo(double arg1, double arg2, QString input) {
   switch ((char)input.at(0).cell()){
-  case '+':
-   arg1 = arg1 + arg2;
-    break;
-  case '-':
-   arg1 = arg1 - arg2;
-    break;
-  case '*':
-   arg1 = arg1 * arg2;
-    break;
-  case '/':
-   arg1 = arg1 / arg2;
-    break;
-  case '%':
-   arg1 = fmod(arg1, arg2);
-    break; 
-  case '^':
-   arg1 = pow(arg1, arg2);
-    break;
-  default:
-    break;
+  case '+': arg1 = arg1 + arg2; break;
+  case '-': arg1 = arg1 - arg2; break;
+  case '*': arg1 = arg1 * arg2; break;
+  case '/': arg1 = arg1 / arg2; break;
+  case '%': arg1 = fmod(arg1, arg2); break;
+  case '^': arg1 = pow(arg1, arg2); break;
+  default: break;
   }
   return arg1;
 }

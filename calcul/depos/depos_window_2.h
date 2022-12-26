@@ -14,7 +14,7 @@ class depos_window_2;
 class depos_window_2 : public QMainWindow
 {
     Q_OBJECT
-friend s21::Debit_calc;
+friend Tvix57::Debit_calc;
 public:
     explicit depos_window_2(QWidget *parent = nullptr);
     ~depos_window_2();

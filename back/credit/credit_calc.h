@@ -1,7 +1,7 @@
 #ifndef CREDIT_CALC_H
 #define CREDIT_CALC_H
 
-namespace s21{
+namespace Tvix57{
 class Credit_calc
 {
 public:

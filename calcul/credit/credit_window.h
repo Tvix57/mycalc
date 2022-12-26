@@ -12,7 +12,7 @@ class Credit_window;
 class Credit_window : public QMainWindow
 {
     Q_OBJECT
-    friend s21::Credit_calc;
+    friend Tvix57::Credit_calc;
 public:
     explicit Credit_window(QWidget *parent = nullptr);
     ~Credit_window();

@@ -8,7 +8,7 @@
 #include <cmath>
 #define EPS 1e-6
 using namespace testing;
-using namespace s21;
+using namespace Tvix57;
 
 TEST(calc_simple_math_test, math_tes1) {
   QString test1 = "1.23+2.23";

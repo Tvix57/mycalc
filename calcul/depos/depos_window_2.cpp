@@ -55,7 +55,7 @@ void depos_window_2::on_calc_pushButton_clicked() {
         end_date = start_date.addDays(period);
         break;
     }
-    s21::Debit_calc calc(summ, proc, nalog, start_date, end_date);
+    Tvix57::Debit_calc calc(summ, proc, nalog, start_date, end_date);
     if (widg_count > 0) {
         for (int i = 0; i < widg_count; i++) {
                 QWidget *tmp_widget = addition->itemAtPosition(i, 0)->widget();

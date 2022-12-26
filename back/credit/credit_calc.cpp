@@ -1,7 +1,7 @@
 #include "credit_calc.h"
 #include <QtMath>
 
-using namespace s21;
+using namespace Tvix57;
 
 Credit_calc::Credit_calc(double summ, int term, double nalog) {
     this->summ = summ;

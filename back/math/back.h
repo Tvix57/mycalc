@@ -5,7 +5,7 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QList>
 #include <QtCore/QObject>
-namespace s21{
+namespace Tvix57{
 class back: public QObject
 {
     Q_OBJECT
